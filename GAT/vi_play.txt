@@ -1,0 +1,9 @@
+My son's school is going on a field trip to a garden with beehives, so I was
+asked to make a simple prop to explain honeycombs to them.
+
+    Turned out to be an interesting subject, so I modeled open and closed cells,
+    and a way of specifying the cell thickness so you can put multiple chunks
+    together. (In this case the wall thickness of the outer perimeter is half of
+    the internal divisions).
+
+

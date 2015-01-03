@@ -1,0 +1,12 @@
+users
+things
+files
+copies
+collections
+comments
+newest
+popular
+featured
+search
+categories
+tags
