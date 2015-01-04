@@ -2,7 +2,7 @@ package user;
 use Moose;
 use Carp;
 
-has              id => ( isa => 'Str',          is => 'ro', required => 1, );
+has              id => ( isa => 'Str',          is => 'ro', required => 0, ); # lookup is done on username
 has            name => ( isa => 'Str',          is => 'ro', required => 1, );
 has      first_name => ( isa => 'Str',          is => 'ro', required => 0, );
 has       last_name => ( isa => 'Str',          is => 'ro', required => 0, );
