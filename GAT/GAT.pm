@@ -4,6 +4,8 @@ use Carp;
 use REST::Client;
 # extends REST::Client;
 
+my $VERSION="0.1.0";
+
 our $api_uri_base = "https://api.thingverse.com/";
 
 has client_id    => ( isa => 'Str', is => 'ro', required => 1, default => 'c587f0f2ee04adbe719b', );
