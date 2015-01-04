@@ -2,21 +2,23 @@ package GAT;
 use Moose;
 use Carp;
 use REST::Client;
+# extends REST::Client;
 
-our api_uri_base = "https://api.thingverse.com/";
+our $api_uri_base = "https://api.thingverse.com/";
 
-has client_id    => ( isa => 'Str', is => 'ro', required => 1, );
-has access_token => ( isa => 'Str', is => 'ro', required => 1, );
+has client_id    => ( isa => 'Str', is => 'ro', required => 1, default => 'c587f0f2ee04adbe719b', );
+has access_token => ( isa => 'Str', is => 'ro', required => 1, default => 'b053a0798c50a84fbb80e66e51bba9c4', );
 
 # should I make rest_client an attribute or should I just have GAT use ISA = REST::Client?
 
-has rest_client  => ( isa => '', is => ro, required => 1, builder => _establish_rest_client );
+has rest_client  => ( isa => 'REST::Client', is => 'ro', required => 1, builder => '_establish_rest_client' );
 
 sub _establish_rest_client {
-  my %config = {
-    host    => $api_uri_base,
-	timeout => 300,   # seconds
-	follow  => 0,     # Boolean that determins whether REST::Client attempts to automatically follow redirects/authentication.
+  my $self = shift;
+  my %config = (
+    'host'    => $api_uri_base,
+	'timeout' => 300,   # seconds
+	'follow'  => 0,     # Boolean that determins whether REST::Client attempts to automatically follow redirects/authentication.
 	@_, 
 	# cert           => undef, # The path to a X509 certificate file to be used for client authentication.
 	# key            => undef, # The path to a X509 key file to be used for client authentication.
@@ -24,7 +26,8 @@ sub _establish_rest_client {
 	# pkcs12         => undef, # The path to a PKCS12 certificate to be used for client authentication.
 	# useragent      => undef, # An LWP::UserAgent object, ready to make http requests.
 	# pkcs12password => undef, # The password for the PKCS12 certificate specified with 'pkcs12'.
-  }
+  );
+  return REST::Client->new(%config);
 
 }
 
