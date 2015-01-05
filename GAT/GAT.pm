@@ -6,14 +6,14 @@ use REST::Client;
 
 my $VERSION="0.1.0";
 
-our $api_uri_base = "https://api.thingverse.com/";
+our $api_uri_base = "https://api.thingiverse.com/";
 
 has client_id    => ( isa => 'Str', is => 'ro', required => 1, default => 'c587f0f2ee04adbe719b', );
 has access_token => ( isa => 'Str', is => 'ro', required => 1, default => 'b053a0798c50a84fbb80e66e51bba9c4', );
 
 # should I make rest_client an attribute or should I just have GAT use ISA = REST::Client?
 
-has rest_client  => ( isa => 'REST::Client', is => 'ro', required => 1, builder => '_establish_rest_client' );
+has rest_client  => ( isa => 'REST::Client', is => 'ro', required => 1, builder => '_establish_rest_client', lazy => 1 );
 
 sub _establish_rest_client {
   my $self = shift;
@@ -29,8 +29,10 @@ sub _establish_rest_client {
 	# useragent      => undef, # An LWP::UserAgent object, ready to make http requests.
 	# pkcs12password => undef, # The password for the PKCS12 certificate specified with 'pkcs12'.
   );
-  return REST::Client->new(%config);
-
+# $config{host} .= "?access_token=" . $self->access_token;
+  my $rest_client = REST::Client->new(%config);
+  $rest_client->addHeader( 'Authorization', 'Bearer ' . $self->access_token );
+  return $rest_client;
 }
 
 no Moose;
