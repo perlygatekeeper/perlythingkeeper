@@ -19,9 +19,11 @@ has        public_url => ( isa => 'Str',          is => 'ro', required => 0, ); 
 has         thumbnail => ( isa => 'Str',          is => 'ro', required => 0, );
 has               bio => ( isa => 'Str',          is => 'ro', required => 0, );
 has          location => ( isa => 'Str',          is => 'ro', required => 0, );
-has        registered => ( isa => 'Date::Time',   is => 'ro', required => 0, );
-has       last_active => ( isa => 'Date::Time',   is => 'ro', required => 0, );
-has       cover_image => ( isa => 'Str',          is => 'ro', required => 0, );
+has        registered => ( isa => 'Str',          is => 'ro', required => 0, );
+# has        registered => ( isa => 'Date::Time',   is => 'ro', required => 0, );
+has       last_active => ( isa => 'Str',          is => 'ro', required => 0, );
+# has       last_active => ( isa => 'Date::Time',   is => 'ro', required => 0, );
+has       cover_image => ( isa => 'Any',          is => 'ro', required => 0, );
 has        things_url => ( isa => 'Str',          is => 'ro', required => 0, ); # change to type URL once it's made
 has        copies_url => ( isa => 'Str',          is => 'ro', required => 0, ); # change to type URL once it's made
 has         likes_url => ( isa => 'Str',          is => 'ro', required => 0, ); # change to type URL once it's made
@@ -38,16 +40,30 @@ has      is_following => ( isa => 'Boolean',      is => 'ro', required => 0, );
 around BUILDARGS => sub {
   my $orig = shift;
   my $class = shift;
+  my $name;
+  my $json;
+  my $hash;
+  print "yeah! I'm being run!\n";
+  print "orig is (" . $orig . ")\n";
+  print "class is (" . $class . ")\n";
+  print "rest is (" . join(', ',@_) . ")\n";
   if ( @_ == 1 && !ref $_[0] ) {
+    print "given scalar name\n";
     # return $class->$orig( name => $_[0] );
-    my $name = $_[0];
-    my $json = _get_from_thingi_given_name($name);
-    my $hash = decode_json($json);
-	$hash->{_original_json} = $json;
-	return $hash;
+    $name = $_[0];
+  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}->{'name'} ) { # passed a hashref to a hash containing key 'name'
+    print "given hashref with name\n";
+    $name = ${$_[0]}->{'name'};
+  } elsif ( @_ == 2 && $_[0] eq 'name' ) { # passed a hashref to a hash containing key 'name'
+    print "given 'name' then name\n";
+    $name = $_[1];
   } else {
     return $class->$orig(@_);
   }
+  $json = _get_from_thingi_given_name($name);
+  $hash = decode_json($json);
+  $hash->{_original_json} = $json;
+  return $hash;
 };
 
 sub _get_from_thingi {
@@ -59,10 +75,10 @@ sub _get_from_thingi {
 }
 
 sub _get_from_thingi_given_name {
-  my $self = shift;
   my $name = shift;
   my $request = $api_base . $name;
-  my $response = $self->rest_client->GET($request);
+  my $rest_client = GAT::_establish_rest_client('');
+  my $response = $rest_client->GET($request);
   my $content = $response ->responseContent;
   return $content;
 }

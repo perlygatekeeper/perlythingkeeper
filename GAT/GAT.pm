@@ -29,9 +29,8 @@ sub _establish_rest_client {
 	# useragent      => undef, # An LWP::UserAgent object, ready to make http requests.
 	# pkcs12password => undef, # The password for the PKCS12 certificate specified with 'pkcs12'.
   );
-# $config{host} .= "?access_token=" . $self->access_token;
   my $rest_client = REST::Client->new(%config);
-  $rest_client->addHeader( 'Authorization', 'Bearer ' . $self->access_token );
+  $rest_client->addHeader( 'Authorization', 'Bearer ' . ( $self ? $self->access_token : 'b053a0798c50a84fbb80e66e51bba9c4' ) );
   return $rest_client;
 }
 
