@@ -1,14 +1,14 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 35;
+use Test::Most tests => 37;
 use Data::Dumper;
 
 use GAT::user;
 
 my $user = GAT::user->new( 'name' => 'perlygatekeeper' );
 
-ok( defined $user, 'GAT::user object is defined' ); 
-ok( $user->isa('GAT::user'), 'can make an GAT::user object' ); 
+    ok( defined $user, 'GAT::user object is defined' ); 
+    ok( $user->isa('GAT::user'), 'can make an GAT::user object' ); 
 can_ok( $user, qw( id ),              );
 can_ok( $user, qw( name ),            );
 can_ok( $user, qw( first_name ),      );
@@ -28,116 +28,38 @@ can_ok( $user, qw( likes_url ),       );
 can_ok( $user, qw( default_license ), );
 can_ok( $user, qw( email ),           );
 can_ok( $user, qw( is_following ),    );
-is( $user->id, '16273', 'id accessor' ); 
-is( $user->name, 'perlygatekeeper', 'name accessor' ); 
-is( $user->email, 'perlygatekeeper@gmail.com', 'email accessor' ); 
-is( $user->first_name, 'Steve', 'first_name accessor' ); 
-is( $user->last_name,  'Parker', 'last_name accessor' ); 
-is( $user->full_name,  'Steve Parker', 'full_name accessor' ); 
-is( $user->location,  'Columbus, Ohio', 'location accessor' ); 
-like( $user->bio, qr(Ohio State University), 'bio accessor' ); 
-is( $user->public_url, 'http://www.thingiverse.com/perlygatekeeper',         'public_url accessor' ); 
-is( $user->url,        'https://api.thingiverse.com/users/perlygatekeeper',         'url accessor' ); 
-is( $user->things_url, 'https://api.thingiverse.com/users/perlygatekeeper/things', 'things_url accessor' ); 
-is( $user->copies_url, 'https://api.thingiverse.com/users/perlygatekeeper/copies', 'copies_url accessor' ); 
-is( $user->likes_url,  'https://api.thingiverse.com/users/perlygatekeeper/likes',   'likes_url accessor' ); 
-is( $user->default_license, 'cc', 'default_license accessor' );
-
+    is( $user->id,         '16273',        'id accessor' ); 
+    is( $user->first_name, 'Steve',        'first_name accessor' ); 
+    is( $user->last_name,  'Parker',        'last_name accessor' ); 
+    is( $user->full_name,  'Steve Parker',  'full_name accessor' ); 
+    is( $user->name,       'perlygatekeeper',    'name accessor' ); 
+    is( $user->email,      'perlygatekeeper@gmail.com', 'email accessor' ); 
+    is( $user->location,   'Columbus, Ohio', 'location accessor' ); 
+    is( $user->public_url, 'http://www.thingiverse.com/perlygatekeeper',               'public_url accessor' ); 
+    is( $user->url,        'https://api.thingiverse.com/users/perlygatekeeper',               'url accessor' ); 
+    is( $user->things_url, 'https://api.thingiverse.com/users/perlygatekeeper/things', 'things_url accessor' ); 
+    is( $user->copies_url, 'https://api.thingiverse.com/users/perlygatekeeper/copies', 'copies_url accessor' ); 
+    is( $user->likes_url,  'https://api.thingiverse.com/users/perlygatekeeper/likes',   'likes_url accessor' ); 
+    is( $user->default_license, 'cc', 'default_license accessor' );
+  like( $user->bio,         qr(Ohio State University), 'bio accessor' ); 
+  like( $user->registered,  qr(^2011-11-20T\d\d:\d\d:\d\d\+00:00$),        'registered accessor' );
+  like( $user->last_active, qr(^201\d-[01]\d-\d\dT\d\d:\d\d:\d\d\+00:00$), 'last_active accessor' );
 
 print Dumper($user);
 
 exit 0;
 __END__
-use Moose;
-use Carp;
-use JSON;
 
-extends('GAT');
-
-our $api_base = "/users/";
-
-# has    _json_from_api => ( isa => 'HashRef[Str]', is => 'ro', required => 0, builder => '_get_from_thingi', );
-# has   _hash_from_json => ( isa => 'HashRef[Str]', is => 'ro', required => 0, builder => '_json_to_hash', );
-has                id => ( isa => 'Str',          is => 'ro', required => 0, );
-has    _original_json => ( isa => 'Str',          is => 'ro', required => 0, );
-has              name => ( isa => 'Str',          is => 'ro', required => 1, );
-has        first_name => ( isa => 'Str',          is => 'ro', required => 0, );
-has         last_name => ( isa => 'Str',          is => 'ro', required => 0, );
-has         full_name => ( isa => 'Str',          is => 'ro', required => 0, );
-has               url => ( isa => 'Str',          is => 'ro', required => 0, ); # change to type URL once it's made
-has        public_url => ( isa => 'Str',          is => 'ro', required => 0, ); # change to type URL once it's made
 has         thumbnail => ( isa => 'Str',          is => 'ro', required => 0, );
-has               bio => ( isa => 'Str',          is => 'ro', required => 0, );
-has          location => ( isa => 'Str',          is => 'ro', required => 0, );
-has        registered => ( isa => 'Str',          is => 'ro', required => 0, );
-# has        registered => ( isa => 'Date::Time',   is => 'ro', required => 0, );
-has       last_active => ( isa => 'Str',          is => 'ro', required => 0, );
-# has       last_active => ( isa => 'Date::Time',   is => 'ro', required => 0, );
 has       cover_image => ( isa => 'Any',          is => 'ro', required => 0, );
-has        things_url => ( isa => 'Str',          is => 'ro', required => 0, ); # change to type URL once it's made
-has        copies_url => ( isa => 'Str',          is => 'ro', required => 0, ); # change to type URL once it's made
-has         likes_url => ( isa => 'Str',          is => 'ro', required => 0, ); # change to type URL once it's made
-has   default_license => ( isa => 'Str',          is => 'ro', required => 0, );
-has             email => ( isa => 'Str',          is => 'ro', required => 0, );
 has      is_following => ( isa => 'Boolean',      is => 'ro', required => 0, );
+
 # has           likes => ( isa => 'ArrayRef[thing]',      is => 'ro', required => 0, );
 # has          things => ( isa => 'ArrayRef[thing]',      is => 'ro', required => 0, );
 # has     collections => ( isa => 'ArrayRef[collection]', is => 'ro', required => 0, );
 # has       downloads => ( isa => 'ArrayRef[thing]',      is => 'ro', required => 0, );
 # has     avatarimage => ( isa => 'Str',                  is => 'ro', required => 0, );
 # has      coverimage => ( isa => 'Str',                  is => 'ro', required => 0, );
-
-around BUILDARGS => sub {
-  my $orig = shift;
-  my $class = shift;
-  my $name;
-  my $json;
-  my $hash;
-# print "yeah! I'm being run!\n";
-# print "orig is (" . $orig . ")\n";
-# print "class is (" . $class . ")\n";
-# print "rest is (" . join(', ',@_) . ")\n";
-  if ( @_ == 1 && !ref $_[0] ) {
-#   print "given scalar name\n";
-    # return $class->$orig( name => $_[0] );
-    $name = $_[0];
-  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}->{'name'} ) { # passed a hashref to a hash containing key 'name'
-#   print "given hashref with name\n";
-    $name = ${$_[0]}->{'name'};
-  } elsif ( @_ == 2 && $_[0] eq 'name' ) { # passed a hashref to a hash containing key 'name'
-#   print "given 'name' then name\n";
-    $name = $_[1];
-  } else {
-    return $class->$orig(@_);
-  }
-  $json = _get_from_thingi_given_name($name);
-  $hash = decode_json($json);
-  $hash->{_original_json} = $json;
-  return $hash;
-};
-
-sub _get_from_thingi {
-  my $self = shift;
-  my $request = $api_base. ( $self->name || 'me' );
-  my $response = $self->rest_client->GET($request);
-  my $content = $response->responseContent;
-  return $content;
-}
-
-sub _get_from_thingi_given_name {
-  my $name = shift;
-  my $request = $api_base . $name;
-  my $rest_client = GAT::_establish_rest_client('');
-  my $response = $rest_client->GET($request);
-  my $content = $response ->responseContent;
-  return $content;
-}
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
-
-1;
-__END__
 
 {
 		id: 16273
