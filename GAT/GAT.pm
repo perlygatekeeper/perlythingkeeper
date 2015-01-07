@@ -6,7 +6,7 @@ use REST::Client;
 
 my $VERSION="0.1.0";
 
-our $api_uri_base = "https://api.thingiverse.com/";
+our $api_uri_base = "https://api.thingiverse.com";
 
 our $client_id    = 'c587f0f2ee04adbe719b';
 our $access_token = 'b053a0798c50a84fbb80e66e51bba9c4';

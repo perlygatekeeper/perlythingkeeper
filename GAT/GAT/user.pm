@@ -4,12 +4,11 @@ use Carp;
 use JSON;
 
 extends('GAT');
-
 our $api_base = "/users/";
 
 # has    _json_from_api => ( isa => 'HashRef[Str]', is => 'ro', required => 0, builder => '_get_from_thingi', );
 # has   _hash_from_json => ( isa => 'HashRef[Str]', is => 'ro', required => 0, builder => '_json_to_hash', );
-has                id => ( isa => 'Str',          is => 'ro', required => 0, );
+has                id => ( isa => 'Int',          is => 'ro', required => 0, );
 has    _original_json => ( isa => 'Str',          is => 'ro', required => 0, );
 has              name => ( isa => 'Str',          is => 'ro', required => 1, );
 has        first_name => ( isa => 'Str',          is => 'ro', required => 0, );
