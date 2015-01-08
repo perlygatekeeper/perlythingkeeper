@@ -1,4 +1,4 @@
-package GAT::thing;
+package GAT::Thing;
 use Moose;
 use Carp;
 use JSON;

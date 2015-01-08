@@ -17,6 +17,16 @@ package GAT::Types;
         DateTime::Format::ISO8601->parse_datetime( $_ );
       };
 
+# thumbnail: "https://thingiverse-production.s3.amazonaws.com/renders/d9/1f/cd/4d/e1/image1_thumb_large.jpg"
+
+  subtype 'TN',
+      as 'URI',
+      where { $_->host =~ m'thingiverse-production.s\d\.amazonaws\.com' and $_->method eq 'https' };
+
+  subtype 'ID',
+      as 'Int',
+      where { $_ > 0 };
+
   subtype 'ThingID',
       as 'Int',
       where { $_ > 7 };

@@ -4,18 +4,18 @@ use Test::Most tests => 63;
 use Data::Dumper;
 
 use GAT;
-use GAT::thing;
+use GAT::Thing;
 
 my $id         = '314355';
 my $public_url = 'http://www.thingiverse.com/thing:'        . $id;
-my $url        = $GAT::api_uri_base . $GAT::thing::api_base . $id;
+my $url        = $GAT::api_uri_base . $GAT::Thing::api_base . $id;
 my $layout_url = $GAT::api_uri_base . '/layouts/' . $id;
 
-my $thing = GAT::thing->new( 'id' => $id );
+my $thing = GAT::Thing->new( 'id' => $id );
 # print Dumper($thing);
 
-    ok( defined $thing,            'GAT::thing object is defined' ); 
-    ok( $thing->isa('GAT::thing'), 'can make an GAT::thing object' ); 
+    ok( defined $thing,            'GAT::Thing object is defined' ); 
+    ok( $thing->isa('GAT::Thing'), 'can make an GAT::Thing object' ); 
 can_ok( $thing, qw( id ),                  );
 can_ok( $thing, qw( name ),                );
 can_ok( $thing, qw( instructions ),        );
@@ -90,7 +90,7 @@ if ( 0 ) {
 
 exit 0;
 __END__
-package GAT::thing;
+package GAT::Thing;
 use Moose;
 use Carp;
 

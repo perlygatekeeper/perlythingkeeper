@@ -1,4 +1,4 @@
-package GAT::user;
+package GAT::User;
 use Moose;
 use Carp;
 use JSON;
@@ -7,7 +7,7 @@ use GAT::Types;
 extends('GAT');
 our $api_base = "/users/";
 
-has                id => ( isa => 'ThingID',             is => 'ro', required => 0, );
+has                id => ( isa => 'ID',                  is => 'ro', required => 0, );
 has    _original_json => ( isa => 'Str',                 is => 'ro', required => 0, );
 has              name => ( isa => 'Str',                 is => 'ro', required => 1, );
 has        first_name => ( isa => 'Str',                 is => 'ro', required => 0, );
@@ -28,11 +28,11 @@ has   default_license => ( isa => 'Str',                 is => 'ro', required =>
 has             email => ( isa => 'Str',                 is => 'ro', required => 0, );
 has      is_following => ( isa => 'Boolean',             is => 'ro', required => 0, );
 has            things => ( isa => 'ArrayRef[HashRef]',   is => 'ro', required => 0, builder => '_get_things_for_user' );
-# has           likes => ( isa => 'ArrayRef[thing]',       is => 'ro', required => 0, );
-# has     collections => ( isa => 'ArrayRef[collection]',  is => 'ro', required => 0, );
-# has       downloads => ( isa => 'ArrayRef[thing]',       is => 'ro', required => 0, );
-# has     avatarimage => ( isa => 'Str',                   is => 'ro', required => 0, );
-# has      coverimage => ( isa => 'Str',                   is => 'ro', required => 0, );
+# has           likes => ( isa => 'ArrayRef[thing]',       is => 'ro', required => 0, , builder => '_get_things_for_user' );
+# has     collections => ( isa => 'ArrayRef[collection]',  is => 'ro', required => 0, , builder => '_get_collections_for_user' );
+# has       downloads => ( isa => 'ArrayRef[thing]',       is => 'ro', required => 0, , builder => '_get_downloads_for_user' );
+# has     avatarimage => ( isa => 'Str',                   is => 'ro', required => 0, , builder => '_set_avatar_for_user' );
+# has      coverimage => ( isa => 'Str',                   is => 'ro', required => 0, , builder => '_set_coverimage_for_user' );
 
 around BUILDARGS => sub {
   my $orig = shift;
