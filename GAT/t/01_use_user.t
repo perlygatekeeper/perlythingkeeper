@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 37;
+use Test::Most tests => 42;
 use Data::Dumper;
 
 use GAT::user;
@@ -28,24 +28,29 @@ can_ok( $user, qw( likes_url ),       );
 can_ok( $user, qw( default_license ), );
 can_ok( $user, qw( email ),           );
 can_ok( $user, qw( is_following ),    );
-    is( $user->id,         '16273',        'id accessor' ); 
-    is( $user->first_name, 'Steve',        'first_name accessor' ); 
-    is( $user->last_name,  'Parker',        'last_name accessor' ); 
-    is( $user->full_name,  'Steve Parker',  'full_name accessor' ); 
-    is( $user->name,       'perlygatekeeper',    'name accessor' ); 
-    is( $user->email,      'perlygatekeeper@gmail.com', 'email accessor' ); 
-    is( $user->location,   'Columbus, Ohio', 'location accessor' ); 
-    is( $user->public_url, 'http://www.thingiverse.com/perlygatekeeper',               'public_url accessor' ); 
-    is( $user->url,        'https://api.thingiverse.com/users/perlygatekeeper',               'url accessor' ); 
-    is( $user->things_url, 'https://api.thingiverse.com/users/perlygatekeeper/things', 'things_url accessor' ); 
-    is( $user->copies_url, 'https://api.thingiverse.com/users/perlygatekeeper/copies', 'copies_url accessor' ); 
-    is( $user->likes_url,  'https://api.thingiverse.com/users/perlygatekeeper/likes',   'likes_url accessor' ); 
+can_ok( $user, qw( things ),    );
+    is( $user->id,          '16273',        'id accessor' ); 
+    is( $user->first_name,  'Steve',        'first_name accessor' ); 
+    is( $user->last_name,   'Parker',        'last_name accessor' ); 
+    is( $user->full_name,   'Steve Parker',  'full_name accessor' ); 
+    is( $user->name,        'perlygatekeeper',    'name accessor' ); 
+    is( $user->email,       'perlygatekeeper@gmail.com', 'email accessor' ); 
+    is( $user->location,    'Columbus, Ohio', 'location accessor' ); 
+    is( $user->public_url,  'http://www.thingiverse.com/perlygatekeeper',               'public_url accessor' ); 
+    is( $user->url,         'https://api.thingiverse.com/users/perlygatekeeper',               'url accessor' ); 
+    is( $user->things_url,  'https://api.thingiverse.com/users/perlygatekeeper/things', 'things_url accessor' ); 
+    is( $user->copies_url,  'https://api.thingiverse.com/users/perlygatekeeper/copies', 'copies_url accessor' ); 
+    is( $user->likes_url,   'https://api.thingiverse.com/users/perlygatekeeper/likes',   'likes_url accessor' ); 
     is( $user->default_license, 'cc', 'default_license accessor' );
-  like( $user->bio,         qr(Ohio State University), 'bio accessor' ); 
-  like( $user->registered,  qr(^2011-11-20T\d\d:\d\d:\d\d\+00:00$),        'registered accessor' );
-  like( $user->last_active, qr(^201\d-[01]\d-\d\dT\d\d:\d\d:\d\d\+00:00$), 'last_active accessor' );
+  like( $user->bio,          qr(Ohio State University), 'bio accessor' ); 
+    ok( $user->registered->isa('DateTime'), 'registered is a DateTime object' ); 
+    is( $user->registered->year,  2011, 'registered year  check' ); 
+    is( $user->registered->month,   11, 'registered month check' ); 
+    is( $user->registered->day ,    20, 'registered day   check' ); 
+    ok( $user->last_active->isa('DateTime'), 'last_active is a DateTime object' );
+    is( @{$user->things}, 27, 'things accessor' );
 
-print Dumper($user);
+# print Dumper($user);
 
 exit 0;
 __END__

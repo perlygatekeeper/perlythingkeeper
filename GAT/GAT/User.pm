@@ -7,7 +7,7 @@ use GAT::Types;
 extends('GAT');
 our $api_base = "/users/";
 
-has                id => ( isa => 'Int',                 is => 'ro', required => 0, );
+has                id => ( isa => 'ThingID',             is => 'ro', required => 0, );
 has    _original_json => ( isa => 'Str',                 is => 'ro', required => 0, );
 has              name => ( isa => 'Str',                 is => 'ro', required => 1, );
 has        first_name => ( isa => 'Str',                 is => 'ro', required => 0, );
@@ -19,9 +19,7 @@ has         thumbnail => ( isa => 'Str',                 is => 'ro', required =>
 has               bio => ( isa => 'Str',                 is => 'ro', required => 0, );
 has          location => ( isa => 'Str',                 is => 'ro', required => 0, );
 has        registered => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
-# has        registered => ( isa => 'Date::Time',          is => 'ro', required => 0, );
-has       last_active => ( isa => 'Str',                 is => 'ro', required => 0, );
-# has       last_active => ( isa => 'Date::Time',          is => 'ro', required => 0, );
+has       last_active => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
 has       cover_image => ( isa => 'Any',                 is => 'ro', required => 0, );
 has        things_url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
 has        copies_url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
@@ -29,8 +27,8 @@ has         likes_url => ( isa => 'Str',                 is => 'ro', required =>
 has   default_license => ( isa => 'Str',                 is => 'ro', required => 0, );
 has             email => ( isa => 'Str',                 is => 'ro', required => 0, );
 has      is_following => ( isa => 'Boolean',             is => 'ro', required => 0, );
+has            things => ( isa => 'ArrayRef[HashRef]',   is => 'ro', required => 0, builder => '_get_things_for_user' );
 # has           likes => ( isa => 'ArrayRef[thing]',       is => 'ro', required => 0, );
-# has          things => ( isa => 'ArrayRef[thing]',       is => 'ro', required => 0, );
 # has     collections => ( isa => 'ArrayRef[collection]',  is => 'ro', required => 0, );
 # has       downloads => ( isa => 'ArrayRef[thing]',       is => 'ro', required => 0, );
 # has     avatarimage => ( isa => 'Str',                   is => 'ro', required => 0, );
@@ -67,7 +65,7 @@ around BUILDARGS => sub {
 
 sub _get_from_thingi {
   my $self = shift;
-  my $request = $api_base. ( $self->name || 'me' );
+  my $request = $api_base . ( $self->name || 'me' );
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   return $content;
@@ -78,8 +76,18 @@ sub _get_from_thingi_given_name {
   my $request = $api_base . $name;
   my $rest_client = GAT::_establish_rest_client('');
   my $response = $rest_client->GET($request);
-  my $content = $response ->responseContent;
+  my $content = $response->responseContent;
   return $content;
+}
+
+sub _get_things_for_user {
+  my $self = shift;
+  my $request = $api_base . $self->name . '/things';
+  my $response = $self->rest_client->GET($request);
+  my $content = $response->responseContent;
+  my $return = decode_json($content);
+  print ref($return) . "\n";
+  return $return;
 }
 
 no Moose;

@@ -18,7 +18,7 @@ has rest_client  => ( isa => 'REST::Client', is => 'ro', required => 1, builder 
 
 sub _establish_rest_client {
   my $self = shift;
-  if ( not $self or ( $self and  not $self->rest_client ) ) {
+  if ( not $self or ( $self and  not $self->{rest_client} ) ) {
     my %config = (
       'host'    => $api_uri_base,
       'timeout' => 300,   # seconds
