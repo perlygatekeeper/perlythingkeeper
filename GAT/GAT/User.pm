@@ -2,40 +2,39 @@ package GAT::user;
 use Moose;
 use Carp;
 use JSON;
+use GAT::Types;
 
 extends('GAT');
 our $api_base = "/users/";
 
-# has    _json_from_api => ( isa => 'HashRef[Str]', is => 'ro', required => 0, builder => '_get_from_thingi', );
-# has   _hash_from_json => ( isa => 'HashRef[Str]', is => 'ro', required => 0, builder => '_json_to_hash', );
-has                id => ( isa => 'Int',          is => 'ro', required => 0, );
-has    _original_json => ( isa => 'Str',          is => 'ro', required => 0, );
-has              name => ( isa => 'Str',          is => 'ro', required => 1, );
-has        first_name => ( isa => 'Str',          is => 'ro', required => 0, );
-has         last_name => ( isa => 'Str',          is => 'ro', required => 0, );
-has         full_name => ( isa => 'Str',          is => 'ro', required => 0, );
-has               url => ( isa => 'Str',          is => 'ro', required => 0, ); # change to type URL once it's made
-has        public_url => ( isa => 'Str',          is => 'ro', required => 0, ); # change to type URL once it's made
-has         thumbnail => ( isa => 'Str',          is => 'ro', required => 0, );
-has               bio => ( isa => 'Str',          is => 'ro', required => 0, );
-has          location => ( isa => 'Str',          is => 'ro', required => 0, );
-has        registered => ( isa => 'Str',          is => 'ro', required => 0, );
-# has        registered => ( isa => 'Date::Time',   is => 'ro', required => 0, );
-has       last_active => ( isa => 'Str',          is => 'ro', required => 0, );
-# has       last_active => ( isa => 'Date::Time',   is => 'ro', required => 0, );
-has       cover_image => ( isa => 'Any',          is => 'ro', required => 0, );
-has        things_url => ( isa => 'Str',          is => 'ro', required => 0, ); # change to type URL once it's made
-has        copies_url => ( isa => 'Str',          is => 'ro', required => 0, ); # change to type URL once it's made
-has         likes_url => ( isa => 'Str',          is => 'ro', required => 0, ); # change to type URL once it's made
-has   default_license => ( isa => 'Str',          is => 'ro', required => 0, );
-has             email => ( isa => 'Str',          is => 'ro', required => 0, );
-has      is_following => ( isa => 'Boolean',      is => 'ro', required => 0, );
-# has           likes => ( isa => 'ArrayRef[thing]',      is => 'ro', required => 0, );
-# has          things => ( isa => 'ArrayRef[thing]',      is => 'ro', required => 0, );
-# has     collections => ( isa => 'ArrayRef[collection]', is => 'ro', required => 0, );
-# has       downloads => ( isa => 'ArrayRef[thing]',      is => 'ro', required => 0, );
-# has     avatarimage => ( isa => 'Str',                  is => 'ro', required => 0, );
-# has      coverimage => ( isa => 'Str',                  is => 'ro', required => 0, );
+has                id => ( isa => 'Int',                 is => 'ro', required => 0, );
+has    _original_json => ( isa => 'Str',                 is => 'ro', required => 0, );
+has              name => ( isa => 'Str',                 is => 'ro', required => 1, );
+has        first_name => ( isa => 'Str',                 is => 'ro', required => 0, );
+has         last_name => ( isa => 'Str',                 is => 'ro', required => 0, );
+has         full_name => ( isa => 'Str',                 is => 'ro', required => 0, );
+has               url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
+has        public_url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
+has         thumbnail => ( isa => 'Str',                 is => 'ro', required => 0, );
+has               bio => ( isa => 'Str',                 is => 'ro', required => 0, );
+has          location => ( isa => 'Str',                 is => 'ro', required => 0, );
+has        registered => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
+# has        registered => ( isa => 'Date::Time',          is => 'ro', required => 0, );
+has       last_active => ( isa => 'Str',                 is => 'ro', required => 0, );
+# has       last_active => ( isa => 'Date::Time',          is => 'ro', required => 0, );
+has       cover_image => ( isa => 'Any',                 is => 'ro', required => 0, );
+has        things_url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
+has        copies_url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
+has         likes_url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
+has   default_license => ( isa => 'Str',                 is => 'ro', required => 0, );
+has             email => ( isa => 'Str',                 is => 'ro', required => 0, );
+has      is_following => ( isa => 'Boolean',             is => 'ro', required => 0, );
+# has           likes => ( isa => 'ArrayRef[thing]',       is => 'ro', required => 0, );
+# has          things => ( isa => 'ArrayRef[thing]',       is => 'ro', required => 0, );
+# has     collections => ( isa => 'ArrayRef[collection]',  is => 'ro', required => 0, );
+# has       downloads => ( isa => 'ArrayRef[thing]',       is => 'ro', required => 0, );
+# has     avatarimage => ( isa => 'Str',                   is => 'ro', required => 0, );
+# has      coverimage => ( isa => 'Str',                   is => 'ro', required => 0, );
 
 around BUILDARGS => sub {
   my $orig = shift;
