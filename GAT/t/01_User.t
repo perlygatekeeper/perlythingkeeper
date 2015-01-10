@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 22 + 20;
+use Test::Most tests => 24 + 18;
 use Data::Dumper;
 
 use GAT::User;
@@ -28,7 +28,9 @@ can_ok( $user, qw( likes_url ),       );
 can_ok( $user, qw( default_license ), );
 can_ok( $user, qw( email ),           );
 can_ok( $user, qw( is_following ),    );
-can_ok( $user, qw( things ),    );
+can_ok( $user, qw( things ),          );
+#can_ok( $user, qw( copies ),          );
+#can_ok( $user, qw( collections ),     );
 
     is( $user->id,              '16273',                        'id accessor' ); 
     is( $user->first_name,      'Steve',                'first_name accessor' ); 

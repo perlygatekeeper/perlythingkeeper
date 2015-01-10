@@ -3,15 +3,16 @@ use Moose;
 use Carp;
 use JSON;
 use GAT::Types;
+# use GAT::User;
 
 extends('GAT');
 our $api_base = "/tags/";
 
-has name       => ( isa => 'Str',   is => 'ro', required => 1, );
-has count      => ( isa => 'Count', is => 'ro', required => 0, );
-has url        => ( isa => 'Str',   is => 'ro', required => 0, );
-has things_url => ( isa => 'Str',   is => 'ro', required => 0, );
-has things => ( isa => 'ArrayRef[HashRef]',   is => 'ro', required => 0, builder => '_get_things_for_tag' );
+has name       => ( isa => 'Str',               is => 'ro', required => 1, );
+has count      => ( isa => 'ThingiCount',       is => 'ro', required => 0, );
+has url        => ( isa => 'Str',               is => 'ro', required => 0, );
+has things_url => ( isa => 'Str',               is => 'ro', required => 0, );
+has things     => ( isa => 'ArrayRef[HashRef]', is => 'ro', required => 0, builder => '_get_things_tagged_with_tag' );
 
 around BUILDARGS => sub {
   my $orig = shift;
@@ -44,7 +45,7 @@ sub _get_from_thingi_given_name {
   return $content;
 }
 
-sub _get_things_for_tag {
+sub _get_things_tagged_with_tag {
   my $self = shift;
   my $request = $api_base . $self->name . '/things';
   my $response = $self->rest_client->GET($request);
@@ -65,5 +66,4 @@ special methods
 
 list
 things
-
 

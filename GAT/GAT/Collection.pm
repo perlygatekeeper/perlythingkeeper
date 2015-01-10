@@ -10,13 +10,13 @@ our $api_base = "/collections/";
 has id            => ( isa => 'ID',                  is => 'ro', required => 1, );
 has name          => ( isa => 'Str',                 is => 'ro', required => 0, );
 has description   => ( isa => 'Str',                 is => 'ro', required => 0, );
-has count         => ( isa => 'Count',               is => 'ro', required => 0, );
+has count         => ( isa => 'ThingiCount',         is => 'ro', required => 0, );
 has is_editable   => ( isa => 'Any',                 is => 'ro', required => 0, );
 has url           => ( isa => 'Str',                 is => 'ro', required => 0, );
 has added         => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
 has modified      => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
-# has creator       => ( isa => 'User',                is => 'ro', required => 0, );
-has creator       => ( isa => 'HashRef',             is => 'ro', required => 0, );
+has creator       => ( isa => 'User_Hash',           is => 'rw', required => 0, coerce => 1 );
+# has creator       => ( isa => 'HashRef',             is => 'ro', required => 0, );
 has thumbnail     => ( isa => 'Str',                 is => 'ro', required => 0, );
 has thumbnail_1   => ( isa => 'Str',                 is => 'ro', required => 0, );
 has thumbnail_2   => ( isa => 'Str',                 is => 'ro', required => 0, );
@@ -94,42 +94,3 @@ access_token( q(b053a0798c50a84fbb80e66e51bba9c4) );
   thumbnail_2: "https://thingiverse-production.s3.amazonaws.com/renders/16/ae/be/7b/0e/IMG_20141223_215819_thumb_medium.jpg"
   thumbnail_3: "https://thingiverse-production.s3.amazonaws.com/renders/43/3c/d5/75/07/BoxOpenWithStopper2_thumb_medium.jpg"
 }
-
-Class methods or things.pm as well as thing.pm?
-latest
-things
-
-package GAT::user;
-use Moose;
-use Carp;
-use JSON;
-use GAT::Types;
-
-extends('GAT');
-our $api_base = "/users/";
-
-has                id => ( isa => 'ThingID',             is => 'ro', required => 0, );
-has    _original_json => ( isa => 'Str',                 is => 'ro', required => 0, );
-has              name => ( isa => 'Str',                 is => 'ro', required => 1, );
-has        first_name => ( isa => 'Str',                 is => 'ro', required => 0, );
-has         last_name => ( isa => 'Str',                 is => 'ro', required => 0, );
-has         full_name => ( isa => 'Str',                 is => 'ro', required => 0, );
-has               url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
-has        public_url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
-has         thumbnail => ( isa => 'Str',                 is => 'ro', required => 0, );
-has               bio => ( isa => 'Str',                 is => 'ro', required => 0, );
-has          location => ( isa => 'Str',                 is => 'ro', required => 0, );
-has        registered => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
-has       last_active => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
-has       cover_image => ( isa => 'Any',                 is => 'ro', required => 0, );
-has        things_url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
-has        copies_url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
-has         likes_url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
-has   default_license => ( isa => 'Str',                 is => 'ro', required => 0, );
-has             email => ( isa => 'Str',                 is => 'ro', required => 0, );
-has      is_following => ( isa => 'Boolean',             is => 'ro', required => 0, );
-# has           likes => ( isa => 'ArrayRef[thing]',       is => 'ro', required => 0, , builder => '_get_things_for_user' );
-# has     collections => ( isa => 'ArrayRef[collection]',  is => 'ro', required => 0, , builder => '_get_collections_for_user' );
-# has       downloads => ( isa => 'ArrayRef[thing]',       is => 'ro', required => 0, , builder => '_get_downloads_for_user' );
-# has     avatarimage => ( isa => 'Str',                   is => 'ro', required => 0, , builder => '_set_avatar_for_user' );
-# has      coverimage => ( isa => 'Str',                   is => 'ro', required => 0, , builder => '_set_coverimage_for_user' );

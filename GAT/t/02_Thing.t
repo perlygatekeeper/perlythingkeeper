@@ -90,49 +90,6 @@ if ( 0 ) {
 
 exit 0;
 __END__
-package GAT::Thing;
-use Moose;
-use Carp;
-
-extends('GAT');
-our $api_base = "/things/";
-
-around BUILDARGS => sub {
-  my $orig = shift;
-  my $class = shift;
-  my $id;
-  my $json;
-  my $hash;
-  if ( @_ == 1 && !ref $_[0] ) {
-    # return $class->$orig( id => $_[0] );
-    $id = $_[0];
-  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}->{'id'} ) { # passed a hashref to a hash containing key 'id'
-    $id = ${$_[0]}->{'id'};
-  } elsif ( @_ == 2 && $_[0] eq 'id' ) { # passed a hashref to a hash containing key 'id'
-    $id = $_[1];
-  } else {
-    return $class->$orig(@_);
-  }
-  $json = _get_from_thingi_given_id($id);
-  $hash = decode_json($json);
-  $hash->{_original_json} = $json;
-  return $hash;
-};
-
-sub _get_from_thingi_given_id {
-  my $id = shift;
-  my $request = $api_base . $id;
-  my $rest_client = GAT::_establish_rest_client('');
-  my $response = $rest_client->GET($request);
-  my $content = $response ->responseContent;
-  return $content;
-}
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
-
-1;
-__END__
 
 special methods:
 publish
@@ -148,25 +105,44 @@ popular
 
 search
 
-                 'public_url'      => 'http://www.thingiverse.com/thing:314355',
-                 'url'             => 'https://api.thingiverse.com/things/314355',
-                 'images_url'      => 'https://api.thingiverse.com/things/314355/images',
-                 'categories_url'  => 'https://api.thingiverse.com/things/314355/categories',
-                 'ancestors_url'   => 'https://api.thingiverse.com/things/314355/ancestors',
-                 'tags_url'        => 'https://api.thingiverse.com/things/314355/tags',
-                 'files_url'       => 'https://api.thingiverse.com/things/314355/files',
-                 'derivatives_url' => 'https://api.thingiverse.com/things/314355/derivatives',
-                 'likes_url'       => 'https://api.thingiverse.com/things/314355/likes',
-
-                 'layouts_url'     => 'https://api.thingiverse.com/layouts/314355'
-
-
-
-
-
-
-
-
+{
+  id: 314355
+  name: "Rounded Rectangular Parallelepiped (all defaults)"
+  thumbnail: "https://thingiverse-production.s3.amazonaws.com/renders/db/47/6b/0f/96/rounded_rectangular_parallelepiped_20140429-27229-1qiulcd-0_thumb_medium.jpg"
+  url: "https://api.thingiverse.com/things/314355"
+  public_url: "http://www.thingiverse.com/thing:314355"
+  creator: {...}-
+  added: "2014-04-29T04:06:30+00:00"
+  modified: "2014-04-29T04:06:30+00:00"
+  is_published: true
+  is_wip: false
+  is_featured: false
+  like_count: 0
+  is_liked: false
+  collect_count: 0
+  is_collected: false
+  default_image: {...}-
+  description: "Customized version of http://www.thingiverse.com/thing:313179 Created with Customizer! http://www.thingiverse.com/apps/customizer/run?thing_id=313179 "
+  instructions: "Using the following options: customizer_z = 2 customizer_y = 10 customizer_x = 5 customizer_facets = 16 customizer_rounding_radius = 1 "
+  description_html: "<p>Customized version of <a href="http://www.thingiverse.com/thing:313179">http://www.thingiverse.com/thing:313179</a></p> <p>Created with Customizer! <a href="http://www.thingiverse.com/apps/customizer/run?thing_id=313179">http://www.thingiverse.com/apps/customizer/run?thing_id=313179</a></p>"
+  instructions_html: "<p>Using the following options:</p> <p>customizer_z = 2 customizer_y = 10 customizer_x = 5 customizer_facets = 16 customizer_rounding_radius = 1</p>"
+  license: "Creative Commons - Attribution"
+  files_url: "https://api.thingiverse.com/things/314355/files"
+  images_url: "https://api.thingiverse.com/things/314355/images"
+  likes_url: "https://api.thingiverse.com/things/314355/likes"
+  ancestors_url: "https://api.thingiverse.com/things/314355/ancestors"
+  derivatives_url: "https://api.thingiverse.com/things/314355/derivatives"
+  tags_url: "https://api.thingiverse.com/things/314355/tags"
+  categories_url: "https://api.thingiverse.com/things/314355/categories"
+  file_count: 1
+  layout_count: 0
+  layouts_url: "https://api.thingiverse.com/layouts/314355"
+  is_private: false
+  is_purchased: false
+  in_library: true
+  print_history_count: 0
+  app_id: 22
+}
 
 
 

@@ -2,6 +2,7 @@ package GAT::Thing;
 use Moose;
 use Carp;
 use JSON;
+use GAT::Types;
 
 extends('GAT');
 our $api_base = "/things/";
@@ -40,11 +41,11 @@ has likes_url            => ( isa => 'Str',          is => 'ro', required => 0, 
 has layouts_url          => ( isa => 'Str',          is => 'ro', required => 0, );
 has files_url            => ( isa => 'Str',          is => 'ro', required => 0, );
 has thumbnail            => ( isa => 'Str',          is => 'ro', required => 0, );
-has like_count           => ( isa => 'Count',        is => 'ro', required => 0, );
-has file_count           => ( isa => 'Count',        is => 'ro', required => 0, );
-has layout_count         => ( isa => 'Count',        is => 'ro', required => 0, );
-has collect_count        => ( isa => 'Count',        is => 'ro', required => 0, );
-has print_history_count  => ( isa => 'Count',        is => 'ro', required => 0, );
+has like_count           => ( isa => 'ThingiCount',  is => 'ro', required => 0, );
+has file_count           => ( isa => 'ThingiCount',  is => 'ro', required => 0, );
+has layout_count         => ( isa => 'ThingiCount',  is => 'ro', required => 0, );
+has collect_count        => ( isa => 'ThingiCount',  is => 'ro', required => 0, );
+has print_history_count  => ( isa => 'ThingiCount',  is => 'ro', required => 0, );
 has _original_json       => ( isa => 'Str',          is => 'ro', required => 0, );
 
 around BUILDARGS => sub {
