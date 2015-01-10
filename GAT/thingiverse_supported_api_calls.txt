@@ -1,14 +1,16 @@
 users
 things
+collections
 
 files
+comments
+categories
+
+tags
 
 copies
-collections
-comments
 newest
 popular
 featured
 search
-categories
-tags
+

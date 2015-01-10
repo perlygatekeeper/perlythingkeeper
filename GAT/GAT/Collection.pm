@@ -10,7 +10,7 @@ our $api_base = "/collections/";
 has id            => ( isa => 'ID',                  is => 'ro', required => 1, );
 has name          => ( isa => 'Str',                 is => 'ro', required => 0, );
 has description   => ( isa => 'Str',                 is => 'ro', required => 0, );
-has count         => ( isa => 'Int',                 is => 'ro', required => 0, );
+has count         => ( isa => 'Count',               is => 'ro', required => 0, );
 has is_editable   => ( isa => 'Any',                 is => 'ro', required => 0, );
 has url           => ( isa => 'Str',                 is => 'ro', required => 0, );
 has added         => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
@@ -54,7 +54,14 @@ sub _get_from_collection_given_id {
 }
 
 sub _get_things_belonging_to_collection {
-  return [ { key => 'value'  } ];
+  my $self = shift;
+  my $request = $api_base . $self->id . '/things';
+  my $response = $self->rest_client->GET($request);
+  my $content = $response->responseContent;
+  my $return = decode_json($content);
+# print ref($return) . "\n";
+  return $return;
+# return [ { key => 'value'  } ];
 }
 
 no Moose;

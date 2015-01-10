@@ -86,7 +86,7 @@ sub _get_things_for_user {
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
-  print ref($return) . "\n";
+# print ref($return) . "\n";
   return $return;
 }
 

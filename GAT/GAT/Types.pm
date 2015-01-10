@@ -23,6 +23,10 @@ package GAT::Types;
       as 'URI',
       where { $_->host =~ m'thingiverse-production.s\d\.amazonaws\.com' and $_->method eq 'https' };
 
+  subtype 'Count',
+      as 'Int',
+      where { $_ >= 0 };
+
   subtype 'ID',
       as 'Int',
       where { $_ > 0 };
