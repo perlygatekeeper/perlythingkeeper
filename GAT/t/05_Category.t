@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 8 + 5;
+use Test::Most tests => 8 + 6;
 use Data::Dumper;
 
 use GAT;
@@ -12,6 +12,7 @@ my $name       = 'Tools'; # tools gives a count of 10435 while Tools gives 10439
 my $url        = $GAT::api_uri_base . $GAT::Category::api_base . lc $name;
 my $things_url = $GAT::api_uri_base . $GAT::Category::api_base . lc $name . '/things';
 my $count      = 10439;
+my $things     = ( $count > 30 ) ? 30 : $count;
 my $children   = 4;
 
 my $category = GAT::Category->new( 'name' => $name );
@@ -33,7 +34,7 @@ can_ok( $category, qw( children ),            );
     is( $category->url,               $url,                           'url          accessor' ); 
     is( $category->things_url,        $things_url,                    'things_url   accessor' ); 
     is( @{$category->children},       $children,                      'children     accessor' );
-#   is( @{$category->things},         $count,                         'things       accessor' );
+    is( @{$category->things},         $things,                        'things       accessor' );
 
 exit 0;
 __END__
