@@ -11,7 +11,7 @@ our $api_base = "/tags/";
 my $name       = 'tool';
 my $url        = $GAT::api_uri_base . $GAT::Tag::api_base . $name;
 my $things_url = $GAT::api_uri_base . $GAT::Tag::api_base . $name . '/things';
-my $count      = 1418;
+my $count      = 1419;
 
 my $tag = GAT::Tag->new( 'name' => $name );
 # print Dumper($thing);
