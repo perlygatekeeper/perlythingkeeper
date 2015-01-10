@@ -16,7 +16,6 @@ has url           => ( isa => 'Str',                 is => 'ro', required => 0, 
 has added         => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
 has modified      => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
 has creator       => ( isa => 'User_Hash',           is => 'rw', required => 0, coerce => 1 );
-# has creator       => ( isa => 'HashRef',             is => 'ro', required => 0, );
 has thumbnail     => ( isa => 'Str',                 is => 'ro', required => 0, );
 has thumbnail_1   => ( isa => 'Str',                 is => 'ro', required => 0, );
 has thumbnail_2   => ( isa => 'Str',                 is => 'ro', required => 0, );
@@ -94,3 +93,11 @@ access_token( q(b053a0798c50a84fbb80e66e51bba9c4) );
   thumbnail_2: "https://thingiverse-production.s3.amazonaws.com/renders/16/ae/be/7b/0e/IMG_20141223_215819_thumb_medium.jpg"
   thumbnail_3: "https://thingiverse-production.s3.amazonaws.com/renders/43/3c/d5/75/07/BoxOpenWithStopper2_thumb_medium.jpg"
 }
+
+
+From irc.freenode.org on Sat Jan 10 2015
+perlygatekeeper
+9:46 ok, so I have a situation, where my in REST API consuming Classes, I collect information on a thing, one of the attributes of the thing is the creator of the thing, so I have 'has creator => (isa => "APP::User")'  but I don't need to call a builder, it is populated as a JSON encoded Str, my question is " Can one set up a coercion for a class type like APP::User
+ether
+9:51 my $app_user_type = subtype as class_type('App::User'); coerce $app_user_type, from 'Str', via {  code ehre that turns a json str into a class name }
+9:51 see Moose::Util::TypeConstraints for more
