@@ -7,32 +7,33 @@ use GAT::Types;
 extends('GAT');
 our $api_base = "/users/";
 
-has                id => ( isa => 'ID',                  is => 'ro', required => 0, );
-has    _original_json => ( isa => 'Str',                 is => 'ro', required => 0, );
-has              name => ( isa => 'Str',                 is => 'ro', required => 1, );
-has        first_name => ( isa => 'Str',                 is => 'ro', required => 0, );
-has         last_name => ( isa => 'Str',                 is => 'ro', required => 0, );
-has         full_name => ( isa => 'Str',                 is => 'ro', required => 0, );
-has               url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
-has        public_url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
-has         thumbnail => ( isa => 'Str',                 is => 'ro', required => 0, );
-has               bio => ( isa => 'Str',                 is => 'ro', required => 0, );
-has          location => ( isa => 'Str',                 is => 'ro', required => 0, );
-has        registered => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
-has       last_active => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
-has       cover_image => ( isa => 'Any',                 is => 'ro', required => 0, );
-has        things_url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
-has        copies_url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
-has         likes_url => ( isa => 'Str',                 is => 'ro', required => 0, ); # change to type URL once it's made
-has   default_license => ( isa => 'Str',                 is => 'ro', required => 0, );
-has             email => ( isa => 'Str',                 is => 'ro', required => 0, );
-has      is_following => ( isa => 'Boolean',             is => 'ro', required => 0, );
-has            things => ( isa => 'ArrayRef[HashRef]',   is => 'ro', required => 0, builder => '_get_things_for_user' );
-# has           likes => ( isa => 'ArrayRef[thing]',       is => 'ro', required => 0, , builder => '_get_things_for_user' );
-# has     collections => ( isa => 'ArrayRef[collection]',  is => 'ro', required => 0, , builder => '_get_collections_for_user' );
-# has       downloads => ( isa => 'ArrayRef[thing]',       is => 'ro', required => 0, , builder => '_get_downloads_for_user' );
-# has     avatarimage => ( isa => 'Str',                   is => 'ro', required => 0, , builder => '_set_avatar_for_user' );
-# has      coverimage => ( isa => 'Str',                   is => 'ro', required => 0, , builder => '_set_coverimage_for_user' );
+has                id => ( isa => 'ID',                        is => 'ro', required => 0, );
+has    _original_json => ( isa => 'Str',                       is => 'ro', required => 0, );
+has              name => ( isa => 'Str',                       is => 'ro', required => 1, );
+has        first_name => ( isa => 'Str',                       is => 'ro', required => 0, );
+has         last_name => ( isa => 'Str',                       is => 'ro', required => 0, );
+has         full_name => ( isa => 'Str',                       is => 'ro', required => 0, );
+has               url => ( isa => 'Str',                       is => 'ro', required => 0, ); # change to type URL once it's made
+has        public_url => ( isa => 'Str',                       is => 'ro', required => 0, ); # change to type URL once it's made
+has         thumbnail => ( isa => 'Str',                       is => 'ro', required => 0, );
+has               bio => ( isa => 'Str',                       is => 'ro', required => 0, );
+has          location => ( isa => 'Str',                       is => 'ro', required => 0, );
+has        registered => ( isa => 'ThingiverseDateTime',       is => 'ro', required => 0, coerce => 1 );
+has       last_active => ( isa => 'ThingiverseDateTime',       is => 'ro', required => 0, coerce => 1 );
+has       cover_image => ( isa => 'Any',                       is => 'ro', required => 0, );
+has        things_url => ( isa => 'Str',                       is => 'ro', required => 0, ); # change to type URL once it's made
+has        copies_url => ( isa => 'Str',                       is => 'ro', required => 0, ); # change to type URL once it's made
+has         likes_url => ( isa => 'Str',                       is => 'ro', required => 0, ); # change to type URL once it's made
+has   default_license => ( isa => 'Str',                       is => 'ro', required => 0, );
+has             email => ( isa => 'Str',                       is => 'ro', required => 0, );
+has      is_following => ( isa => 'Boolean',                   is => 'ro', required => 0, );
+has            things => ( isa => 'ArrayRef[GAT::Thing]',      is => 'ro', required => 0, builder => '_get_things_owned_by_user' );
+has             likes => ( isa => 'ArrayRef[GAT::Thing]',      is => 'ro', required => 0, builder => '_get_things_liked_by_user' );
+has            copies => ( isa => 'ArrayRef[GAT::Thing]',      is => 'ro', required => 0, builder => '_get_things_copied_by_user' );
+has         downloads => ( isa => 'ArrayRef[GAT::Thing]',      is => 'ro', required => 0, builder => '_get_things_downloaded_by_user' );
+has       collections => ( isa => 'ArrayRef[GAT::Collection]', is => 'ro', required => 0, builder => '_get_collections_created_by_user' );
+# has     avatarimage => ( isa => 'Str',                       is => 'ro', required => 0, builder => '_set_avatar_for_user' );
+# has      coverimage => ( isa => 'Str',                       is => 'ro', required => 0, builder => '_set_coverimage_for_user' );
 
 around BUILDARGS => sub {
   my $orig = shift;
@@ -80,13 +81,48 @@ sub _get_from_thingi_given_name {
   return $content;
 }
 
-sub _get_things_for_user {
+sub _get_things_owned_by_user {
   my $self = shift;
   my $request = $api_base . $self->name . '/things';
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
-# print ref($return) . "\n";
+  return $return;
+}
+
+sub _get_things_liked_by_user {
+  my $self = shift;
+  my $request = $api_base . $self->name . '/likes';
+  my $response = $self->rest_client->GET($request);
+  my $content = $response->responseContent;
+  my $return = decode_json($content);
+  return $return;
+}
+
+sub _get_copies_liked_by_user {
+  my $self = shift;
+  my $request = $api_base . $self->name . '/copies';
+  my $response = $self->rest_client->GET($request);
+  my $content = $response->responseContent;
+  my $return = decode_json($content);
+  return $return;
+}
+
+sub _get_things_downloaded_by_user {
+  my $self = shift;
+  my $request = $api_base . $self->name . '/downloads';
+  my $response = $self->rest_client->GET($request);
+  my $content = $response->responseContent;
+  my $return = decode_json($content);
+  return $return;
+}
+
+sub _get_collections_created_by_user {
+  my $self = shift;
+  my $request = $api_base . $self->name . '/collections';
+  my $response = $self->rest_client->GET($request);
+  my $content = $response->responseContent;
+  my $return = decode_json($content);
   return $return;
 }
 

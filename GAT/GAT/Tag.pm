@@ -11,7 +11,7 @@ has name       => ( isa => 'Str',   is => 'ro', required => 1, );
 has count      => ( isa => 'Count', is => 'ro', required => 0, );
 has url        => ( isa => 'Str',   is => 'ro', required => 0, );
 has things_url => ( isa => 'Str',   is => 'ro', required => 0, );
-# has things => ( isa => 'ArrayRef[HashRef]',   is => 'ro', required => 0, builder => '_get_things_for_tag' );
+has things => ( isa => 'ArrayRef[HashRef]',   is => 'ro', required => 0, builder => '_get_things_for_tag' );
 
 around BUILDARGS => sub {
   my $orig = shift;
