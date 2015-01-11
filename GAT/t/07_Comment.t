@@ -1,17 +1,22 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 15 + 8;
+use Test::Most tests => 15 + 11;
 use Data::Dumper;
 
 use GAT;
 use GAT::Comment;
 
-my $id           = '547200';
-my $target_id    = '630363';
+my $id           = '547395';
+my $target_id    = '316754';
 my $target_type  = 'thing';
-my $body         = qr(.*);
+my $body         = qr(edge.*ratio.*1:4:9);
 my $public_url   = sprintf 'http://www.thingiverse.com/%s:%s#comment-%s', $target_type, $target_id, $id;
 my $url          = $GAT::api_uri_base . $GAT::Comment::api_base . $id;
+my $target_url   = $GAT::api_uri_base . '/' . $target_type . '/' . $target_id;
+my $commenter_id = '16273';
+my $parent_id    = '';
+my $parent_url   = '';
+my $is_deleted   = 0;
 
 my $comment = GAT::Comment->new( 'id' => $id );
 # print Dumper($comment);
@@ -33,13 +38,16 @@ can_ok( $comment, qw( parent_url ),  );
 can_ok( $comment, qw( is_deleted ),  );
 
     is( $comment->id,                     $id,                     'id             accessor' ); 
+    is( $comment->target_id,              $target_id,              'target_id      accessor' ); 
+    is( $comment->target_url,             $target_url,             'target_url     accessor' ); 
   like( $comment->body,                   $body,                   'name           accessor' ); 
     is( $comment->public_url,             $public_url,             'public_url     accessor' ); 
-cmp_ok( $comment->size,        "==",      $size,                   'size           accessor' ); 
     is( $comment->url,                    $url,                    'url            accessor' ); 
+    is( $comment->parent_id,              $parent_url,             'parent_url     accessor' ); 
     is( $comment->parent_url,             $parent_url,             'parent_url     accessor' ); 
     is( ref($comment->user),              'HASH',                  'user           UserHash' ); 
-    is( ${$comment->default_image}{id},   $commenter_id,           'user_id        accessor' ); 
+    is( ${$comment->user}{id},            $commenter_id,           'user_id        accessor' ); 
+    is( $comment->is_deleted,             $is_deleted,             'is_deleted     accessor' ); 
 
 if ( 0 ) {
   print "nocomment\n";

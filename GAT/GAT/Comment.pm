@@ -18,7 +18,7 @@ has body           => ( isa => 'Str',                 is => 'ro', required => 0,
 has user           => ( isa => 'User_Hash',           is => 'rw', required => 0, coerce => 1 );
 has added          => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
 has modified       => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
-has parent_id      => ( isa => 'ID',                  is => 'ro', required => 0, );
+has parent_id      => ( isa => 'OptionalID',          is => 'ro', required => 0, );
 has parent_url     => ( isa => 'Str',                 is => 'ro', required => 0, );
 has is_deleted     => ( isa => 'Any',                 is => 'ro', required => 0, );
 

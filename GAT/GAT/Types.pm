@@ -49,6 +49,11 @@ package GAT::Types;
     where { $_ > 0 },
 	message { "$_ isn't an INT greater than 0" };
 
+  subtype 'OptionalID',
+    as 'Any',
+    where { ( ( $_ eq '' ) or ( $_ and $_ > 0 ) ) },
+	message { "($_) isn't the null string nor an INT greater than 0" };
+
   subtype 'ThingID',
     as 'Int',
     where { $_ > 7 },
