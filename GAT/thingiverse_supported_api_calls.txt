@@ -1,12 +1,11 @@
 users
 things
 collections
+tags
+categories
 
 files
 comments
-categories
-
-tags
 
 copies
 newest

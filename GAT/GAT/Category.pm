@@ -9,6 +9,7 @@ extends('GAT');
 our $api_base = "/categories/";
 
 has name              => ( isa => 'Str',               is => 'ro', required => 1, );
+has _original_json    => ( isa => 'Str',               is => 'ro', required => 0, );
 has url               => ( isa => 'Str',               is => 'ro', required => 0, );
 has thumbnail         => ( isa => 'Str',               is => 'ro', required => 0, );
 has count             => ( isa => 'ThingiCount',       is => 'ro', required => 0, );

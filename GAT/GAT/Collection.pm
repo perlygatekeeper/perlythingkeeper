@@ -7,20 +7,21 @@ use GAT::Types;
 extends('GAT');
 our $api_base = "/collections/";
 
-has id            => ( isa => 'ID',                  is => 'ro', required => 1, );
-has name          => ( isa => 'Str',                 is => 'ro', required => 0, );
-has description   => ( isa => 'Str',                 is => 'ro', required => 0, );
-has count         => ( isa => 'ThingiCount',         is => 'ro', required => 0, );
-has is_editable   => ( isa => 'Any',                 is => 'ro', required => 0, );
-has url           => ( isa => 'Str',                 is => 'ro', required => 0, );
-has added         => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
-has modified      => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
-has creator       => ( isa => 'User_Hash',           is => 'rw', required => 0, coerce => 1 );
-has thumbnail     => ( isa => 'Str',                 is => 'ro', required => 0, );
-has thumbnail_1   => ( isa => 'Str',                 is => 'ro', required => 0, );
-has thumbnail_2   => ( isa => 'Str',                 is => 'ro', required => 0, );
-has thumbnail_3   => ( isa => 'Str',                 is => 'ro', required => 0, );
-has things        => ( isa => 'ArrayRef[HashRef]',   is => 'ro', required => 0, builder => '_get_things_belonging_to_collection' );
+has id             => ( isa => 'ID',                  is => 'ro', required => 1, );
+has _original_json => ( isa => 'Str',                 is => 'ro', required => 0, );
+has name           => ( isa => 'Str',                 is => 'ro', required => 0, );
+has description    => ( isa => 'Str',                 is => 'ro', required => 0, );
+has count          => ( isa => 'ThingiCount',         is => 'ro', required => 0, );
+has is_editable    => ( isa => 'Any',                 is => 'ro', required => 0, );
+has url            => ( isa => 'Str',                 is => 'ro', required => 0, );
+has added          => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
+has modified       => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
+has creator        => ( isa => 'User_Hash',           is => 'rw', required => 0, coerce => 1 );
+has thumbnail      => ( isa => 'Str',                 is => 'ro', required => 0, );
+has thumbnail_1    => ( isa => 'Str',                 is => 'ro', required => 0, );
+has thumbnail_2    => ( isa => 'Str',                 is => 'ro', required => 0, );
+has thumbnail_3    => ( isa => 'Str',                 is => 'ro', required => 0, );
+has things         => ( isa => 'ArrayRef[HashRef]',   is => 'ro', required => 0, builder => '_get_things_belonging_to_collection' );
 
 around BUILDARGS => sub {
   my $orig = shift;
@@ -58,9 +59,8 @@ sub _get_things_belonging_to_collection {
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
-# print ref($return) . "\n";
+# Copy Pagination code from Category.pm
   return $return;
-# return [ { key => 'value'  } ];
 }
 
 no Moose;

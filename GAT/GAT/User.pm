@@ -87,6 +87,7 @@ sub _get_things_owned_by_user {
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
+# Copy Pagination code from Category.pm
   return $return;
 }
 
@@ -96,6 +97,7 @@ sub _get_things_liked_by_user {
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
+# Copy Pagination code from Category.pm
   return $return;
 }
 
@@ -105,6 +107,7 @@ sub _get_copies_liked_by_user {
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
+# Copy Pagination code from Category.pm
   return $return;
 }
 
@@ -114,6 +117,7 @@ sub _get_things_downloaded_by_user {
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
+# Copy Pagination code from Category.pm
   return $return;
 }
 
@@ -123,6 +127,7 @@ sub _get_collections_created_by_user {
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
+# Copy Pagination code from Category.pm
   return $return;
 }
 

@@ -1,60 +1,49 @@
-package GAT::File;
-use Moose;
-use Carp;
-use JSON;
-use GAT::Types;
+#!/usr/bin/env perl
 
-extends('GAT');
-our $api_base = "/files/";
+use Test::Most tests => 11 + 8;
+use Data::Dumper;
 
-has id             => ( isa => 'Str',       is => 'ro', required => 1, );
-has name           => ( isa => 'Str',       is => 'ro', required => 0, );
-has size           => ( isa => 'Size',      is => 'ro', required => 0, );
-has url            => ( isa => 'Str',       is => 'ro', required => 0, );
-has public_url     => ( isa => 'Str',       is => 'ro', required => 0, );
-has download_url   => ( isa => 'Str',       is => 'ro', required => 0, );
-has threejs_url    => ( isa => 'Str',       is => 'ro', required => 0, );
-has thumbnail      => ( isa => 'Str',       is => 'ro', required => 0, );
-has date           => ( isa => 'Str',       is => 'ro', required => 0, );
-has formated_size  => ( isa => 'Str',       is => 'ro', required => 0, );
-has meta_data      => ( isa => 'ArrayRef',  is => 'ro', required => 0, );
-has default_image  => ( isa => 'HashRef',   is => 'ro', required => 0, );
-has _original_json => ( isa => 'Str',       is => 'ro', required => 0, );
+use GAT;
+use GAT::File;
 
-around BUILDARGS => sub {
-  my $orig = shift;
-  my $class = shift;
-  my $id;
-  my $json;
-  my $hash;
-  if ( @_ == 1 && !ref $_[0] ) {
-    $id = $_[0];
-  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}->{'id'} ) { # passed a hashref to a hash containing key 'id'
-    $id = ${$_[0]}->{'id'};
-  } elsif ( @_ == 2 && $_[0] eq 'id' ) { # passed a hashref to a hash containing key 'id'
-    $id = $_[1];
-  } else {
-    return $class->$orig(@_);
-  }
-  $json = _get_from_thingi_given_id($id);
-  $hash = decode_json($json);
-  $hash->{_original_json} = $json;
-  return $hash;
-};
+my $id           = '556207';
+my $image_id     = '875072';
+# my $name         = 'rounded_rectangular_parallelepiped_20140429-27229-1qiulcd-0.stl';
+my $name         = qr(rounded.rectangular.parallelepiped.*\.stl);
+my $size         = '57251';
+my $public_url   = 'http://www.thingiverse.com/download:'    . $id;
+my $url          = $GAT::api_uri_base . $GAT::File::api_base . $id;
 
-sub _get_from_thingi_given_id {
-  my $id = shift;
-  my $request = $api_base . $id;
-  my $rest_client = GAT::_establish_rest_client('');
-  my $response = $rest_client->GET($request);
-  my $content = $response ->responseContent;
-  return $content;
+my $file = GAT::File->new( 'id' => $id );
+# print Dumper($file);
+
+    ok( defined $file,            'GAT::File object is defined' ); 
+    ok( $file->isa('GAT::File'), 'can make an GAT::File object' ); 
+can_ok( $file, qw( id ),                  );
+can_ok( $file, qw( name ),                );
+can_ok( $file, qw( size ),                );
+can_ok( $file, qw( url ),                 );
+can_ok( $file, qw( public_url ),          );
+can_ok( $file, qw( download_url ),        );
+can_ok( $file, qw( threejs_url ),         );
+can_ok( $file, qw( thumbnail ),           );
+can_ok( $file, qw( default_image ),       );
+
+    is( $file->id,                     $id,                     'id             accessor' ); 
+  like( $file->name,                   $name,                   'name           accessor' ); 
+    is( $file->public_url,             $public_url,             'public_url     accessor' ); 
+cmp_ok( $file->size,        "==",      $size,                   'size           accessor' ); 
+    is( $file->url,                    $url,                    'url            accessor' ); 
+    is( $file->download_url,           $url . '/download',      'download_url   accessor' ); 
+  like( $file->threejs_url,            qr(.*),                  'threejs_url    accessor' ); 
+    is( ref($file->default_image),     'HASH',                  'default_image  hashref?' ); 
+    is( ${$file->default_image}{id},   $image_id,               'default_image  accessor' ); 
+
+if ( 0 ) {
+  print "nofile\n";
 }
 
-no Moose;
-__PACKAGE__->meta->make_immutable;
-
-1;
+exit 0;
 __END__
 
 {

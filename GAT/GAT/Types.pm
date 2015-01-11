@@ -39,6 +39,11 @@ package GAT::Types;
     where { $_->host =~ m'thingiverse-production.s\d\.amazonaws\.com' and $_->method eq 'https' },
 	message { "URI doesn't match /thingiverse-production.s3.amazonaws.com/" };
 
+  subtype 'Size',
+    as 'Int',
+    where { $_ > 0 },
+	message { "$_ isn't an INT greater than 0" };
+
   subtype 'ID',
     as 'Int',
     where { $_ > 0 },

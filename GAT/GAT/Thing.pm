@@ -8,6 +8,7 @@ extends('GAT');
 our $api_base = "/things/";
 
 has id                   => ( isa => 'Int',          is => 'ro', required => 1, );
+has _original_json       => ( isa => 'Str',          is => 'ro', required => 0, );
 has name                 => ( isa => 'Str',          is => 'ro', required => 0, );
 has instructions         => ( isa => 'Str',          is => 'ro', required => 0, );
 has instructions_html    => ( isa => 'Str',          is => 'ro', required => 0, );
@@ -46,7 +47,6 @@ has file_count           => ( isa => 'ThingiCount',  is => 'ro', required => 0, 
 has layout_count         => ( isa => 'ThingiCount',  is => 'ro', required => 0, );
 has collect_count        => ( isa => 'ThingiCount',  is => 'ro', required => 0, );
 has print_history_count  => ( isa => 'ThingiCount',  is => 'ro', required => 0, );
-has _original_json       => ( isa => 'Str',          is => 'ro', required => 0, );
 
 around BUILDARGS => sub {
   my $orig = shift;
@@ -84,14 +84,26 @@ __PACKAGE__->meta->make_immutable;
 1;
 __END__
 
-special methods:
+# special methods which change state of Thing:
 publish
 like
 unlike
-package
-threadedcomments
 
-Class methods or things.pm as well as thing.pm?
+# return list of meta-data objects
+threadedcomments
+comments
+users_who_liked
+files
+images
+packageurl
+
+# related Things
+ancestors
+derivatives
+copies
+
+# Class methods or things.pm as well as thing.pm?
+# return lists of Things
 newest
 featured
 popular

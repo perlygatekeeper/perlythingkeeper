@@ -8,11 +8,12 @@ use GAT::Types;
 extends('GAT');
 our $api_base = "/tags/";
 
-has name       => ( isa => 'Str',               is => 'ro', required => 1, );
-has count      => ( isa => 'ThingiCount',       is => 'ro', required => 0, );
-has url        => ( isa => 'Str',               is => 'ro', required => 0, );
-has things_url => ( isa => 'Str',               is => 'ro', required => 0, );
-has things     => ( isa => 'ArrayRef[HashRef]', is => 'ro', required => 0, builder => '_get_things_tagged_with_tag' );
+has name           => ( isa => 'Str',               is => 'ro', required => 1, );
+has _original_json => ( isa => 'Str',               is => 'ro', required => 0, );
+has count          => ( isa => 'ThingiCount',       is => 'ro', required => 0, );
+has url            => ( isa => 'Str',               is => 'ro', required => 0, );
+has things_url     => ( isa => 'Str',               is => 'ro', required => 0, );
+has things         => ( isa => 'ArrayRef[HashRef]', is => 'ro', required => 0, builder => '_get_things_tagged_with_tag' );
 
 around BUILDARGS => sub {
   my $orig = shift;
