@@ -8,13 +8,14 @@ use GAT::Types;
 extends('GAT');
 our $api_base = "/categories/";
 
-has name       => ( isa => 'Str',               is => 'ro', required => 1, );
-has url        => ( isa => 'Str',               is => 'ro', required => 0, );
-has thumbnail  => ( isa => 'Str',               is => 'ro', required => 0, );
-has count      => ( isa => 'ThingiCount',       is => 'ro', required => 0, );
-has things_url => ( isa => 'Str',               is => 'ro', required => 0, ); # change to type URL once it's made
-has children   => ( isa => 'ArrayRef[HashRef]', is => 'ro', required => 0, );
-has things     => ( isa => 'ArrayRef[HashRef]', is => 'ro', required => 0, builder => '_get_things_organized_under_category' );
+has name              => ( isa => 'Str',               is => 'ro', required => 1, );
+has url               => ( isa => 'Str',               is => 'ro', required => 0, );
+has thumbnail         => ( isa => 'Str',               is => 'ro', required => 0, );
+has count             => ( isa => 'ThingiCount',       is => 'ro', required => 0, );
+has things_url        => ( isa => 'Str',               is => 'ro', required => 0, ); # change to type URL once it's made
+has children          => ( isa => 'ArrayRef[HashRef]', is => 'ro', required => 0, );
+has things            => ( isa => 'ArrayRef[HashRef]', is => 'ro', required => 0, builder => '_get_things_organized_under_category' );
+has things_pagination => ( isa => 'HashRef[Str]',      is => 'rw', required => 0  );
 
 around BUILDARGS => sub {
   my $orig = shift;
@@ -52,7 +53,16 @@ sub _get_things_organized_under_category {
   my $request = $api_base . $self->name . '/things';
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
+  my $link_header = $response->responseHeader('Link');
   my $return = decode_json($content);
+  if ($link_header =~ /rel=.(first|last|next|prev)/) {
+    my $pagination;
+    foreach my $link ( split( /,\s*/, $link_header ) ) {
+	  my ($page_url, $page_label) = ( $link =~ /<([^>]+)>;\s+rel="([^"]+)"/);
+	  $pagination->{$page_label}=$page_url;
+	}
+	$self->things_pagination($pagination);
+  }
   return $return;
 }
 
@@ -66,6 +76,12 @@ special methods
 list
 things
 
+Response Header for things call:
+Link: <https://api.thingiverse.com/categories/Tools/things?page=2>; rel="next", <https://api.thingiverse.com/categories/Tools/things>; rel="first", <https://api.thingiverse.com/categories/Tools/things?page=348>; rel="last" 
+
+response for list
+Response Header for things call:
+Link: <https://api.thingiverse.com/categories>; rel="first", <https://api.thingiverse.com/categories?page=1>; rel="last" 
 [10]
 0:  {
   name: "3D Printing"

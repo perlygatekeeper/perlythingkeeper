@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 8 + 6;
+use Test::Most tests => 10 + 6;
 use Data::Dumper;
 
 use GAT;
@@ -26,8 +26,9 @@ can_ok( $category, qw( url ),                 );
 can_ok( $category, qw( things_url ),          );
 can_ok( $category, qw( thumbnail ),           );
 can_ok( $category, qw( children ),            );
+can_ok( $category, qw( things ),              );
+can_ok( $category, qw( things_pagination),    );
 # can_ok( $category, qw( list ),              );
-# can_ok( $category, qw( things ),              );
 
   like( $category->name,              qr($name),                      'name         accessor' ); 
     is( $category->count,             $count,                         'count        accessor' );
