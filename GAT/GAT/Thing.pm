@@ -23,6 +23,7 @@ has is_collected         => ( isa => 'Any',          is => 'ro', required => 0, 
 has is_purchased         => ( isa => 'Any',          is => 'ro', required => 0, );
 has is_published         => ( isa => 'Any',          is => 'ro', required => 0, );
 has added                => ( isa => 'Str',          is => 'ro', required => 0, );
+has modified             => ( isa => 'Str',          is => 'ro', required => 0, );
 has license              => ( isa => 'Str',          is => 'ro', required => 0, );
 # has prints               => ( isa => 'ArrayRef[GAT::Thing]',    is => 'ro', required => 0, );
 # has ancestors            => ( isa => 'ArrayRef[GAT::Thing]',    is => 'ro', required => 0, );

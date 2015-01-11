@@ -72,6 +72,9 @@ __PACKAGE__->meta->make_immutable;
 
 1;
 __END__
+aliases:
+subcategories for children
+
 special methods
 
 list
