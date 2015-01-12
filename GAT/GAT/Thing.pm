@@ -25,9 +25,9 @@ has is_published         => ( isa => 'Any',                     is => 'ro', requ
 has added                => ( isa => 'Str',                     is => 'ro', required => 0, );
 has modified             => ( isa => 'Str',                     is => 'ro', required => 0, );
 has license              => ( isa => 'Str',                     is => 'ro', required => 0, );
-has prints               => ( isa => 'ArrayRef[GAT::Thing]',    is => 'ro', required => 0, );
-has ancestors            => ( isa => 'ArrayRef[GAT::Thing]',    is => 'ro', required => 0, );
-has derivatives          => ( isa => 'ArrayRef[GAT::Thing]',    is => 'ro', required => 0, );
+has prints               => ( isa => 'ArrayRef[GAT::Thing]',    is => 'ro', required => 0, builder => '_get_prints_of_this_thing',      lazy => 1, );
+has ancestors            => ( isa => 'ArrayRef[GAT::Thing]',    is => 'ro', required => 0, builder => '_get_ancestors_of_this_thing',   lazy => 1, );
+has derivatives          => ( isa => 'ArrayRef[GAT::Thing]',    is => 'ro', required => 0, builder => '_get_derivatives_of_this_thing', lazy => 1, );
 # has images               => ( isa => 'ArrayRef[GAT::Image]',    is => 'ro', required => 0, );
 # has tags                 => ( isa => 'ArrayRef[GAT::Tag]',      is => 'ro', required => 0, );
 # has files                => ( isa => 'ArrayRef[GAT::File]',     is => 'ro', required => 0, );
@@ -57,8 +57,8 @@ around BUILDARGS => sub {
   my $hash;
   if ( @_ == 1 && !ref $_[0] ) {
     $id = $_[0];
-  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}->{'id'} ) { # passed a hashref to a hash containing key 'id'
-    $id = ${$_[0]}->{'id'};
+  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} ) { # passed a hashref to a hash containing key 'id'
+    $id = ${$_[0]}{'id'};
   } elsif ( @_ == 2 && $_[0] eq 'id' ) { # passed a hashref to a hash containing key 'id'
     $id = $_[1];
   } else {
@@ -77,6 +77,44 @@ sub _get_from_thingi_given_id {
   my $response = $rest_client->GET($request);
   my $content = $response ->responseContent;
   return $content;
+}
+
+sub _get_prints_of_this_thing {
+  my $self = shift;
+  my $request = $api_base . $self->id . '/prints';
+  my $response = $self->rest_client->GET($request);
+  my $content = $response->responseContent;
+  my $return = decode_json($content);
+# Copy Pagination code from Category.pm
+  return $return;
+}
+
+sub _get_ancestors_of_this_thing {
+  my $self = shift;
+# print "ancestors constructor self is (" . ref($self) . ") and self's id is (" . $self->{id} . ")\n";
+# print "what's left: " . @_ . "\n";
+  my $request = $api_base . $self->id . '/ancestors';
+# print "request is ($request)\n";
+  my $response = $self->rest_client->GET($request);
+  my $content = $response->responseContent;
+  my $return = decode_json($content);
+  if ( ref($return) eq 'ARRAY' ) {
+    foreach ( @{$return} ) {
+      $_ = GAT::Thing->new($_);
+	}
+  }
+# Copy Pagination code from Category.pm
+  return $return;
+}
+
+sub _get_derivatives_of_this_thing {
+  my $self = shift;
+  my $request = $api_base . $self->id . '/derivatives';
+  my $response = $self->rest_client->GET($request);
+  my $content = $response->responseContent;
+  my $return = decode_json($content);
+# Copy Pagination code from Category.pm
+  return $return;
 }
 
 no Moose;

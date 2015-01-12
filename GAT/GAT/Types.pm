@@ -59,9 +59,9 @@ package GAT::Types;
     where { $_ > 7 },
 	message { "$_ isn't an INT greater than 7 (earliest existing thingiverse.com thing)" };
 
-  enum ThingiverseImageType, [ qw( thumb preview display ) ];
+  enum 'ThingiverseImageType', [ qw( thumb preview display ) ];
 
-  enum ThingiverseImageSize, [ qw( birdwing card featured large medium small tiny tinycard ) ];
+  enum 'ThingiverseImageSize', [ qw( birdwing card featured large medium small tiny tinycard ) ];
 
 no Moose::Util::TypeConstraints;
 1;

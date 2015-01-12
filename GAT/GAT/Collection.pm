@@ -31,7 +31,7 @@ around BUILDARGS => sub {
   my $hash;
   if ( @_ == 1 && !ref $_[0] ) {
     $id = $_[0];
-  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}->{'id'} ) { # passed a hashref to a hash containing key 'id'
+  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} ) { # passed a hashref to a hash containing key 'id'
     $id = ${$_[0]}->{'id'};
   } elsif ( @_ == 2 && $_[0] eq 'id' ) { # passed a hashref to a hash containing key 'id'
     $id = $_[1];

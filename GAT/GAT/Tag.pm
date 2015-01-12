@@ -24,7 +24,7 @@ around BUILDARGS => sub {
   if ( @_ == 1 && !ref $_[0] ) {
     # return $class->$orig( name => $_[0] );
     $name = $_[0];
-  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}->{'name'} ) { # passed a hashref to a hash containing key 'name'
+  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'name'} ) { # passed a hashref to a hash containing key 'name'
     $name = ${$_[0]}->{'name'};
   } elsif ( @_ == 2 && $_[0] eq 'name' ) { # passed a hashref to a hash containing key 'name'
     $name = $_[1];

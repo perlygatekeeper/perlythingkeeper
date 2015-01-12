@@ -1,6 +1,6 @@
-#!/usr/bin/env perl
+#!/usr/bin/env perl 
 
-use Test::Most tests => 34 + 30;
+use Test::Most tests => 37 + 34;
 use Data::Dumper;
 
 use GAT;
@@ -48,6 +48,9 @@ can_ok( $thing, qw( file_count ),          );
 can_ok( $thing, qw( layout_count ),        );
 can_ok( $thing, qw( collect_count ),       );
 can_ok( $thing, qw( print_history_count ), );
+can_ok( $thing, qw( ancestors ),           );
+can_ok( $thing, qw( derivatives ),         );
+can_ok( $thing, qw( prints ),              );
 
     is( $thing->id,                  $id,                                    'id accessor' ); 
   like( $thing->name,                qr(Rounded Rectangular Parallelepiped), 'name accessor' ); 
@@ -81,6 +84,21 @@ can_ok( $thing, qw( print_history_count ), );
   like( $thing->collect_count,       qr(^\d+), 'collect_count accessor' );
   like( $thing->print_history_count, qr(^\d+), 'print_history_count accessor' );
 
+$thing = GAT::Thing->new( 'id' => '316754' );
+SKIP: {
+	skip "no prints for test thing", 1 unless defined($thing->prints);
+    is( @{$thing->prints},           0,        'prints         an  ArraryRef' );
+}
+SKIP: {
+	skip "no ancestors of test thing", 2 unless defined($thing->ancestors);
+    is( @{$thing->ancestors},        1,        'ancestors  is  an  ArraryRef' );
+    is( ${$thing->ancestors}[0]->id, '313179', 'ancestor   is the right onef' );
+}
+SKIP: {
+	skip "no derivatives of test thing", 1 unless defined($thing->derivatives);
+    is( @{$thing->derivatives},      0,        'derivatives    an  ArraryRef' );
+}
+
 if ( 0 ) {
   print "nothing\n";
 }
@@ -89,18 +107,18 @@ exit 0;
 __END__
 
 special methods:
-publish
-like
-unlike
-package
-threadedcomments
+  publish
+  like
+  unlike
+  package
+  threadedcomments
 
 Class methods or things.pm as well as thing.pm?
-newest
-featured
-popular
+  newest
+  featured
+  popular
 
-search
+  search
 
 {
   id: 314355
