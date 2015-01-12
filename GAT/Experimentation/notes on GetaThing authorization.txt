@@ -1,0 +1,64 @@
+   http://www.thingiverse.com/app:657/edit
+
+   Edit Your App (GetaThing) - Thingiverse
+
+   Application Keys
+
+   Client ID:	   c587f0f2ee04adbe719b
+   Client Secret: 4c7cf738c9d91e107fd4321a091dc319
+----------------------------------------------------------
+From:
+http://www.thingiverse.com/developers/getting-started
+
+Step 1. Direct users to request Thingiverse access
+
+Open a browser (or redirect) to the url specified below.
+The user will be prompted to authorize your app for access to their
+Thingiverse account.
+
+  GET https://www.thingiverse.com/login/oauth/authorize
+Parameters
+
+client_id    - Required string - The client ID you received from
+               Thingiverse when you registered.
+redirect_uri - Optional string - URL in your app where users
+               will be sent after authorization.
+               
+               
+Step 2. Thingiverse redirects back to your site
+
+If the user accepts your request, Thingiverse redirects back to your
+site with a temporary code in a code parameter.
+
+From
+: perlygatekeeper@/var/log/apache2 [44]; cat access.log | egrep -i 'getathing'
+
+GET /GetaThing?code=581e43e6934d8694c0ba22b638bd196d
+
+Step 3. Exchange code for an access token
+
+Send the code along with your client id and client secret to get an access token that can be used to interact with Thingiverse on the user’s behalf. If your application is web-based make sure you’re doing this from the backend to prevent sharing your secret with the client.
+
+  POST https://www.thingiverse.com/login/oauth/access_token
+
+Parameters
+
+client_id     - Required string - The client ID you received from Thingiverse
+                when you registered.
+redirect_uri  - Optional string
+client_secret - Required string - The client secret you received from Thingiverse
+                when you registered.
+code          - Required string - The code you received as a response to Step 2.
+
+Response
+
+The response will be in URL encoded form.
+
+  access_token=e72e16c7e42f292c6912e7710c838347ae178b4a&token_type=bearer
+  
+  https://api.thingiverse.com/users/me?client_id=c587f0f2ee04adbe719b&access_token=b053a0798c50a84fbb80e66e51bba9c4
+
+WORKS!
+
+
+
