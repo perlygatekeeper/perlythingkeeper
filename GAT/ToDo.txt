@@ -1,30 +1,36 @@
 General Notes:
 ----------------------------------------------------------------------------------------
 
- 1) Pagination for:
- 2) Make all user, thing and list of things attributes contain appropriate objects.
- 3) gather and list aliases (thing: creator/user, comment: user/commenter, etc.)
- 4) Make Boolean type
- 5) Make url and *_url attributes URI objects
- 6) Add POST and other methods to change state on thingiverse, not just retrieve data.
- 7) Add documentation
- 8) Add example scripts
- 9) Submit to CPAN
-10) Inform thingiverse.
+  1) Pagination for:
+  2) Add list methods:
+    a) Comments
+    b) Categories
+    c) Tags
+  3) Make all user, thing and list of things attributes contain appropriate objects.
+*   a) prints, ancestors, and derivatives of a Thing
+    b) images, tags, files and categories of a Thing
+  4) gather and list aliases (thing: creator/user, comment: user/commenter, etc.)
+  5) Make Boolean type
+  6) Make url and *_url attributes URI objects
+  7) Add POST and other methods to change state on thingiverse, not just retrieve data.
+  8) Add documentation
+  9) Add example scripts
+ 10) Submit to CPAN
+ 11) Inform thingiverse.
 
 
 
 Per Module:
 ----------------------------------------------------------------------------------------
-1) Thing:
-  a) activate special methods.
-  b) make added and modified DateTime objects
-  c) adjust tests for added and modified
-2) User:
-3) Category:
-4) Collection:
-5) Comment:
-6) Tag:
-7) File:
-8) Image:
-  a) EVERYTHING!
+  1) Thing:
+    a) activate special methods.
+    b) make added and modified DateTime objects
+    c) adjust tests for added and modified
+  2) User:
+  3) Category:
+  4) Collection:
+  5) Comment:
+  6) Tag:
+  7) File:
+  8) Image:
+    a) EVERYTHING!
