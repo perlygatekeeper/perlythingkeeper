@@ -4,8 +4,9 @@ collections
 tags
 categories
 files
-
 comments
+
+images
 
 copies
 newest
