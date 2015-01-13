@@ -1,15 +1,12 @@
-package GAT::SIzedImage;
+package GAT::SizedImage;
 use Moose;
 use Carp;
 use JSON;
 use GAT::Types;
 
-extends('GAT');
-our $api_base = "/images/";
-
-has url   => ( isa => 'Str',             is => 'ro', required => 0, );
-has type  => ( isa => 'ThingiverseType', is => 'ro', required => 0, );
-has size  => ( isa => 'ThingiverseSize', is => 'ro', required => 0, );
+has url   => ( isa => 'Str',                  is => 'ro', required => 0, );
+has type  => ( isa => 'ThingiverseImageType', is => 'ro', required => 0, );
+has size  => ( isa => 'ThingiverseImageSize', is => 'ro', required => 0, );
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

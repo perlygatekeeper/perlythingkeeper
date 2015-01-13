@@ -3,40 +3,78 @@ use Moose;
 use Carp;
 use JSON;
 use GAT::Types;
+use GAT::SizedImage;
 
 extends('GAT');
-our $api_base = "/images/";
+our $api_base = "/thing/%d/images/%d";
 
-has id                   => ( isa => 'Int',                        is => 'ro', required => 1, );
+has thing_id             => ( isa => 'ID',                         is => 'ro', required => 1, );
+has id                   => ( isa => 'ID',                         is => 'ro', required => 1, );
 has _original_json       => ( isa => 'Str',                        is => 'ro', required => 0, );
 has name                 => ( isa => 'Str',                        is => 'ro', required => 0, );
 has url                  => ( isa => 'Str',                        is => 'ro', required => 0, );
-has sizes                => ( isa => 'ArrayRef[GAT::SizedImage]',  is => 'ro', required => 0, );
+# has sizes                => ( isa => 'ArrayRef[GAT::SizedImage]',  is => 'ro', required => 0, builder => '_get_sized_versions_of_this_image' );
 
+has sizes  => (
+  traits   => ['Array'],
+  is       => 'ro',
+  isa      => 'ArrayRef[GAT::SizedImage]',
+  required => 0,
+  handles  => {
+    all_sizes      => 'elements',
+    add_sizes      => 'push',
+    map_sizes      => 'map',
+    filter_sizes   => 'grep',
+    find_sizes     => 'grep',
+    get_sizes      => 'get',
+    join_sizes     => 'join',
+    count_sizes    => 'count',
+    has_sizes      => 'count',
+    has_no_sizes   => 'is_empty',
+    sorted_sizes   => 'sort',
+  },
+  builder => '_get_sized_versions_of_this_image',
+);
+
+# need both the thing_id and the image_id to make an API call
 around BUILDARGS => sub {
   my $orig = shift;
   my $class = shift;
-  my $id;
+  my $thing_id;
+  my $image_id;
   my $json;
   my $hash;
-  if ( @_ == 1 && !ref $_[0] ) {
-    $id = $_[0];
-  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} ) { # passed a hashref to a hash containing key 'id'
-    $id = ${$_[0]}->{'id'};
-  } elsif ( @_ == 2 && $_[0] eq 'id' ) { # passed a hashref to a hash containing key 'id'
-    $id = $_[1];
+  if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} && ${$_[0]}{'thing_id'} && not exists ${$_[0]}{'sizes'} ) {
+    $thing_id = ${$_[0]}{'thing_id'};
+    $image_id = ${$_[0]}{'id'};
+  } elsif ( @_ == 2 ) { # passed two id's, thing_id and image_id
+    $thing_id = $_[0];
+    $image_id = $_[1];
   } else {
-    return $class->$orig(@_);
+    my $return = $class->$orig(@_); # almost all GAT::Image creatations will be from an predefined hash from a GAT::Thing or GAT::Collection.
+	$return = _get_sized_versions_of_this_image($return);;
+	return $return;
   }
-  $json = _get_from_thingi_given_id($id);
+  $json = _get_from_thingi_given_id($image_id,$thing_id);
   $hash = decode_json($json);
   $hash->{_original_json} = $json;
   return $hash;
 };
 
+sub _get_sized_versions_of_this_image {
+  my $self = shift;
+  my $sizes = $self->{sizes};
+  if ( ref($sizes) eq 'ARRAY' ) {
+    foreach ( @{$sizes} ) {
+      $_ = GAT::SizedImage->new($_) if (ref($_) eq 'HASH' );;
+	}
+  }
+  return $self;
+};
+
 sub _get_from_thingi_given_id {
-  my $id = shift;
-  my $request = $api_base . $id;
+  my ( $thing_id, $image_id ) = @_;
+  my $request = sprintf $api_base, $thing_id, $image_id;
   my $rest_client = GAT::_establish_rest_client('');
   my $response = $rest_client->GET($request);
   my $content = $response ->responseContent;

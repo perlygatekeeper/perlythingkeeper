@@ -125,7 +125,10 @@ sub _get_images_for_this_thing {
   my $content = $response->responseContent;
   my $return = decode_json($content);
   if ( ref($return) eq 'ARRAY' ) {
+    my $cnt=0;
     foreach ( @{$return} ) {
+	  # print $cnt++ . " ref of an image (" . ref($_) . ") with id: (" . $_->{id} . ")\n";
+	  $_->{'thing_id'} = $self->id;
       $_ = GAT::Image->new($_);
 	}
   }

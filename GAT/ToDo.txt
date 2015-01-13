@@ -6,17 +6,21 @@ General Notes:
     a) Comments
     b) Categories
     c) Tags
-  3) Make all user, thing and list of things attributes contain appropriate objects.
+  3) Add some rudimentory error checking whenever an API request is made
+  4) Make all user, thing and list of things attributes contain appropriate objects.
 *   a) prints, ancestors, and derivatives of a Thing
-    b) images, tags, files and categories of a Thing
-  4) gather and list aliases (thing: creator/user, comment: user/commenter, etc.)
-  5) Make Boolean type
-  6) Make url and *_url attributes URI objects
-  7) Add POST and other methods to change state on thingiverse, not just retrieve data.
-  8) Add documentation
-  9) Add example scripts
- 10) Submit to CPAN
- 11) Inform thingiverse.
+    b) images     of a Thing
+    c) tags       of a Thing
+    d) files      of a Thing
+    e) categories of a Thing
+  5) gather and list aliases (thing: creator/user, comment: user/commenter, etc.)
+  6) Make Boolean type
+  7) Make url and *_url attributes URI objects
+  8) Add POST and other methods to change state on thingiverse, not just retrieve data.
+  9) Add documentation
+ 10) Add example scripts
+ 11) Submit to CPAN
+ 12) Inform thingiverse.
 
 
 
