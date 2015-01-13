@@ -1,6 +1,6 @@
 #!/usr/bin/env perl 
 
-use Test::Most tests => 38 + 35;
+use Test::Most tests => 39 + 40;
 use Data::Dumper;
 
 use GAT;
@@ -52,6 +52,7 @@ can_ok( $thing, qw( ancestors ),           );
 can_ok( $thing, qw( derivatives ),         );
 can_ok( $thing, qw( prints ),              );
 can_ok( $thing, qw( images ),              );
+can_ok( $thing, qw( tags ),                );
 
     is( $thing->id,                  $id,                                    'id accessor' ); 
   like( $thing->name,                qr(Rounded Rectangular Parallelepiped), 'name accessor' ); 
@@ -103,11 +104,18 @@ SKIP: {
 $thing = GAT::Thing->new( 'id' => '209078' );
 SKIP: {
 	my $images = $thing->images;
-	skip "no prints for test thing", 1 unless defined($images);
-    ok( $images->isa('ArrayRef'),                     'images            an     ArraryRef' );
+	skip "no images for test thing", 1 unless defined($images);
+    is( ref($images),                'ARRAY',         'images is         an     ArraryRef' );
     is( @{$images},                  2,               'images contains           2 images' );
 	my $first_image = $images->[0];
     ok( $first_image->isa('GAT::Image'),              'first image is    a     GAT::Image' );
+}
+
+SKIP: {
+	my $tags = $thing->tags;
+	skip "no tags for test thing", 1 unless defined($tags);
+    is( ref($tags),                  'ARRAY',         'tags is           an     ArraryRef' );
+    is( @{$tags},                    6,               'tags contains               6 tags' );
 }
 
 if ( 0 ) {

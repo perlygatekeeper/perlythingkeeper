@@ -4,11 +4,12 @@ use Carp;
 use JSON;
 use GAT::Types;
 use GAT::Image;
+use GAT::Tag;
 
 extends('GAT');
 our $api_base = "/things/";
 
-has id                   => ( isa => 'Int',                     is => 'ro', required => 1, );
+has id                   => ( isa => 'ID',                      is => 'ro', required => 1, );
 has _original_json       => ( isa => 'Str',                     is => 'ro', required => 0, );
 has name                 => ( isa => 'Str',                     is => 'ro', required => 0, );
 has instructions         => ( isa => 'Str',                     is => 'ro', required => 0, );
@@ -30,7 +31,7 @@ has prints               => ( isa => 'ArrayRef[GAT::Thing]',    is => 'ro', requ
 has ancestors            => ( isa => 'ArrayRef[GAT::Thing]',    is => 'ro', required => 0, builder => '_get_ancestors_of_this_thing',   lazy => 1, );
 has derivatives          => ( isa => 'ArrayRef[GAT::Thing]',    is => 'ro', required => 0, builder => '_get_derivatives_of_this_thing', lazy => 1, );
 has images               => ( isa => 'ArrayRef[GAT::Image]',    is => 'ro', required => 0, builder => '_get_images_for_this_thing',     lazy => 1, );
-# has tags                 => ( isa => 'ArrayRef[GAT::Tag]',      is => 'ro', required => 0, );
+has tags                 => ( isa => 'ArrayRef[GAT::Tag]',      is => 'ro', required => 0, builder => '_get_tags_for_this_thing',       lazy => 1, );
 # has files                => ( isa => 'ArrayRef[GAT::File]',     is => 'ro', required => 0, );
 # has categories           => ( isa => 'ArrayRef[GAT::Category]', is => 'ro', required => 0, );
 has public_url           => ( isa => 'Str',                     is => 'ro', required => 0, );
@@ -130,6 +131,21 @@ sub _get_images_for_this_thing {
 	  # print $cnt++ . " ref of an image (" . ref($_) . ") with id: (" . $_->{id} . ")\n";
 	  $_->{'thing_id'} = $self->id;
       $_ = GAT::Image->new($_);
+	}
+  }
+# Copy Pagination code from Category.pm
+  return $return;
+}
+
+sub _get_tags_for_this_thing {
+  my $self = shift;
+  my $request = $api_base . $self->id . '/tags';
+  my $response = $self->rest_client->GET($request);
+  my $content = $response->responseContent;
+  my $return = decode_json($content);
+  if ( ref($return) eq 'ARRAY' ) {
+    foreach ( @{$return} ) {
+      $_ = GAT::Tag->new($_);
 	}
   }
 # Copy Pagination code from Category.pm

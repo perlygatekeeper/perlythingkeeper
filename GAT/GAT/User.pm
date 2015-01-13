@@ -41,19 +41,12 @@ around BUILDARGS => sub {
   my $name;
   my $json;
   my $hash;
-# print "yeah! I'm being run!\n";
-# print "orig is (" . $orig . ")\n";
-# print "class is (" . $class . ")\n";
-# print "rest is (" . join(', ',@_) . ")\n";
   if ( @_ == 1 && !ref $_[0] ) {
-#   print "given scalar name\n";
     # return $class->$orig( name => $_[0] );
     $name = $_[0];
   } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'name'} ) { # passed a hashref to a hash containing key 'name'
-#   print "given hashref with name\n";
     $name = ${$_[0]}->{'name'};
   } elsif ( @_ == 2 && $_[0] eq 'name' ) { # passed a hashref to a hash containing key 'name'
-#   print "given 'name' then name\n";
     $name = $_[1];
   } else {
     return $class->$orig(@_);

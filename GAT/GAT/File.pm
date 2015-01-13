@@ -7,7 +7,7 @@ use GAT::Types;
 extends('GAT');
 our $api_base = "/files/";
 
-has id             => ( isa => 'Str',       is => 'ro', required => 1, );
+has id             => ( isa => 'ID',        is => 'ro', required => 1, );
 has name           => ( isa => 'Str',       is => 'ro', required => 0, );
 has size           => ( isa => 'Size',      is => 'ro', required => 0, );
 has url            => ( isa => 'Str',       is => 'ro', required => 0, );

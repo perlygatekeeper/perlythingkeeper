@@ -3,13 +3,14 @@ General Notes:
 
   1) Pagination for:
   2) Add list methods:
-    a) Comments
-    b) Categories
-    c) Tags
+    a) Categories
+    b) Tags
+    c) Copies?
+    d) Things ( also special methods, newest, popular, featured)
   3) Add some rudimentory error checking whenever an API request is made
   4) Make all user, thing and list of things attributes contain appropriate objects.
 *   a) prints, ancestors, and derivatives of a Thing
-    b) images     of a Thing
+*   b) images     of a Thing
     c) tags       of a Thing
     d) files      of a Thing
     e) categories of a Thing
@@ -38,3 +39,21 @@ Per Module:
   7) File:
   8) Image:
     a) EVERYTHING!
+
+
+Tell Thingiverse about type on page: http://www.thingiverse.com/developers/rest-api-reference#copies
+
+Popular
+Get the latest >>>featured<<< things
+
+GET /popular/
+Returns
+
+NONE
+Featured
+Get the latest featured things
+
+GET /featured/
+Returns
+
+NONE
