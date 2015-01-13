@@ -11,7 +11,7 @@ has id                   => ( isa => 'Int',                        is => 'ro', r
 has _original_json       => ( isa => 'Str',                        is => 'ro', required => 0, );
 has name                 => ( isa => 'Str',                        is => 'ro', required => 0, );
 has url                  => ( isa => 'Str',                        is => 'ro', required => 0, );
-has sizes                => ( isa => 'ArraryRef[GAT::SizedImage]', is => 'ro', required => 0, );
+has sizes                => ( isa => 'ArrayRef[GAT::SizedImage]',  is => 'ro', required => 0, );
 
 around BUILDARGS => sub {
   my $orig = shift;
