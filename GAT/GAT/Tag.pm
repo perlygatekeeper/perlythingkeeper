@@ -50,6 +50,7 @@ sub _get_things_tagged_with_tag {
   my $self = shift;
   my $request = $api_base . $self->name . '/things';
   my $response = $self->rest_client->GET($request);
+# Copy Pagination code from Category.pm
   my $content = $response->responseContent;
   my $return = decode_json($content);
   return $return;
@@ -60,11 +61,7 @@ __PACKAGE__->meta->make_immutable;
 
 1;
 __END__
-client_id( q(c587f0f2ee04adbe719b) );
-access_token( q(b053a0798c50a84fbb80e66e51bba9c4) );
-
 special methods
 
 list
-things
 
