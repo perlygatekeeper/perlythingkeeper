@@ -1,4 +1,4 @@
-Get_A_Thing
+perlythingkeeper (formerly Get_A_Thing)
 ===========
 
 Get things from thingiverse.com via there API.
