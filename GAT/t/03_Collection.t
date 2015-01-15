@@ -3,13 +3,13 @@
 use Test::Most tests => 16 + 19;
 use Data::Dumper;
 
-use GAT;
+use Thingiverse;
 use Thingiverse::Collection;
 
 our $api_base = "/collections/";
 
 my $id           = '2334425';
-my $url          = $Thingiverse::api_uri_base . $GAT::Collection::api_base . $id;
+my $url          = $Thingiverse::api_uri_base . $Thingiverse::Collection::api_base . $id;
 my $name         = "Boxes and Containers";
 my $count        = 35;
 my $things        = 35;
@@ -23,7 +23,7 @@ my $collection = Thingiverse::Collection->new( 'id' => $id );
 # print Dumper($thing);
 
     ok( defined $collection,                 'Thingiverse::Collection  object is defined' ); 
-    ok( $collection->isa('Thingiverse::Collection'), 'can make an GAT::Collection object' ); 
+    ok( $collection->isa('Thingiverse::Collection'), 'can make an Thingiverse::Collection object' ); 
 can_ok( $collection, qw( id ),                  );
 can_ok( $collection, qw( name ),                );
 can_ok( $collection, qw( description ),         );

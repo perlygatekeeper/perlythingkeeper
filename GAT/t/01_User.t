@@ -8,7 +8,7 @@ use Thingiverse::User;
 my $user = Thingiverse::User->new( 'name' => 'perlygatekeeper' );
 
     ok( defined $user,            'Thingiverse::User object is defined' ); 
-    ok( $user->isa('Thingiverse::User'), 'can make an GAT::User object' ); 
+    ok( $user->isa('Thingiverse::User'), 'can make an Thingiverse::User object' ); 
 can_ok( $user, qw( id ),              );
 can_ok( $user, qw( name ),            );
 can_ok( $user, qw( first_name ),      );

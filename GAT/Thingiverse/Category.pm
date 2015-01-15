@@ -5,7 +5,7 @@ use JSON;
 use Thingiverse::Types;
 # use Thingiverse::User;
 
-extends('GAT');
+extends('Thingiverse');
 our $api_base = "/categories/";
 
 has name              => ( isa => 'Str',               is => 'ro', required => 1, );

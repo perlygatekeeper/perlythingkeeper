@@ -4,7 +4,7 @@ use Test::Most;
 use Test::Exception;
 use Data::Dumper;
 
-use GAT;
+use Thingiverse;
 use Thingiverse::Pagination;
 
 my $page             = 2;
@@ -14,7 +14,7 @@ my $default_per_page = 30;
 my $pagination = Thingiverse::Pagination->new( { page => $page, per_page => $per_page } );
 
     ok( defined $pagination,               'Thingiverse::Pagination object is defined' ); 
-    ok( $pagination->isa('Thingiverse::Pagination'),    'can make an GAT::Pagination object' ); 
+    ok( $pagination->isa('Thingiverse::Pagination'),    'can make an Thingiverse::Pagination object' ); 
 can_ok( $pagination, qw( page ),                );
 can_ok( $pagination, qw( per_page ),            );
 

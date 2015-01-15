@@ -4,7 +4,7 @@ use Carp;
 use JSON;
 use Thingiverse::Types;
 
-extends('GAT');
+extends('Thingiverse');
 our $api_base = "/collections/";
 
 has id             => ( isa => 'ID',                  is => 'ro', required => 1, );

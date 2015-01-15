@@ -3,18 +3,18 @@
 use Test::Most tests => 7 + 5;
 use Data::Dumper;
 
-use GAT;
+use Thingiverse;
 use Thingiverse::Thing;
 
 my $id         = '209078';
 my $public_url = 'http://www.thingiverse.com/thing:'        . $id;
-my $url        = $Thingiverse::api_uri_base . $GAT::Thing::api_base . $id;
+my $url        = $Thingiverse::api_uri_base . $Thingiverse::Thing::api_base . $id;
 
 my $thing = Thingiverse::Thing->new( 'id' => $id );
 # print Dumper($thing);
 
     ok( defined $thing,            'Thingiverse::Thing object is defined' ); 
-    ok( $thing->isa('Thingiverse::Thing'), 'can make an GAT::Thing object' ); 
+    ok( $thing->isa('Thingiverse::Thing'), 'can make an Thingiverse::Thing object' ); 
 can_ok( $thing, qw( id ),                  );
 can_ok( $thing, qw( name ),                );
 can_ok( $thing, qw( public_url ),          );
@@ -53,14 +53,14 @@ Class methods or things.pm as well as thing.pm?
 use Test::Most tests => 10 + 6;
 use Data::Dumper;
 
-use GAT;
+use Thingiverse;
 use Thingiverse::Category;
 
 our $api_base = "/categories/";
 
 my $name       = 'Tools'; # tools gives a count of 10435 while Tools gives 10439, odd?
-my $url        = $Thingiverse::api_uri_base . $GAT::Category::api_base . lc $name;
-my $things_url = $Thingiverse::api_uri_base . $GAT::Category::api_base . lc $name . '/things';
+my $url        = $Thingiverse::api_uri_base . $Thingiverse::Category::api_base . lc $name;
+my $things_url = $Thingiverse::api_uri_base . $Thingiverse::Category::api_base . lc $name . '/things';
 my $count      = 10439;
 my $things     = ( $count > 30 ) ? 30 : $count;
 my $children   = 4;
@@ -69,7 +69,7 @@ my $category = Thingiverse::Category->new( 'name' => $name );
 # print Dumper($thing);
 
     ok( defined $category,          'Thingiverse::Category  object is defined' ); 
-    ok( $category->isa('Thingiverse::Category'), 'can make an GAT::Category object' ); 
+    ok( $category->isa('Thingiverse::Category'), 'can make an Thingiverse::Category object' ); 
 can_ok( $category, qw( name ),                );
 can_ok( $category, qw( count ),               );
 can_ok( $category, qw( url ),                 );

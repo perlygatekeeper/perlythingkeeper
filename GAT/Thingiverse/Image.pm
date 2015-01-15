@@ -5,7 +5,7 @@ use JSON;
 use Thingiverse::Types;
 use Thingiverse::SizedImage;
 
-extends('GAT');
+extends('Thingiverse');
 our $api_base = "/thing/%d/images/%d";
 
 has thing_id             => ( isa => 'ID',                         is => 'ro', required => 1, );
@@ -51,7 +51,7 @@ around BUILDARGS => sub {
     $thing_id = $_[0];
     $image_id = $_[1];
   } else {
-    my $return = $class->$orig(@_); # almost all Thingiverse::Image creatations will be from an predefined hash from a GAT::Thing or GAT::Collection.
+    my $return = $class->$orig(@_); # almost all Thingiverse::Image creatations will be from an predefined hash from a Thingiverse::Thing or Thingiverse::Collection.
 	$return = _get_sized_versions_of_this_image($return);;
 	return $return;
   }

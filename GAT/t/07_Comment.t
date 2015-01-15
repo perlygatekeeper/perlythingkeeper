@@ -3,7 +3,7 @@
 use Test::Most tests => 15 + 11;
 use Data::Dumper;
 
-use GAT;
+use Thingiverse;
 use Thingiverse::Comment;
 
 my $id           = '547395';
@@ -11,7 +11,7 @@ my $target_id    = '316754';
 my $target_type  = 'thing';
 my $body         = qr(edge.*ratio.*1:4:9);
 my $public_url   = sprintf 'http://www.thingiverse.com/%s:%s#comment-%s', $target_type, $target_id, $id;
-my $url          = $Thingiverse::api_uri_base . $GAT::Comment::api_base . $id;
+my $url          = $Thingiverse::api_uri_base . $Thingiverse::Comment::api_base . $id;
 my $target_url   = $Thingiverse::api_uri_base . '/' . $target_type . '/' . $target_id;
 my $commenter_id = '16273';
 my $parent_id    = '';
@@ -22,7 +22,7 @@ my $comment = Thingiverse::Comment->new( 'id' => $id );
 # print Dumper($comment);
 
     ok( defined $comment,            'Thingiverse::Comment object is defined' ); 
-    ok( $comment->isa('Thingiverse::Comment'), 'can make an GAT::Comment object' ); 
+    ok( $comment->isa('Thingiverse::Comment'), 'can make an Thingiverse::Comment object' ); 
 can_ok( $comment, qw( id ),          );
 can_ok( $comment, qw( url ),         );
 can_ok( $comment, qw( target_type ), );

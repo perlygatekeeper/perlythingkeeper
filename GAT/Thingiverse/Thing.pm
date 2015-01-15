@@ -6,7 +6,7 @@ use Thingiverse::Types;
 use Thingiverse::Image;
 use Thingiverse::Tag;
 
-extends('GAT');
+extends('Thingiverse');
 our $api_base = "/things/";
 
 has id                   => ( isa => 'ID',                      is => 'ro', required => 1, );

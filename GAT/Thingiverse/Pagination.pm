@@ -4,7 +4,7 @@ use Carp;
 use JSON;
 use Thingiverse::Types;
 
-extends('GAT');
+extends('Thingiverse');
 
 has page      => ( isa => 'Page',    is => 'ro', required => 0, default => 1 );
 has per_page  => ( isa => 'PerPage', is => 'ro', required => 0, default => 30 );
