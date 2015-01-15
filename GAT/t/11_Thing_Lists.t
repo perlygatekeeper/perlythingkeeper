@@ -1,15 +1,43 @@
+#!/usr/bin/env perl 
+
+use Test::Most;
+use Data::Dumper;
+
+use Thingiverse;
+use Thingiverse::Thing;
+
+my $newest_things = Thingiverse::Thing->newest( );
+# print Dumper($newest_things);
+
+    ok( defined $newest_things,            'Thingiverse::Thing object is defined' ); 
+can_ok( $newest_things, qw( things ),      );
+can_ok( $newest_things, qw( things_api ),  );
+can_ok( $newest_things, qw( search_term ), );
+can_ok( $newest_things, qw( thing_id ),    );
+can_ok( $newest_things, qw( request_url ), );
+
+    is( $newest_things->things_api,    'newest',     "api 'things'   given to Thingiverse::Thing::List was correct", );
+    is( $newest_things->request_url,   '/newest/',   "correct request_url was generated", );
+
+$newest_things = Thingiverse::Thing->popular( );
+    is( $newest_things->things_api,    'popular',    "api 'popular'  given to Thingiverse::Thing::List was correct", );
+    is( $newest_things->request_url,   '/popular/',  "correct request_url was generated", );
+
+$newest_things = Thingiverse::Thing->featured( );
+    is( $newest_things->things_api,    'featured',   "api 'featured' given to Thingiverse::Thing::List was correct", );
+    is( $newest_things->request_url,   '/featured/', "correct request_url was generated", );
+
+done_testing;
+
+exit 0;
+__END__
+
 package Thingiverse::Thing::List;
 use Moose;
 use Carp;
 use JSON;
 use Thingiverse::Types;
 
-# each of these 9 API's returns a list of Thingiverse::Things
-# and will benefit from the traits of ['Array'] provided by
-# Moose::Meta::Attribute::Native::Trait::Array
-# four of these API's need additional information
-# search API needs a search term
-# ancestors, derivates and prints  APIs all need a thing_id
 
 our $api_bases = {
   things      => "/things/",
@@ -23,11 +51,10 @@ our $api_bases = {
   prints      => '/things/%s/prints',
 };
 
-has things_api  => ( isa => 'Things_API',              is => 'ro', required => 1, );
-has thing_id    => ( isa => 'ID',                      is => 'ro', required => 0, );
-has search_term => ( isa => 'Str',                     is => 'ro', required => 0, );
-has request_url => ( isa => 'Str',                     is => 'ro', required => 0, );
-has pagination  => ( isa => 'Thingiverse::Pagination', is => 'ro', required => 0, );
+has things_api  => ( isa => 'Things_API', is => 'ro', required => 1, );
+has thing_id    => ( isa => 'ID',         is => 'ro', required => 0, );
+has search_term => ( isa => 'Str',        is => 'ro', required => 0, );
+has request_url => ( isa => 'Str',        is => 'ro', required => 0, );
 
 has things  => (
   traits   => ['Array'],
@@ -124,21 +151,4 @@ search
 things (without an id)
 
 Need Pagination work for this one.
-
-Could do the same (or something similar) for Categories, Collections, Tags, Images and Files.
-
-
-	use Switch;
-	switch ($val) {
-		case 1		{ print "number 1" }
-		case "a"	{ print "string a" }
-		case [1..10,42]	{ print "number in list" }
-		case (@array)	{ print "number in list" }
-		case /\w+/	{ print "pattern" }
-		case qr/\w+/	{ print "pattern" }
-		case (%hash)	{ print "entry in hash" }
-		case (\%hash)	{ print "entry in hash" }
-		case (\&sub)	{ print "arg to subroutine" }
-		else		{ print "previous case not true" }
-	}
 

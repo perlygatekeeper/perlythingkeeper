@@ -73,5 +73,7 @@ package Thingiverse::Types;
 
   enum 'ThingiverseImageSize', [ qw( birdwing card featured large medium small tiny tinycard ) ];
 
+  enum 'Things_API', [ qw( things search newest popular featured copies ancestors derivatives prints ) ];
+
 no Moose::Util::TypeConstraints;
 1;

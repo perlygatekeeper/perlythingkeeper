@@ -58,7 +58,12 @@ around BUILDARGS => sub {
   my $id;
   my $json;
   my $hash;
-  if ( @_ == 1 && !ref $_[0] ) {
+  # first we check if we can by-pass making an API call to Thingiverse, since the hash was populated via a seperate call
+  if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'just_bless'} && ${$_[0]}{'id'}) {
+#   print "just bless this thing!\n";
+    delete ${$_[0]}{'just_bless'};
+    return $class->$orig(@_);
+  } elsif ( @_ == 1 && !ref $_[0] ) {
     $id = $_[0];
   } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} ) { # passed a hashref to a hash containing key 'id'
     $id = ${$_[0]}{'id'};
@@ -153,10 +158,6 @@ sub _get_tags_for_this_thing {
   return $return;
 }
 
-sub newest {
-  1;
-}
-
 no Moose;
 __PACKAGE__->meta->make_immutable;
 
@@ -167,6 +168,7 @@ sub list {
 }
 
 sub newest {
+  my $class = shift;
   return Thingiverse::Thing::List->new( 'newest' );
 }
 
@@ -183,20 +185,20 @@ sub search {
   return Thingiverse::Thing::List->new( { api => 'search', search_term => $search_term  } );
 }
 
-sub ancestors {
-  my $thing_id = shift;
-  return Thingiverse::Thing::List->new( { api => 'ancestors', thing_id => $thing_id  } );
-}
-
-sub derivatives {
-  my $thing_id = shift;
-  return Thingiverse::Thing::List->new( { api => 'derivatives', thing_id => $thing_id  } );
-}
-
-sub prints {
-  my $thing_id = shift;
-  return Thingiverse::Thing::List->new( { api => 'prints', thing_id => $thing_id  } );
-}
+# sub ancestors {
+#   my $thing_id = shift;
+#   return Thingiverse::Thing::List->new( { api => 'ancestors', thing_id => $thing_id  } );
+# }
+# 
+# sub derivatives {
+#   my $thing_id = shift;
+#   return Thingiverse::Thing::List->new( { api => 'derivatives', thing_id => $thing_id  } );
+# }
+# 
+# sub prints {
+#   my $thing_id = shift;
+#   return Thingiverse::Thing::List->new( { api => 'prints', thing_id => $thing_id  } );
+# }
 
 1;
 __END__
