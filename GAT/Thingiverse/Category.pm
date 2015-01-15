@@ -1,9 +1,9 @@
-package GAT::Category;
+package Thingiverse::Category;
 use Moose;
 use Carp;
 use JSON;
-use GAT::Types;
-# use GAT::User;
+use Thingiverse::Types;
+# use Thingiverse::User;
 
 extends('GAT');
 our $api_base = "/categories/";
@@ -43,7 +43,7 @@ around BUILDARGS => sub {
 sub _get_category_given_name {
   my $name = shift;
   my $request = $api_base . $name;
-  my $rest_client = GAT::_establish_rest_client('');
+  my $rest_client = Thingiverse::_establish_rest_client('');
   my $response = $rest_client->GET($request);
   my $content = $response->responseContent;
   return $content;

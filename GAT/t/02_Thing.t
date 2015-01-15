@@ -4,18 +4,18 @@ use Test::Most tests => 39 + 40;
 use Data::Dumper;
 
 use GAT;
-use GAT::Thing;
+use Thingiverse::Thing;
 
 my $id         = '314355';
 my $public_url = 'http://www.thingiverse.com/thing:'        . $id;
-my $url        = $GAT::api_uri_base . $GAT::Thing::api_base . $id;
-my $layout_url = $GAT::api_uri_base . '/layouts/' . $id;
+my $url        = $Thingiverse::api_uri_base . $GAT::Thing::api_base . $id;
+my $layout_url = $Thingiverse::api_uri_base . '/layouts/' . $id;
 
-my $thing = GAT::Thing->new( 'id' => $id );
+my $thing = Thingiverse::Thing->new( 'id' => $id );
 # print Dumper($thing);
 
-    ok( defined $thing,            'GAT::Thing object is defined' ); 
-    ok( $thing->isa('GAT::Thing'), 'can make an GAT::Thing object' ); 
+    ok( defined $thing,            'Thingiverse::Thing object is defined' ); 
+    ok( $thing->isa('Thingiverse::Thing'), 'can make an GAT::Thing object' ); 
 can_ok( $thing, qw( id ),                  );
 can_ok( $thing, qw( name ),                );
 can_ok( $thing, qw( instructions ),        );
@@ -86,7 +86,7 @@ can_ok( $thing, qw( tags ),                );
   like( $thing->collect_count,       qr(^\d+), 'collect_count accessor' );
   like( $thing->print_history_count, qr(^\d+), 'print_history_count accessor' );
 
-$thing = GAT::Thing->new( 'id' => '316754' );
+$thing = Thingiverse::Thing->new( 'id' => '316754' );
 SKIP: {
 	skip "no prints for test thing", 1 unless defined($thing->prints);
     is( @{$thing->prints},           0,        'prints         an  ArraryRef' );
@@ -101,14 +101,14 @@ SKIP: {
     is( @{$thing->derivatives},      0,        'derivatives    an  ArraryRef' );
 }
 
-$thing = GAT::Thing->new( 'id' => '209078' );
+$thing = Thingiverse::Thing->new( 'id' => '209078' );
 SKIP: {
 	my $images = $thing->images;
 	skip "no images for test thing", 1 unless defined($images);
     is( ref($images),                'ARRAY',         'images is         an     ArraryRef' );
     is( @{$images},                  2,               'images contains           2 images' );
 	my $first_image = $images->[0];
-    ok( $first_image->isa('GAT::Image'),              'first image is    a     GAT::Image' );
+    ok( $first_image->isa('Thingiverse::Image'),              'first image is    a     GAT::Image' );
 }
 
 SKIP: {

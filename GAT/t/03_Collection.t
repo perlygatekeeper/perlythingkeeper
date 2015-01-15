@@ -4,12 +4,12 @@ use Test::Most tests => 16 + 19;
 use Data::Dumper;
 
 use GAT;
-use GAT::Collection;
+use Thingiverse::Collection;
 
 our $api_base = "/collections/";
 
 my $id           = '2334425';
-my $url          = $GAT::api_uri_base . $GAT::Collection::api_base . $id;
+my $url          = $Thingiverse::api_uri_base . $GAT::Collection::api_base . $id;
 my $name         = "Boxes and Containers";
 my $count        = 35;
 my $things        = 35;
@@ -19,11 +19,11 @@ my $creator_name = 'perlygatekeeper';
 # maximum of 30 things returned for collections?
 $things = ( $things > 30 ) ? 30 : $things;
 
-my $collection = GAT::Collection->new( 'id' => $id );
+my $collection = Thingiverse::Collection->new( 'id' => $id );
 # print Dumper($thing);
 
-    ok( defined $collection,                 'GAT::Collection  object is defined' ); 
-    ok( $collection->isa('GAT::Collection'), 'can make an GAT::Collection object' ); 
+    ok( defined $collection,                 'Thingiverse::Collection  object is defined' ); 
+    ok( $collection->isa('Thingiverse::Collection'), 'can make an GAT::Collection object' ); 
 can_ok( $collection, qw( id ),                  );
 can_ok( $collection, qw( name ),                );
 can_ok( $collection, qw( description ),         );

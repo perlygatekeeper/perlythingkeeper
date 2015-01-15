@@ -1,8 +1,8 @@
-package GAT::Collection;
+package Thingiverse::Collection;
 use Moose;
 use Carp;
 use JSON;
-use GAT::Types;
+use Thingiverse::Types;
 
 extends('GAT');
 our $api_base = "/collections/";
@@ -47,7 +47,7 @@ around BUILDARGS => sub {
 sub _get_from_collection_given_id {
   my $id = shift;
   my $request = $api_base . $id;
-  my $rest_client = GAT::_establish_rest_client('');
+  my $rest_client = Thingiverse::_establish_rest_client('');
   my $response = $rest_client->GET($request);
   my $content = $response ->responseContent;
   return $content;

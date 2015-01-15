@@ -4,7 +4,7 @@ use Test::Most tests => 11 + 8;
 use Data::Dumper;
 
 use GAT;
-use GAT::File;
+use Thingiverse::File;
 
 my $id           = '556207';
 my $image_id     = '875072';
@@ -12,13 +12,13 @@ my $image_id     = '875072';
 my $name         = qr(rounded.rectangular.parallelepiped.*\.stl);
 my $size         = '57251';
 my $public_url   = 'http://www.thingiverse.com/download:'    . $id;
-my $url          = $GAT::api_uri_base . $GAT::File::api_base . $id;
+my $url          = $Thingiverse::api_uri_base . $GAT::File::api_base . $id;
 
-my $file = GAT::File->new( 'id' => $id );
+my $file = Thingiverse::File->new( 'id' => $id );
 # print Dumper($file);
 
-    ok( defined $file,            'GAT::File object is defined' ); 
-    ok( $file->isa('GAT::File'), 'can make an GAT::File object' ); 
+    ok( defined $file,            'Thingiverse::File object is defined' ); 
+    ok( $file->isa('Thingiverse::File'), 'can make an GAT::File object' ); 
 can_ok( $file, qw( id ),                  );
 can_ok( $file, qw( name ),                );
 can_ok( $file, qw( size ),                );

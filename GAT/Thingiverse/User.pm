@@ -1,8 +1,8 @@
-package GAT::User;
+package Thingiverse::User;
 use Moose;
 use Carp;
 use JSON;
-use GAT::Types;
+use Thingiverse::Types;
 
 extends('GAT');
 our $api_base = "/users/";
@@ -28,10 +28,10 @@ has default_license => ( isa => 'Str',                       is => 'ro', require
 has email           => ( isa => 'Str',                       is => 'ro', required => 0, );
 has is_following    => ( isa => 'Boolean',                   is => 'ro', required => 0, );
 has things          => ( isa => 'ArrayRef[HashRef]',         is => 'ro', required => 0, builder => '_get_things_owned_by_user' );
-# has likes           => ( isa => 'ArrayRef[GAT::Thing]',      is => 'ro', required => 0, builder                                => '_get_things_liked_by_user' );
-# has copies          => ( isa => 'ArrayRef[GAT::Thing]',      is => 'ro', required => 0, builder                                => '_get_things_copied_by_user' );
-# has downloads       => ( isa => 'ArrayRef[GAT::Thing]',      is => 'ro', required => 0, builder                                => '_get_things_downloaded_by_user' );
-# has collections     => ( isa => 'ArrayRef[GAT::Collection]', is => 'ro', required => 0, builder                                => '_get_collections_created_by_user' );
+# has likes           => ( isa => 'ArrayRef[Thingiverse::Thing]',      is => 'ro', required => 0, builder                                => '_get_things_liked_by_user' );
+# has copies          => ( isa => 'ArrayRef[Thingiverse::Thing]',      is => 'ro', required => 0, builder                                => '_get_things_copied_by_user' );
+# has downloads       => ( isa => 'ArrayRef[Thingiverse::Thing]',      is => 'ro', required => 0, builder                                => '_get_things_downloaded_by_user' );
+# has collections     => ( isa => 'ArrayRef[Thingiverse::Collection]', is => 'ro', required => 0, builder                                => '_get_collections_created_by_user' );
 # has avatarimage     => ( isa => 'Str',                       is => 'ro', required => 0, builder                                => '_set_avatar_for_user' );
 # has coverimage      => ( isa => 'Str',                       is => 'ro', required => 0, builder                                => '_set_coverimage_for_user' );
 
@@ -68,7 +68,7 @@ sub _get_from_thingi {
 sub _get_from_thingi_given_name {
   my $name = shift;
   my $request = $api_base . $name;
-  my $rest_client = GAT::_establish_rest_client('');
+  my $rest_client = Thingiverse::_establish_rest_client('');
   my $response = $rest_client->GET($request);
   my $content = $response->responseContent;
   return $content;

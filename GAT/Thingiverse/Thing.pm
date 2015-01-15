@@ -1,10 +1,10 @@
-package GAT::Thing;
+package Thingiverse::Thing;
 use Moose;
 use Carp;
 use JSON;
-use GAT::Types;
-use GAT::Image;
-use GAT::Tag;
+use Thingiverse::Types;
+use Thingiverse::Image;
+use Thingiverse::Tag;
 
 extends('GAT');
 our $api_base = "/things/";
@@ -27,13 +27,13 @@ has is_published         => ( isa => 'Any',                     is => 'ro', requ
 has added                => ( isa => 'Str',                     is => 'ro', required => 0, );
 has modified             => ( isa => 'Str',                     is => 'ro', required => 0, );
 has license              => ( isa => 'Str',                     is => 'ro', required => 0, );
-has prints               => ( isa => 'ArrayRef[GAT::Thing]',    is => 'ro', required => 0, builder => '_get_prints_of_this_thing',      lazy => 1, );
-has ancestors            => ( isa => 'ArrayRef[GAT::Thing]',    is => 'ro', required => 0, builder => '_get_ancestors_of_this_thing',   lazy => 1, );
-has derivatives          => ( isa => 'ArrayRef[GAT::Thing]',    is => 'ro', required => 0, builder => '_get_derivatives_of_this_thing', lazy => 1, );
-has images               => ( isa => 'ArrayRef[GAT::Image]',    is => 'ro', required => 0, builder => '_get_images_for_this_thing',     lazy => 1, );
-has tags                 => ( isa => 'ArrayRef[GAT::Tag]',      is => 'ro', required => 0, builder => '_get_tags_for_this_thing',       lazy => 1, );
-# has files                => ( isa => 'ArrayRef[GAT::File]',     is => 'ro', required => 0, );
-# has categories           => ( isa => 'ArrayRef[GAT::Category]', is => 'ro', required => 0, );
+has prints               => ( isa => 'ArrayRef[Thingiverse::Thing]',    is => 'ro', required => 0, builder => '_get_prints_of_this_thing',      lazy => 1, );
+has ancestors            => ( isa => 'ArrayRef[Thingiverse::Thing]',    is => 'ro', required => 0, builder => '_get_ancestors_of_this_thing',   lazy => 1, );
+has derivatives          => ( isa => 'ArrayRef[Thingiverse::Thing]',    is => 'ro', required => 0, builder => '_get_derivatives_of_this_thing', lazy => 1, );
+has images               => ( isa => 'ArrayRef[Thingiverse::Image]',    is => 'ro', required => 0, builder => '_get_images_for_this_thing',     lazy => 1, );
+has tags                 => ( isa => 'ArrayRef[Thingiverse::Tag]',      is => 'ro', required => 0, builder => '_get_tags_for_this_thing',       lazy => 1, );
+# has files                => ( isa => 'ArrayRef[Thingiverse::File]',     is => 'ro', required => 0, );
+# has categories           => ( isa => 'ArrayRef[Thingiverse::Category]', is => 'ro', required => 0, );
 has public_url           => ( isa => 'Str',                     is => 'ro', required => 0, );
 has url                  => ( isa => 'Str',                     is => 'ro', required => 0, );
 has tags_url             => ( isa => 'Str',                     is => 'ro', required => 0, );
@@ -75,7 +75,7 @@ around BUILDARGS => sub {
 sub _get_from_thingi_given_id {
   my $id = shift;
   my $request = $api_base . $id;
-  my $rest_client = GAT::_establish_rest_client('');
+  my $rest_client = Thingiverse::_establish_rest_client('');
   my $response = $rest_client->GET($request);
   my $content = $response ->responseContent;
   return $content;
@@ -102,7 +102,7 @@ sub _get_ancestors_of_this_thing {
   my $return = decode_json($content);
   if ( ref($return) eq 'ARRAY' ) {
     foreach ( @{$return} ) {
-      $_ = GAT::Thing->new($_);
+      $_ = Thingiverse::Thing->new($_);
 	}
   }
 # Copy Pagination code from Category.pm
@@ -130,7 +130,7 @@ sub _get_images_for_this_thing {
     foreach ( @{$return} ) {
 	  # print $cnt++ . " ref of an image (" . ref($_) . ") with id: (" . $_->{id} . ")\n";
 	  $_->{'thing_id'} = $self->id;
-      $_ = GAT::Image->new($_);
+      $_ = Thingiverse::Image->new($_);
 	}
   }
 # Copy Pagination code from Category.pm
@@ -145,7 +145,7 @@ sub _get_tags_for_this_thing {
   my $return = decode_json($content);
   if ( ref($return) eq 'ARRAY' ) {
     foreach ( @{$return} ) {
-      $_ = GAT::Tag->new($_);
+      $_ = Thingiverse::Tag->new($_);
 	}
   }
 # Copy Pagination code from Category.pm

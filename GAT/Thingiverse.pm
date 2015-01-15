@@ -1,8 +1,7 @@
-package GAT;
+package Thingiverse;
 use Moose;
 use Carp;
 use REST::Client;
-# extends REST::Client;
 
 my $VERSION="0.1.0";
 

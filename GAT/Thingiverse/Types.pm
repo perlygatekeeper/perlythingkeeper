@@ -1,4 +1,4 @@
-package GAT::Types;
+package Thingiverse::Types;
 
   use Moose::Util::TypeConstraints;
   use DateTime;

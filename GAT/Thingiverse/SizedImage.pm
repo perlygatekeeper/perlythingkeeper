@@ -1,8 +1,8 @@
-package GAT::SizedImage;
+package Thingiverse::SizedImage;
 use Moose;
 use Carp;
 use JSON;
-use GAT::Types;
+use Thingiverse::Types;
 
 has url   => ( isa => 'Str',                  is => 'ro', required => 0, );
 has type  => ( isa => 'ThingiverseImageType', is => 'ro', required => 0, );
@@ -15,7 +15,7 @@ __PACKAGE__->meta->make_immutable;
 __END__
 
 
-from images attribute of GAT::Image
+from images attribute of Thingiverse::Image
   sizes: [15]
   0:  {
     type: "thumb"

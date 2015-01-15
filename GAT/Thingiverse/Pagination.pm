@@ -1,8 +1,8 @@
-package GAT::Pagination;
+package Thingiverse::Pagination;
 use Moose;
 use Carp;
 use JSON;
-use GAT::Types;
+use Thingiverse::Types;
 
 extends('GAT');
 

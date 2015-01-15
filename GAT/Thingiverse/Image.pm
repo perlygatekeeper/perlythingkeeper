@@ -1,9 +1,9 @@
-package GAT::Image;
+package Thingiverse::Image;
 use Moose;
 use Carp;
 use JSON;
-use GAT::Types;
-use GAT::SizedImage;
+use Thingiverse::Types;
+use Thingiverse::SizedImage;
 
 extends('GAT');
 our $api_base = "/thing/%d/images/%d";
@@ -13,12 +13,12 @@ has id                   => ( isa => 'ID',                         is => 'ro', r
 has _original_json       => ( isa => 'Str',                        is => 'ro', required => 0, );
 has name                 => ( isa => 'Str',                        is => 'ro', required => 0, );
 has url                  => ( isa => 'Str',                        is => 'ro', required => 0, );
-# has sizes                => ( isa => 'ArrayRef[GAT::SizedImage]',  is => 'ro', required => 0, builder => '_get_sized_versions_of_this_image' );
+# has sizes                => ( isa => 'ArrayRef[Thingiverse::SizedImage]',  is => 'ro', required => 0, builder => '_get_sized_versions_of_this_image' );
 
 has sizes  => (
   traits   => ['Array'],
   is       => 'ro',
-  isa      => 'ArrayRef[GAT::SizedImage]',
+  isa      => 'ArrayRef[Thingiverse::SizedImage]',
   required => 0,
   handles  => {
     all_sizes      => 'elements',
@@ -51,7 +51,7 @@ around BUILDARGS => sub {
     $thing_id = $_[0];
     $image_id = $_[1];
   } else {
-    my $return = $class->$orig(@_); # almost all GAT::Image creatations will be from an predefined hash from a GAT::Thing or GAT::Collection.
+    my $return = $class->$orig(@_); # almost all Thingiverse::Image creatations will be from an predefined hash from a GAT::Thing or GAT::Collection.
 	$return = _get_sized_versions_of_this_image($return);;
 	return $return;
   }
@@ -66,7 +66,7 @@ sub _get_sized_versions_of_this_image {
   my $sizes = $self->{sizes};
   if ( ref($sizes) eq 'ARRAY' ) {
     foreach ( @{$sizes} ) {
-      $_ = GAT::SizedImage->new($_) if (ref($_) eq 'HASH' );;
+      $_ = Thingiverse::SizedImage->new($_) if (ref($_) eq 'HASH' );;
 	}
   }
   return $self;
@@ -75,7 +75,7 @@ sub _get_sized_versions_of_this_image {
 sub _get_from_thingi_given_id {
   my ( $thing_id, $image_id ) = @_;
   my $request = sprintf $api_base, $thing_id, $image_id;
-  my $rest_client = GAT::_establish_rest_client('');
+  my $rest_client = Thingiverse::_establish_rest_client('');
   my $response = $rest_client->GET($request);
   my $content = $response ->responseContent;
   return $content;

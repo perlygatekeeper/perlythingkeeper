@@ -1,10 +1,10 @@
-package GAT::Thing::List;
+package Thingiverse::Thing::List;
 use Moose;
 use Carp;
 use JSON;
-use GAT::Types;
+use Thingiverse::Types;
 
-# each of these 9 API's returns a list of GAT::Things
+# each of these 9 API's returns a list of Thingiverse::Things
 # and will benefit from the traits of ['Array'] provided by
 # Moose::Meta::Attribute::Native::Trait::Array
 # four of these API's need additional information
@@ -31,7 +31,7 @@ has request_url => ( isa => 'Str',        is => 'ro', required => 0, );
 has things  => (
   traits   => ['Array'],
   is       => 'ro',
-  isa      => 'ArrayRef[GAT::Thing]',
+  isa      => 'ArrayRef[Thingiverse::Thing]',
   required => 0,
   handles  => {
     all_sizes      => 'elements',
@@ -84,7 +84,7 @@ around BUILDARGS => sub {
 
 sub _get_from_thingiverse {
   my $request = shift;
-  my $rest_client = GAT::_establish_rest_client('');
+  my $rest_client = Thingiverse::_establish_rest_client('');
   my $response = $rest_client->GET($request);
   my $content = $response->responseContent;
   return $content;

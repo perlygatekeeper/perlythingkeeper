@@ -4,17 +4,17 @@ use Test::Most tests => 7 + 5;
 use Data::Dumper;
 
 use GAT;
-use GAT::Thing;
+use Thingiverse::Thing;
 
 my $id         = '209078';
 my $public_url = 'http://www.thingiverse.com/thing:'        . $id;
-my $url        = $GAT::api_uri_base . $GAT::Thing::api_base . $id;
+my $url        = $Thingiverse::api_uri_base . $GAT::Thing::api_base . $id;
 
-my $thing = GAT::Thing->new( 'id' => $id );
+my $thing = Thingiverse::Thing->new( 'id' => $id );
 # print Dumper($thing);
 
-    ok( defined $thing,            'GAT::Thing object is defined' ); 
-    ok( $thing->isa('GAT::Thing'), 'can make an GAT::Thing object' ); 
+    ok( defined $thing,            'Thingiverse::Thing object is defined' ); 
+    ok( $thing->isa('Thingiverse::Thing'), 'can make an GAT::Thing object' ); 
 can_ok( $thing, qw( id ),                  );
 can_ok( $thing, qw( name ),                );
 can_ok( $thing, qw( public_url ),          );

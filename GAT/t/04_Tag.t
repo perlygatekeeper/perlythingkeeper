@@ -4,20 +4,20 @@ use Test::Most tests => 5 + 4;
 use Data::Dumper;
 
 use GAT;
-use GAT::Tag;
+use Thingiverse::Tag;
 
 our $api_base = "/tags/";
 
 my $name       = 'tool';
-my $url        = $GAT::api_uri_base . $GAT::Tag::api_base . $name;
-my $things_url = $GAT::api_uri_base . $GAT::Tag::api_base . $name . '/things';
+my $url        = $Thingiverse::api_uri_base . $GAT::Tag::api_base . $name;
+my $things_url = $Thingiverse::api_uri_base . $GAT::Tag::api_base . $name . '/things';
 my $count      = 1419;
 
-my $tag = GAT::Tag->new( 'name' => $name );
+my $tag = Thingiverse::Tag->new( 'name' => $name );
 # print Dumper($thing);
 
-    ok( defined $tag,          'GAT::Tag  object is defined' ); 
-    ok( $tag->isa('GAT::Tag'), 'can make an GAT::Tag object' ); 
+    ok( defined $tag,          'Thingiverse::Tag  object is defined' ); 
+    ok( $tag->isa('Thingiverse::Tag'), 'can make an GAT::Tag object' ); 
 can_ok( $tag, qw( name ),                );
 can_ok( $tag, qw( count ),               );
 can_ok( $tag, qw( url ),                 );
