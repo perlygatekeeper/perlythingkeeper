@@ -3,6 +3,7 @@ use Moose;
 use Carp;
 use JSON;
 use Thingiverse::Types;
+use Thingiverse::Thing::List;
 use Thingiverse::Image;
 use Thingiverse::Tag;
 
@@ -158,6 +159,44 @@ sub newest {
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
+
+sub list {
+# return Thingiverse::Thing::List->new( { api => 'things' } );
+# return Thingiverse::Thing::List->new( api => 'things' );
+  return Thingiverse::Thing::List->new( 'things' );
+}
+
+sub newest {
+  return Thingiverse::Thing::List->new( 'newest' );
+}
+
+sub popular {
+  return Thingiverse::Thing::List->new( 'popular' );
+}
+
+sub featured {
+  return Thingiverse::Thing::List->new( 'featured' );
+}
+
+sub search {
+  my $search_term = shift;
+  return Thingiverse::Thing::List->new( { api => 'search', search_term => $search_term  } );
+}
+
+sub ancestors {
+  my $thing_id = shift;
+  return Thingiverse::Thing::List->new( { api => 'ancestors', thing_id => $thing_id  } );
+}
+
+sub derivatives {
+  my $thing_id = shift;
+  return Thingiverse::Thing::List->new( { api => 'derivatives', thing_id => $thing_id  } );
+}
+
+sub prints {
+  my $thing_id = shift;
+  return Thingiverse::Thing::List->new( { api => 'prints', thing_id => $thing_id  } );
+}
 
 1;
 __END__

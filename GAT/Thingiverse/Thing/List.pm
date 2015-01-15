@@ -55,6 +55,8 @@ around BUILDARGS => sub {
   my ( $api, $search_term, $things, $thing_id, $json, $hash, $request );
   if ( @_ == 1 && !ref $_[0] ) {
     $api = $_[0];
+  if ( @_ == 2 && $_[0] =~ m'api'i ) {
+    $api = $_[1];
   } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'api'} ) { # passed a hashref to a hash containing key 'name'
     $api         = ${$_[0]}->{'api'};
     $search_term = ${$_[0]}->{'search_term'};
@@ -63,6 +65,7 @@ around BUILDARGS => sub {
 # not sure what to do here
     return $class->$orig(@_);
   }
+# Now decide what to do.
   if      ( $api =~ qr(things|newest|featured|popular|copies) ) {
     $request = $api_bases->{$api};
   } elsif ( $api =~ qr(ancestors|derivatives|prints) ) {

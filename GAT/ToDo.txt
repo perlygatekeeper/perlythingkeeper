@@ -1,7 +1,15 @@
 General Notes:
 ----------------------------------------------------------------------------------------
 
-  1) Pagination for:
+  1) Pagination
+*   a) make Thingiverse::Pagination module
+    b) implement for
+	    i) things
+	   ii) tags
+	  iii) files
+	   iv) images
+	    v) collectsions
+	   vi) comments
   2) Add list methods:
     a) Categories
     b) Tags
@@ -21,6 +29,10 @@ General Notes:
   9) Add documentation
  10) Add example scripts
  11) Submit to CPAN
+*  a) rename github repo to perlythingkeeper
+*  b) rename Module from GAT to Thingiverse
+*  c) request PAUSE account
+   d) etc.
  12) Inform thingiverse.
 
 
