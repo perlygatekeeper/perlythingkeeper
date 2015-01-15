@@ -152,6 +152,10 @@ sub _get_tags_for_this_thing {
   return $return;
 }
 
+sub newest {
+  1;
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
 

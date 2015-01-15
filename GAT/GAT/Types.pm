@@ -59,6 +59,16 @@ package GAT::Types;
     where { $_ > 7 },
 	message { "$_ isn't an INT greater than 7 (earliest existing thingiverse.com thing)" };
 
+  subtype 'Page',
+    as 'Int',
+    where { $_ > 0 },
+	message { "$_ isn't a positive int)" };
+
+  subtype 'PerPage',
+    as 'Int',
+    where { $_ >= 1 and $_ <= 30},
+	message { "$_ isn't an INT between 1 and 30 (presently thingiverse.com limits pagination via it's API to a maximum of 30)" };
+
   enum 'ThingiverseImageType', [ qw( thumb preview display ) ];
 
   enum 'ThingiverseImageSize', [ qw( birdwing card featured large medium small tiny tinycard ) ];
