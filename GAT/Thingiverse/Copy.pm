@@ -1,14 +1,54 @@
-package copy;
+package Thingiverse::Copy;
 use Moose;
 use Carp;
+use JSON;
+use Thingiverse::Types;
+use Thingiverse::Image;
+use Thingiverse::User;
 
-has X => ( isa => 'Str', is => 'ro', required => 1, );
+extends('Thingiverse');
+our $api_base = "/copies/";
 
+has id             => ( isa => 'ID',                      is => 'ro', required => 1, );
+has _original_json => ( isa => 'Str',                     is => 'ro', required => 0, );
+has url            => ( isa => 'Str',                     is => 'ro', required => 0, );
+has public_url     => ( isa => 'Str',                     is => 'ro', required => 0, );
+has added          => ( isa => 'Str',                     is => 'ro', required => 0, );
+has like_count     => ( isa => 'ThingiCount',             is => 'ro', required => 0, );
+has description    => ( isa => 'Str',                     is => 'ro', required => 0, );
+has is_liked       => ( isa => 'Any',                     is => 'ro', required => 0, );
+has maker          => ( isa => 'Thingiverse::User',       is => 'ro', required => 0, );
+has thumbnail      => ( isa => 'Str',                     is => 'ro', required => 0, );
+has images_url     => ( isa => 'Str',                     is => 'ro', required => 0, );
+
+around BUILDARGS => sub {
+  my $orig = shift;
+  my $class = shift;
+  my $id;
+  my $json;
+  my $hash;
+  # first we check if we can by-pass making an API call to Thingiverse, since the hash was populated via a seperate call
+  if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'just_bless'} && ${$_[0]}{'id'}) {
+#   print "just bless this thing!\n";
+    delete ${$_[0]}{'just_bless'};
+    return $class->$orig(@_);
+  } elsif ( @_ == 1 && !ref $_[0] ) {
+    $id = $_[0];
+  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} ) { # passed a hashref to a hash containing key 'id'
+    $id = ${$_[0]}{'id'};
+  } elsif ( @_ == 2 && $_[0] eq 'id' ) { # passed a hashref to a hash containing key 'id'
+    $id = $_[1];
+  } else {
+    return $class->$orig(@_);
+  }
+  $json = _get_from_thingi_given_id($id);
+  $hash = decode_json($json);
+  $hash->{_original_json} = $json;
+  return $hash;
+};
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
 
 1;
 __END__
-client_id( q(c587f0f2ee04adbe719b) );
-access_token( q(b053a0798c50a84fbb80e66e51bba9c4) );

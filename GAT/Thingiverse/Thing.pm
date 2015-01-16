@@ -4,6 +4,7 @@ use Carp;
 use JSON;
 use Thingiverse::Types;
 use Thingiverse::Thing::List;
+use Thingiverse::User;
 use Thingiverse::Image;
 use Thingiverse::Tag;
 
@@ -28,6 +29,7 @@ has is_published         => ( isa => 'Any',                     is => 'ro', requ
 has added                => ( isa => 'Str',                     is => 'ro', required => 0, );
 has modified             => ( isa => 'Str',                     is => 'ro', required => 0, );
 has license              => ( isa => 'Str',                     is => 'ro', required => 0, );
+has creator              => ( isa => 'Thingiverse::User',               is => 'ro', required => 0, builder => '_get_this_things_creator',       lazy => 1, );
 has prints               => ( isa => 'ArrayRef[Thingiverse::Thing]',    is => 'ro', required => 0, builder => '_get_prints_of_this_thing',      lazy => 1, );
 has ancestors            => ( isa => 'ArrayRef[Thingiverse::Thing]',    is => 'ro', required => 0, builder => '_get_ancestors_of_this_thing',   lazy => 1, );
 has derivatives          => ( isa => 'ArrayRef[Thingiverse::Thing]',    is => 'ro', required => 0, builder => '_get_derivatives_of_this_thing', lazy => 1, );
@@ -35,6 +37,7 @@ has images               => ( isa => 'ArrayRef[Thingiverse::Image]',    is => 'r
 has tags                 => ( isa => 'ArrayRef[Thingiverse::Tag]',      is => 'ro', required => 0, builder => '_get_tags_for_this_thing',       lazy => 1, );
 # has files                => ( isa => 'ArrayRef[Thingiverse::File]',     is => 'ro', required => 0, );
 # has categories           => ( isa => 'ArrayRef[Thingiverse::Category]', is => 'ro', required => 0, );
+# ??? collections ???
 has public_url           => ( isa => 'Str',                     is => 'ro', required => 0, );
 has url                  => ( isa => 'Str',                     is => 'ro', required => 0, );
 has tags_url             => ( isa => 'Str',                     is => 'ro', required => 0, );
@@ -55,12 +58,9 @@ has print_history_count  => ( isa => 'ThingiCount',             is => 'ro', requ
 around BUILDARGS => sub {
   my $orig = shift;
   my $class = shift;
-  my $id;
-  my $json;
-  my $hash;
+  my ( $id, $json, $hash, $creator );
   # first we check if we can by-pass making an API call to Thingiverse, since the hash was populated via a seperate call
   if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'just_bless'} && ${$_[0]}{'id'}) {
-#   print "just bless this thing!\n";
     delete ${$_[0]}{'just_bless'};
     return $class->$orig(@_);
   } elsif ( @_ == 1 && !ref $_[0] ) {
@@ -75,6 +75,9 @@ around BUILDARGS => sub {
   $json = _get_from_thingi_given_id($id);
   $hash = decode_json($json);
   $hash->{_original_json} = $json;
+  $creator = $hash->{creator}; # this will be a HashRef containing keys appropo for a Thingiverse::User
+  $creator->{just_bless} = 1;
+  $hash->{creator} = Thingiverse::User->new( $creator );
   return $hash;
 };
 

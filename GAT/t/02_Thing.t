@@ -1,12 +1,13 @@
 #!/usr/bin/env perl 
 
-use Test::Most tests => 39 + 40;
+use Test::Most tests => 40 + 42;
 use Data::Dumper;
 
 use Thingiverse;
 use Thingiverse::Thing;
 
 my $id         = '314355';
+my $creator_id = '16273';
 my $public_url = 'http://www.thingiverse.com/thing:'        . $id;
 my $url        = $Thingiverse::api_uri_base . $Thingiverse::Thing::api_base . $id;
 my $layout_url = $Thingiverse::api_uri_base . '/layouts/' . $id;
@@ -18,6 +19,7 @@ my $thing = Thingiverse::Thing->new( 'id' => $id );
     ok( $thing->isa('Thingiverse::Thing'), 'can make an Thingiverse::Thing object' ); 
 can_ok( $thing, qw( id ),                  );
 can_ok( $thing, qw( name ),                );
+can_ok( $thing, qw( creator ),             );
 can_ok( $thing, qw( instructions ),        );
 can_ok( $thing, qw( instructions_html ),   );
 can_ok( $thing, qw( description ),         );
@@ -55,6 +57,9 @@ can_ok( $thing, qw( images ),              );
 can_ok( $thing, qw( tags ),                );
 
     is( $thing->id,                  $id,                                    'id accessor' ); 
+    ok( $thing->creator->isa('Thingiverse::User'),                           'is the creator a Thingiverse::User object' ); 
+    is( $thing->creator->id,         $creator_id,                            'creator_id correct' ); 
+
   like( $thing->name,                qr(Rounded Rectangular Parallelepiped), 'name accessor' ); 
   like( $thing->instructions,        qr(Using the following options),                                     'instructions accessor' ); 
   like( $thing->instructions_html,   qr(Using the following options),                                     'instructions_html accessor' ); 
