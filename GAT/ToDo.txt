@@ -14,18 +14,20 @@ General Notes:
     a) Categories
     b) Tags
     c) Copies?
-    d) Things ( also special methods, newest, popular, featured)
+    d) Things for things and search
+*   e) Things for special methods: newest, popular, featured
   3) Add some rudimentory error checking whenever an API request is made
   4) Make all user, thing and list of things attributes contain appropriate objects.
 *   a) prints, ancestors, and derivatives of a Thing
 *   b) images     of a Thing
+*   c) creator    of a Thing
     c) tags       of a Thing
     d) files      of a Thing
     e) categories of a Thing
-  5) gather and list aliases (thing: creator/user, comment: user/commenter, etc.)
-  6) Make Boolean type
+  5) gather and list aliases (thing: creator/user, comment: user/commenter, copy: maker/user etc.)
+  6) Make Boolean type (since API passes strings 'true' and 'false' vs. integers 0 and 1)
   7) Make url and *_url attributes URI objects
-  8) Add POST and other methods to change state on thingiverse, not just retrieve data.
+  8) Add POST, PUT, PATCH and DELTE other methods to change state on thingiverse, not just retrieve data.
   9) Add documentation
  10) Add example scripts
  11) Submit to CPAN
@@ -40,20 +42,35 @@ General Notes:
 Per Module:
 ----------------------------------------------------------------------------------------
   1) Thing:
-    a) activate special methods.
++   a) activate special methods.
     b) make added and modified DateTime objects
     c) adjust tests for added and modified
+*   d) List.pm
+*   e) just_bless
+*   f) Class methods for newest, popular, featured, search
   2) User:
+    a) List.pm
+    b) complete method
+*   c) just_bless
   3) Category:
+    a) List.pm
+    b) complete method
+    c) just_bless
   4) Collection:
+    a) List.pm
+    b) complete method
+    c) just_bless
   5) Comment:
+    a) List.pm
+    b) complete method
   6) Tag:
-  7) File:
-  8) Image:
+    a) List.pm
+    b) complete method
+  7) Image:
     a) EVERYTHING!
 
 
-Tell Thingiverse about type on page: http://www.thingiverse.com/developers/rest-api-reference#copies
+Tell Thingiverse about typo on page: http://www.thingiverse.com/developers/rest-api-reference#copies
 
 Popular
 Get the latest >>>featured<<< things

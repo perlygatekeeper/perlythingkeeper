@@ -27,7 +27,10 @@ around BUILDARGS => sub {
   my $id;
   my $json;
   my $hash;
-  if ( @_ == 1 && !ref $_[0] ) {
+  if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'just_bless'} && ${$_[0]}{'id'}) {
+    delete ${$_[0]}{'just_bless'};
+    return $class->$orig(@_);
+  } elsif ( @_ == 1 && !ref $_[0] ) {
     $id = $_[0];
   } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} ) { # passed a hashref to a hash containing key 'id'
     $id = ${$_[0]}->{'id'};
@@ -56,6 +59,18 @@ __PACKAGE__->meta->make_immutable;
 
 1;
 __END__
+
+Two ways to get information from Thingiverse on a file:
+
+1) explict request for a given file provided it's id:
+   url: "https://api.thingiverse.com/files/389246"
+2) as part of a returned array of files given a thing's id
+   url: "https://api.thingiverse.com/things/209078/files"
+
+Unlike some quantities, like  a user's info  vs.  a thing's creator's info,
+file information is complete provided by both methods.
+Therefore, files will not require a 'complete' method.
+   
 
 {
   id: 556207

@@ -35,7 +35,7 @@ has ancestors            => ( isa => 'ArrayRef[Thingiverse::Thing]',    is => 'r
 has derivatives          => ( isa => 'ArrayRef[Thingiverse::Thing]',    is => 'ro', required => 0, builder => '_get_derivatives_of_this_thing', lazy => 1, );
 has images               => ( isa => 'ArrayRef[Thingiverse::Image]',    is => 'ro', required => 0, builder => '_get_images_for_this_thing',     lazy => 1, );
 has tags                 => ( isa => 'ArrayRef[Thingiverse::Tag]',      is => 'ro', required => 0, builder => '_get_tags_for_this_thing',       lazy => 1, );
-# has files                => ( isa => 'ArrayRef[Thingiverse::File]',     is => 'ro', required => 0, );
+has files                => ( isa => 'ArrayRef[Thingiverse::File]',     is => 'ro', required => 0, builder => '_get_tags_for_this_thing',       lazy => 1, );
 # has categories           => ( isa => 'ArrayRef[Thingiverse::Category]', is => 'ro', required => 0, );
 # ??? collections ???
 has public_url           => ( isa => 'Str',                     is => 'ro', required => 0, );
@@ -102,62 +102,83 @@ sub _get_prints_of_this_thing {
 
 sub _get_ancestors_of_this_thing {
   my $self = shift;
-# print "ancestors constructor self is (" . ref($self) . ") and self's id is (" . $self->{id} . ")\n";
-# print "what's left: " . @_ . "\n";
   my $request = $api_base . $self->id . '/ancestors';
-# print "request is ($request)\n";
+# Copy Pagination code from Category.pm
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
   if ( ref($return) eq 'ARRAY' ) {
     foreach ( @{$return} ) {
+      $_->{just_bless} = 1;
       $_ = Thingiverse::Thing->new($_);
 	}
   }
-# Copy Pagination code from Category.pm
   return $return;
 }
 
 sub _get_derivatives_of_this_thing {
   my $self = shift;
   my $request = $api_base . $self->id . '/derivatives';
+# Copy Pagination code from Category.pm
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
-# Copy Pagination code from Category.pm
+  if ( ref($return) eq 'ARRAY' ) {
+    foreach ( @{$return} ) {
+      $_->{just_bless} = 1;
+      $_ = Thingiverse::Thing->new($_);
+	}
+  }
   return $return;
 }
 
 sub _get_images_for_this_thing {
   my $self = shift;
   my $request = $api_base . $self->id . '/images';
+# Copy Pagination code from Category.pm
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
   if ( ref($return) eq 'ARRAY' ) {
     my $cnt=0;
     foreach ( @{$return} ) {
-	  # print $cnt++ . " ref of an image (" . ref($_) . ") with id: (" . $_->{id} . ")\n";
 	  $_->{'thing_id'} = $self->id;
+	  $_->{'just_bless'} = 1;
       $_ = Thingiverse::Image->new($_);
 	}
   }
-# Copy Pagination code from Category.pm
   return $return;
 }
 
 sub _get_tags_for_this_thing {
   my $self = shift;
   my $request = $api_base . $self->id . '/tags';
+# Copy Pagination code from Category.pm
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
   if ( ref($return) eq 'ARRAY' ) {
     foreach ( @{$return} ) {
+	  $_->{'just_bless'} = 1;
       $_ = Thingiverse::Tag->new($_);
 	}
   }
+  return $return;
+}
+
+sub _get_files_for_this_thing {
+  my $self = shift;
+  my $request = $api_base . $self->id . '/files';
 # Copy Pagination code from Category.pm
+  my $response = $self->rest_client->GET($request);
+  my $content = $response->responseContent;
+  my $return = decode_json($content);
+  if ( ref($return) eq 'ARRAY' ) {
+    foreach ( @{$return} ) {
+	  $_->{'just_bless'} = 1;
+      $_ = Thingiverse::File->new($_);
+	}
+  }
   return $return;
 }
 
