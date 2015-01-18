@@ -111,7 +111,7 @@ sub _get_ancestors_of_this_thing {
     foreach ( @{$return} ) {
       $_->{just_bless} = 1;
       $_ = Thingiverse::Thing->new($_);
-	}
+    }
   }
   return $return;
 }
@@ -127,7 +127,7 @@ sub _get_derivatives_of_this_thing {
     foreach ( @{$return} ) {
       $_->{just_bless} = 1;
       $_ = Thingiverse::Thing->new($_);
-	}
+    }
   }
   return $return;
 }
@@ -142,10 +142,10 @@ sub _get_images_for_this_thing {
   if ( ref($return) eq 'ARRAY' ) {
     my $cnt=0;
     foreach ( @{$return} ) {
-	  $_->{'thing_id'} = $self->id;
-	  $_->{'just_bless'} = 1;
+      $_->{'thing_id'} = $self->id;
+      $_->{'just_bless'} = 1;
       $_ = Thingiverse::Image->new($_);
-	}
+    }
   }
   return $return;
 }
@@ -159,9 +159,9 @@ sub _get_tags_for_this_thing {
   my $return = decode_json($content);
   if ( ref($return) eq 'ARRAY' ) {
     foreach ( @{$return} ) {
-	  $_->{'just_bless'} = 1;
+      $_->{'just_bless'} = 1;
       $_ = Thingiverse::Tag->new($_);
-	}
+    }
   }
   return $return;
 }
@@ -175,9 +175,9 @@ sub _get_files_for_this_thing {
   my $return = decode_json($content);
   if ( ref($return) eq 'ARRAY' ) {
     foreach ( @{$return} ) {
-	  $_->{'just_bless'} = 1;
+      $_->{'just_bless'} = 1;
       $_ = Thingiverse::File->new($_);
-	}
+    }
   }
   return $return;
 }

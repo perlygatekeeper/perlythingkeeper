@@ -84,7 +84,7 @@ can_ok( $thing, qw( tags ),                );
   like( $thing->is_purchased,        qr(true|false),            'is_purchased accessor' ); 
   like( $thing->is_published,        qr(true|false),            'is_published accessor' ); 
   like( $thing->added,               qr(^2014-04-29T\d\d:\d\d:\d\d\+00:00$), 'added accessor' );
-  like( $thing->modified,            qr(^2014-04-29T\d\d:\d\d:\d\d\+00:00$), 'added accessor' );
+  like( $thing->modified,            qr(^2014-04-29T\d\d:\d\d:\d\d\+00:00$), 'modified accessor' );
   like( $thing->like_count,          qr(^\d+), 'like_count    accessor' );
   like( $thing->file_count,          qr(^\d+), 'file_count    accessor' );
   like( $thing->layout_count,        qr(^\d+), 'layout_count  accessor' );
@@ -93,32 +93,36 @@ can_ok( $thing, qw( tags ),                );
 
 $thing = Thingiverse::Thing->new( 'id' => '316754' );
 SKIP: {
-	skip "no prints for test thing", 1 unless defined($thing->prints);
+    skip "no prints for test thing", 1 unless defined($thing->prints);
     is( @{$thing->prints},           0,        'prints         an  ArraryRef' );
 }
+
+print "==\n";
+$thing = Thingiverse::Thing->new( 'id' => '313179' );
 SKIP: {
-	skip "no ancestors of test thing", 2 unless defined($thing->ancestors);
+    skip "no ancestors of test thing", 2 unless defined($thing->ancestors);
     is( @{$thing->ancestors},        1,        'ancestors  is  an  ArraryRef' );
     is( ${$thing->ancestors}[0]->id, '313179', 'ancestor   is the right onef' );
 }
+print "**\n";
 SKIP: {
-	skip "no derivatives of test thing", 1 unless defined($thing->derivatives);
+    skip "no derivatives of test thing", 1 unless defined($thing->derivatives);
     is( @{$thing->derivatives},      0,        'derivatives    an  ArraryRef' );
 }
 
 $thing = Thingiverse::Thing->new( 'id' => '209078' );
 SKIP: {
-	my $images = $thing->images;
-	skip "no images for test thing", 1 unless defined($images);
+    my $images = $thing->images;
+    skip "no images for test thing", 1 unless defined($images);
     is( ref($images),                'ARRAY',         'images is         an     ArraryRef' );
     is( @{$images},                  2,               'images contains           2 images' );
-	my $first_image = $images->[0];
+    my $first_image = $images->[0];
     ok( $first_image->isa('Thingiverse::Image'),              'first image is    a     Thingiverse::Image' );
 }
 
 SKIP: {
-	my $tags = $thing->tags;
-	skip "no tags for test thing", 1 unless defined($tags);
+    my $tags = $thing->tags;
+    skip "no tags for test thing", 1 unless defined($tags);
     is( ref($tags),                  'ARRAY',         'tags is           an     ArraryRef' );
     is( @{$tags},                    6,               'tags contains               6 tags' );
 }

@@ -107,9 +107,9 @@ around BUILDARGS => sub {
   $things = decode_json($json);
   if ( ref($things) eq 'ARRAY' ) {
     foreach ( @{$things} ) {
-	  $_->{'just_bless'} = 1;
+      $_->{'just_bless'} = 1;
       $_ = Thingiverse::Thing->new($_);
-	}
+    }
   }
   $hash->{things}      = $things;;
   $hash->{things_api}  = $api;;

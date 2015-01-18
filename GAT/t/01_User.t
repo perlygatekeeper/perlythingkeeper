@@ -70,24 +70,24 @@ has      is_following => ( isa => 'Boolean',      is => 'ro', required => 0, );
 # has      coverimage => ( isa => 'Str',                  is => 'ro', required => 0, );
 
 {
-		id: 16273
-		name: "perlygatekeeper"
-		first_name: "Steve"
-		last_name: "Parker"
-		full_name: "Steve Parker"
-		url: "https://api.thingiverse.com/users/perlygatekeeper"
-		public_url: "http://www.thingiverse.com/perlygatekeeper"
-		thumbnail: "https://www.thingiverse.com/img/default/avatar/avatar_default_thumb_medium.jpg"
-		bio: ""
-		location: ""
-		registered: "2011-11-20T18:52:00+00:00"
-		last_active: "2015-01-03T01:39:45+00:00"
-		cover_image: null
-		things_url: "https://api.thingiverse.com/users/perlygatekeeper/things"
-		copies_url: "https://api.thingiverse.com/users/perlygatekeeper/copies"
-		likes_url: "https://api.thingiverse.com/users/perlygatekeeper/likes"
-		default_license: "cc"
-		email: "perlygatekeeper@gmail.com"
+        id: 16273
+        name: "perlygatekeeper"
+        first_name: "Steve"
+        last_name: "Parker"
+        full_name: "Steve Parker"
+        url: "https://api.thingiverse.com/users/perlygatekeeper"
+        public_url: "http://www.thingiverse.com/perlygatekeeper"
+        thumbnail: "https://www.thingiverse.com/img/default/avatar/avatar_default_thumb_medium.jpg"
+        bio: ""
+        location: ""
+        registered: "2011-11-20T18:52:00+00:00"
+        last_active: "2015-01-03T01:39:45+00:00"
+        cover_image: null
+        things_url: "https://api.thingiverse.com/users/perlygatekeeper/things"
+        copies_url: "https://api.thingiverse.com/users/perlygatekeeper/copies"
+        likes_url: "https://api.thingiverse.com/users/perlygatekeeper/likes"
+        default_license: "cc"
+        email: "perlygatekeeper@gmail.com"
 }
 1..23
 ok 1 - Thingiverse::User object is defined

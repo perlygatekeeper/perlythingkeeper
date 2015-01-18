@@ -59,10 +59,10 @@ sub _get_things_organized_under_category {
   if ($link_header =~ /rel=.(first|last|next|prev)/) {
     my $pagination;
     foreach my $link ( split( /,\s*/, $link_header ) ) {
-	  my ($page_url, $page_label) = ( $link =~ /<([^>]+)>;\s+rel="([^"]+)"/);
-	  $pagination->{$page_label}=$page_url;
-	}
-	$self->things_pagination($pagination);
+      my ($page_url, $page_label) = ( $link =~ /<([^>]+)>;\s+rel="([^"]+)"/);
+      $pagination->{$page_label}=$page_url;
+    }
+    $self->things_pagination($pagination);
   }
   return $return;
 }

@@ -52,8 +52,8 @@ around BUILDARGS => sub {
     $image_id = $_[1];
   } else {
     my $return = $class->$orig(@_); # almost all Thingiverse::Image creatations will be from an predefined hash from a Thingiverse::Thing or Thingiverse::Collection.
-	$return = _get_sized_versions_of_this_image($return);;
-	return $return;
+    $return = _get_sized_versions_of_this_image($return);;
+    return $return;
   }
   $json = _get_from_thingi_given_id($image_id,$thing_id);
   $hash = decode_json($json);
@@ -67,7 +67,7 @@ sub _get_sized_versions_of_this_image {
   if ( ref($sizes) eq 'ARRAY' ) {
     foreach ( @{$sizes} ) {
       $_ = Thingiverse::SizedImage->new($_) if (ref($_) eq 'HASH' );;
-	}
+    }
   }
   return $self;
 };
