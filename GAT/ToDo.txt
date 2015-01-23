@@ -36,6 +36,7 @@ General Notes:
 *  c) request PAUSE account
    d) etc.
  12) Inform thingiverse.
+ 13) Establish an object Caching mechanism to avoid infinite loops in lookups.
 
 
 

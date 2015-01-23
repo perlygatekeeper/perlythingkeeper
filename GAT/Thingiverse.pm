@@ -3,7 +3,7 @@ use Moose;
 use Carp;
 use REST::Client;
 
-my $VERSION="0.1.0";
+my $VERSION="0.5.34";
 
 our $api_uri_base = "https://api.thingiverse.com";
 

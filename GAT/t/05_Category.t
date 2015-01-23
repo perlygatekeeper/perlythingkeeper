@@ -11,7 +11,7 @@ our $api_base = "/categories/";
 my $name       = 'Tools'; # tools gives a count of 10435 while Tools gives 10439, odd?
 my $url        = $Thingiverse::api_uri_base . $Thingiverse::Category::api_base . lc $name;
 my $things_url = $Thingiverse::api_uri_base . $Thingiverse::Category::api_base . lc $name . '/things';
-my $count      = 10439;
+my $count      = 10749;
 my $things     = ( $count > 30 ) ? 30 : $count;
 my $children   = 4;
 

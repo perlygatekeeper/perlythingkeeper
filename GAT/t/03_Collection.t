@@ -11,8 +11,8 @@ our $api_base = "/collections/";
 my $id           = '2334425';
 my $url          = $Thingiverse::api_uri_base . $Thingiverse::Collection::api_base . $id;
 my $name         = "Boxes and Containers";
-my $count        = 35;
-my $things        = 35;
+my $count        = 33;
+my $things       = 35;
 my $creator_id   = 16273;
 my $creator_name = 'perlygatekeeper';
 

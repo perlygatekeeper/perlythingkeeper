@@ -97,18 +97,19 @@ SKIP: {
     is( @{$thing->prints},           0,        'prints         an  ArraryRef' );
 }
 
-print "==\n";
+## print "==\n";
 $thing = Thingiverse::Thing->new( 'id' => '313179' );
 SKIP: {
     skip "no ancestors of test thing", 2 unless defined($thing->ancestors);
     is( @{$thing->ancestors},        1,        'ancestors  is  an  ArraryRef' );
-    is( ${$thing->ancestors}[0]->id, '313179', 'ancestor   is the right onef' );
+    is( ${$thing->ancestors}[0]->id, '275033', 'ancestor   is the right one' );
 }
-print "**\n";
+## print "**\n";
 SKIP: {
     skip "no derivatives of test thing", 1 unless defined($thing->derivatives);
-    is( @{$thing->derivatives},      0,        'derivatives    an  ArraryRef' );
+    is( @{$thing->derivatives},      2,        'derivatives    an  ArraryRef' );
 }
+## print "==\n";
 
 $thing = Thingiverse::Thing->new( 'id' => '209078' );
 SKIP: {

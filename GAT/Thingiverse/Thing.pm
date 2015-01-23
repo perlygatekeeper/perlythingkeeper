@@ -61,12 +61,14 @@ around BUILDARGS => sub {
   my ( $id, $json, $hash, $creator );
   # first we check if we can by-pass making an API call to Thingiverse, since the hash was populated via a seperate call
   if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'just_bless'} && ${$_[0]}{'id'}) {
-    delete ${$_[0]}{'just_bless'};
+#   delete ${$_[0]}{'just_bless'};
+#   print "just blessing a thing-like hash with thing_id: " . ${$_[0]}{'id'} . "\n";
     return $class->$orig(@_);
   } elsif ( @_ == 1 && !ref $_[0] ) {
     $id = $_[0];
   } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} ) { # passed a hashref to a hash containing key 'id'
     $id = ${$_[0]}{'id'};
+    print "we got ourselves a lookup for thing_id: $id\n";
   } elsif ( @_ == 2 && $_[0] eq 'id' ) { # passed a hashref to a hash containing key 'id'
     $id = $_[1];
   } else {
@@ -109,6 +111,8 @@ sub _get_ancestors_of_this_thing {
   my $return = decode_json($content);
   if ( ref($return) eq 'ARRAY' ) {
     foreach ( @{$return} ) {
+	  $_->{creator}{just_bless}=1;
+      $_->{creator} = Thingiverse::User->new($_->{creator});
       $_->{just_bless} = 1;
       $_ = Thingiverse::Thing->new($_);
     }
@@ -125,6 +129,8 @@ sub _get_derivatives_of_this_thing {
   my $return = decode_json($content);
   if ( ref($return) eq 'ARRAY' ) {
     foreach ( @{$return} ) {
+	  $_->{creator}{just_bless}=1;
+      $_->{creator} = Thingiverse::User->new($_->{creator});
       $_->{just_bless} = 1;
       $_ = Thingiverse::Thing->new($_);
     }

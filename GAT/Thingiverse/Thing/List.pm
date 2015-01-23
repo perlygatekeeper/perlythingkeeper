@@ -80,6 +80,8 @@ around BUILDARGS => sub {
   $things = decode_json($json);
   if ( ref($things) eq 'ARRAY' ) {
     foreach ( @{$things} ) {
+      $_->{creator}{just_bless}=1;
+      $_->{creator} = Thingiverse::User->new($_->{creator});
       $_->{'just_bless'} = 1;
       $_ = Thingiverse::Thing->new($_);
     }

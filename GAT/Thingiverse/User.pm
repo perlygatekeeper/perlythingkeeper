@@ -43,14 +43,14 @@ around BUILDARGS => sub {
   my $json;
   my $hash;
   if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'just_bless'} && ${$_[0]}{'name'}) {
-print "just blessin' this user ya see.\n";
-print Dumper($_[0]);
-    delete ${$_[0]}{'just_bless'};
+# print "just blessin' this user ya see: " . ${$_[0]}{'name'} . "\n";
+# print Dumper($_[0]);
     return $class->$orig(@_);
   } elsif ( @_ == 1 && !ref $_[0] ) {
     $name = $_[0];
   } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'name'} ) { # passed a hashref to a hash containing key 'name'
-    $name = ${$_[0]}->{'name'};
+    $name = ${$_[0]}{'name'};
+	print "user name is $name\n";
   } elsif ( @_ == 2 && $_[0] eq 'name' ) { # passed a hashref to a hash containing key 'name'
     $name = $_[1];
   } else {
