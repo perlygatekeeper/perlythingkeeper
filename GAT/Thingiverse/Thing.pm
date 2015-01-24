@@ -29,12 +29,10 @@ has is_published         => ( isa => 'Any',                      is => 'ro', req
 has added                => ( isa => 'Str',                      is => 'ro', required => 0, );
 has modified             => ( isa => 'Str',                      is => 'ro', required => 0, );
 has license              => ( isa => 'Str',                      is => 'ro', required => 0, );
-has creator              => ( isa => 'Thingiverse::User',        is => 'ro', required => 0, builder => '_get_this_things_creator',       lazy => 1, );
-# has prints               => ( isa => 'ArrayRef[Thingiverse::Thing]', is => 'ro', required => 0, builder => '_get_prints_of_this_thing', lazy => 1, );
-has prints               => ( isa => 'Thingiverse::Thing::List', is => 'ro', required => 0, builder => '_get_the_things_list_prints_of_this_thing', lazy => 1, );
-# has ancestors            => ( isa => 'ArrayRef[Thingiverse::Thing]',    is => 'ro', required => 0, builder => '_get_ancestors_of_this_thing',   lazy => 1, );
-has ancestors            => ( isa => 'Thingiverse::Thing::List', is => 'ro', required => 0, builder => '_get_the_things_list_ancestors_of_this_thing', lazy => 1, );
-has derivatives          => ( isa => 'ArrayRef[Thingiverse::Thing]',    is => 'ro', required => 0, builder => '_get_derivatives_of_this_thing', lazy => 1, );
+has creator              => ( isa => 'Thingiverse::User',        is => 'ro', required => 0, builder => '_get_this_things_creator',                       lazy => 1, );
+has prints               => ( isa => 'Thingiverse::Thing::List', is => 'ro', required => 0, builder => '_get_the_things_list_prints_of_this_thing',      lazy => 1, );
+has ancestors            => ( isa => 'Thingiverse::Thing::List', is => 'ro', required => 0, builder => '_get_the_things_list_ancestors_of_this_thing',   lazy => 1, );
+has derivatives          => ( isa => 'Thingiverse::Thing::List', is => 'ro', required => 0, builder => '_get_the_things_list_derivatives_of_this_thing', lazy => 1, );
 has images               => ( isa => 'ArrayRef[Thingiverse::Image]',    is => 'ro', required => 0, builder => '_get_images_for_this_thing',     lazy => 1, );
 has tags                 => ( isa => 'ArrayRef[Thingiverse::Tag]',      is => 'ro', required => 0, builder => '_get_tags_for_this_thing',       lazy => 1, );
 has files                => ( isa => 'ArrayRef[Thingiverse::File]',     is => 'ro', required => 0, builder => '_get_tags_for_this_thing',       lazy => 1, );
@@ -100,58 +98,63 @@ sub _get_the_things_list_prints_of_this_thing {
   return Thingiverse::Thing::List->new( { api => 'prints', thing_id => $self->id } );
 }
 
-sub _get_prints_of_this_thing {
-  my $self = shift;
-  my $request = $api_base . $self->id . '/prints';
-  my $response = $self->rest_client->GET($request);
-  my $content = $response->responseContent;
-  my $return = decode_json($content);
-# Copy Pagination code from Category.pm
-  return $return;
-}
+#  sub _get_prints_of_this_thing {
+#    my $self = shift;
+#    my $request = $api_base . $self->id . '/prints';
+#    my $response = $self->rest_client->GET($request);
+#    my $content = $response->responseContent;
+#    my $return = decode_json($content);
+#  # Copy Pagination code from Category.pm
+#    return $return;
+#  }
 
 sub _get_the_things_list_ancestors_of_this_thing {
   my $self = shift;
   return Thingiverse::Thing::List->new( { api => 'ancestors', thing_id => $self->id } );
 }
 
-sub _get_ancestors_of_this_thing {
+# sub _get_ancestors_of_this_thing {
+#   my $self = shift;
+#   my $request = $api_base . $self->id . '/ancestors';
+# # Copy Pagination code from Category.pm
+#   print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
+#   my $response = $self->rest_client->GET($request);
+#   my $content = $response->responseContent;
+#   my $return = decode_json($content);
+#   if ( ref($return) eq 'ARRAY' ) {
+#     foreach ( @{$return} ) {
+# 	  $_->{creator}{just_bless}=1;
+#       $_->{creator} = Thingiverse::User->new($_->{creator});
+#       $_->{just_bless} = 1;
+#       $_ = Thingiverse::Thing->new($_);
+#     }
+#   }
+#   return $return;
+# }
+
+sub _get_the_things_list_derivatives_of_this_thing {
   my $self = shift;
-  my $request = $api_base . $self->id . '/ancestors';
-# Copy Pagination code from Category.pm
-  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
-  my $response = $self->rest_client->GET($request);
-  my $content = $response->responseContent;
-  my $return = decode_json($content);
-  if ( ref($return) eq 'ARRAY' ) {
-    foreach ( @{$return} ) {
-	  $_->{creator}{just_bless}=1;
-      $_->{creator} = Thingiverse::User->new($_->{creator});
-      $_->{just_bless} = 1;
-      $_ = Thingiverse::Thing->new($_);
-    }
-  }
-  return $return;
+  return Thingiverse::Thing::List->new( { api => 'derivatives', thing_id => $self->id } );
 }
 
-sub _get_derivatives_of_this_thing {
-  my $self = shift;
-  my $request = $api_base . $self->id . '/derivatives';
-# Copy Pagination code from Category.pm
-  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
-  my $response = $self->rest_client->GET($request);
-  my $content = $response->responseContent;
-  my $return = decode_json($content);
-  if ( ref($return) eq 'ARRAY' ) {
-    foreach ( @{$return} ) {
-	  $_->{creator}{just_bless}=1;
-      $_->{creator} = Thingiverse::User->new($_->{creator});
-      $_->{just_bless} = 1;
-      $_ = Thingiverse::Thing->new($_);
-    }
-  }
-  return $return;
-}
+# sub _get_derivatives_of_this_thing {
+#   my $self = shift;
+#   my $request = $api_base . $self->id . '/derivatives';
+# # Copy Pagination code from Category.pm
+#   print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
+#   my $response = $self->rest_client->GET($request);
+#   my $content = $response->responseContent;
+#   my $return = decode_json($content);
+#   if ( ref($return) eq 'ARRAY' ) {
+#     foreach ( @{$return} ) {
+# 	  $_->{creator}{just_bless}=1;
+#       $_->{creator} = Thingiverse::User->new($_->{creator});
+#       $_->{just_bless} = 1;
+#       $_ = Thingiverse::Thing->new($_);
+#     }
+#   }
+#   return $return;
+# }
 
 sub _get_images_for_this_thing {
   my $self = shift;

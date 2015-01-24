@@ -107,8 +107,8 @@ SKIP: {
 }
 ## print "**\n";
 SKIP: {
-    skip "no derivatives of test thing", 1 unless defined($thing->derivatives);
-    is( @{$thing->derivatives},      2,        'derivatives    an  ArraryRef' );
+    skip "no derivatives of test thing", 1 unless defined($thing->derivatives) and defined($thing->derivatives->things);
+    is( @{$thing->derivatives->things},      2,        'derivatives list is an ArraryRef' );
 }
 ## print "==\n";
 

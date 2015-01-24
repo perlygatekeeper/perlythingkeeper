@@ -51,7 +51,7 @@ sub _get_category_given_name {
 
 sub _get_things_organized_under_category {
   my $self = shift;
-  my $request = $api_base . $self->name . '/things';
+  my $request = $api_base . $self->name . '/things'; # should be a Thingiverse::Thing::List
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $link_header = $response->responseHeader('Link');
