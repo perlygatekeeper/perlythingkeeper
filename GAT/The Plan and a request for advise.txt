@@ -1,0 +1,27 @@
+USERS
+THINGS
+  COPIES
+  NEWEST
+  POPULAR
+  FEATURED
+FILES
+COLLECTIONS
+COMMENTS
+SEARCH
+CATEGORIES
+TAGS
+IMAGES
+
+I am making a REST::Client consumer which returns Objects
+Many of the objects can be retrieved with the specific ID for that thing
+GET('/things/THING_ID')
+but will also return a list of things if not given an ID
+GET('/things/')
+I thought of adding a method, but it would likely need to be a CLASS method
+as APP::Thing->new() should require an ID
+I could also make a new object, APP::Things which would be an ArrayRef[APP:Thing]
+to make it even more complicated, the API provides the following additional calls
+to get things ordered a certain way or matching a criteria:
+/newest/, /featured/, /popular/, /search/SEARCH_TERM/
+
+Advise, comments or suggestions?

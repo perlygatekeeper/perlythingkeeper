@@ -2,6 +2,7 @@ package Thingiverse::Thing::List;
 use Moose;
 use Carp;
 use JSON;
+use Thingiverse;
 use Thingiverse::Types;
 
 # each of these 9 API's returns a list of Thingiverse::Things
@@ -59,9 +60,9 @@ around BUILDARGS => sub {
   } elsif ( @_ == 2 && $_[0] =~ m'api'i ) {
     $api = $_[1];
   } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'api'} ) { # passed a hashref to a hash containing key 'name'
-    $api         = ${$_[0]}->{'api'};
-    $search_term = ${$_[0]}->{'search_term'};
-    $thing_id    = ${$_[0]}->{'thing_id'};
+    $api         = ${$_[0]}{'api'};
+    $search_term = ${$_[0]}{'search_term'};
+    $thing_id    = ${$_[0]}{'thing_id'};
   } else {
 # not sure what to do here
     return $class->$orig(@_);
@@ -86,8 +87,8 @@ around BUILDARGS => sub {
       $_ = Thingiverse::Thing->new($_);
     }
   }
-  $hash->{things}      = $things;;
-  $hash->{things_api}  = $api;;
+  $hash->{things}      = $things;
+  $hash->{things_api}  = $api;
   $hash->{request_url} = $request;
   $hash->{search_term} = $search_term if ( $search_term ); 
   $hash->{thing_id}    = $thing_id    if ( $thing_id ); 
@@ -96,6 +97,7 @@ around BUILDARGS => sub {
 
 sub _get_from_thingiverse {
   my $request = shift;
+  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $rest_client = Thingiverse::_establish_rest_client('');
   my $response = $rest_client->GET($request);
   my $content = $response->responseContent;

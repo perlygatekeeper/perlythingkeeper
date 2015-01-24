@@ -4,6 +4,7 @@ use Carp;
 use REST::Client;
 
 my $VERSION="0.5.34";
+our $verbose      = 1;
 
 our $api_uri_base = "https://api.thingiverse.com";
 

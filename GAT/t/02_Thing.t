@@ -93,16 +93,17 @@ can_ok( $thing, qw( tags ),                );
 
 $thing = Thingiverse::Thing->new( 'id' => '316754' );
 SKIP: {
-    skip "no prints for test thing", 1 unless defined($thing->prints);
+    skip "no prints for test thing", 1 unless defined($thing->prints) and ref($thing->prints) eq 'ARRAY';
     is( @{$thing->prints},           0,        'prints         an  ArraryRef' );
 }
 
 ## print "==\n";
 $thing = Thingiverse::Thing->new( 'id' => '313179' );
 SKIP: {
-    skip "no ancestors of test thing", 2 unless defined($thing->ancestors);
-    is( @{$thing->ancestors},        1,        'ancestors  is  an  ArraryRef' );
-    is( ${$thing->ancestors}[0]->id, '275033', 'ancestor   is the right one' );
+    skip "no ancestors of test thing", 2 unless defined($thing->ancestors) and defined($thing->ancestors->things);
+    print "thing->ancestors is (" . $thing->ancestors . ")\n" if ($Thingiverse::verbose);
+    is( @{$thing->ancestors->things},         1,       'ancestors list is an ArraryRef' );
+    is( ${$thing->ancestors->things}[0]->id, '275033', 'ancestor is the right one' );
 }
 ## print "**\n";
 SKIP: {

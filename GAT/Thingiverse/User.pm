@@ -65,6 +65,7 @@ around BUILDARGS => sub {
 sub _get_from_thingi {
   my $self = shift;
   my $request = $api_base . ( $self->name || 'me' );
+  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   return $content;
@@ -74,6 +75,7 @@ sub _get_from_thingi_given_name {
   my $name = shift;
   my $request = $api_base . $name;
   my $rest_client = Thingiverse::_establish_rest_client('');
+  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $response = $rest_client->GET($request);
   my $content = $response->responseContent;
   return $content;
@@ -82,6 +84,7 @@ sub _get_from_thingi_given_name {
 sub _get_things_owned_by_user {
   my $self = shift;
   my $request = $api_base . $self->name . '/things';
+  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
@@ -92,6 +95,7 @@ sub _get_things_owned_by_user {
 sub _get_things_liked_by_user {
   my $self = shift;
   my $request = $api_base . $self->name . '/likes';
+  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
@@ -102,6 +106,7 @@ sub _get_things_liked_by_user {
 sub _get_copies_liked_by_user {
   my $self = shift;
   my $request = $api_base . $self->name . '/copies';
+  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
@@ -112,6 +117,7 @@ sub _get_copies_liked_by_user {
 sub _get_things_downloaded_by_user {
   my $self = shift;
   my $request = $api_base . $self->name . '/downloads';
+  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
@@ -122,6 +128,7 @@ sub _get_things_downloaded_by_user {
 sub _get_collections_created_by_user {
   my $self = shift;
   my $request = $api_base . $self->name . '/collections';
+  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $response = $self->rest_client->GET($request);
   my $content = $response->responseContent;
   my $return = decode_json($content);
