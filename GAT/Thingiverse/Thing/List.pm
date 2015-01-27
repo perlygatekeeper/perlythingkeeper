@@ -13,20 +13,23 @@ use Thingiverse::Types;
 # ancestors, derivates and prints  APIs all need a thing_id
 
 our $api_bases = {
-  things      => "/things/",
-  search      => "/search/%s",
-  newest      => "/newest/",
-  popular     => "/popular/",
-  featured    => "/featured/",
-  copies      => '/copies',
-  ancestors   => '/things/%s/ancestors',
-  derivatives => '/things/%s/derivatives',
-  prints      => '/things/%s/prints',
+  things         => "/things/",
+  search         => "/search/%s",
+  newest         => "/newest/",
+  popular        => "/popular/",
+  featured       => "/featured/",
+  copies         => '/copies',
+  ancestors      => '/things/%s/ancestors',
+  derivatives    => '/things/%s/derivatives',
+  prints         => '/things/%s/prints',
+  categorized_by => '/categories/%s/things',
+  collected_in   => '/collections/%s/things',
+  tagged_as      => '/tags/%s/things',
 };
 
 has things_api  => ( isa => 'Things_API',              is => 'ro', required => 1, );
-has thing_id    => ( isa => 'ID',                      is => 'ro', required => 0, );
 has search_term => ( isa => 'Str',                     is => 'ro', required => 0, );
+has thing_id    => ( isa => 'ID',                      is => 'ro', required => 0, );
 has request_url => ( isa => 'Str',                     is => 'ro', required => 0, );
 has pagination  => ( isa => 'Thingiverse::Pagination', is => 'ro', required => 0, );
 
@@ -36,17 +39,17 @@ has things  => (
   isa      => 'ArrayRef[Thingiverse::Thing]',
   required => 0,
   handles  => {
-    all_sizes      => 'elements',
-    add_sizes      => 'push',
-    map_sizes      => 'map',
-    filter_sizes   => 'grep',
-    find_sizes     => 'grep',
-    get_sizes      => 'get',
-    join_sizes     => 'join',
-    count_sizes    => 'count',
-    has_sizes      => 'count',
-    has_no_sizes   => 'is_empty',
-    sorted_sizes   => 'sort',
+    all_things      => 'elements',
+    add_things      => 'push',
+    map_things      => 'map',
+    filter_things   => 'grep',
+    find_things     => 'grep',
+    get_things      => 'get',
+    join_things     => 'join',
+    count_things    => 'count',
+    has_things      => 'count',
+    has_no_things   => 'is_empty',
+    sorted_things   => 'sort',
   },
 # lazy => 1,
 );
@@ -54,15 +57,15 @@ has things  => (
 around BUILDARGS => sub {
   my $orig = shift;
   my $class = shift;
-  my ( $api, $search_term, $things, $thing_id, $json, $hash, $request );
+  my ( $api, $term, $things, $thing_id, $json, $hash, $request );
   if ( @_ == 1 && !ref $_[0] ) {
     $api = $_[0];
   } elsif ( @_ == 2 && $_[0] =~ m'api'i ) {
     $api = $_[1];
-  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'api'} ) { # passed a hashref to a hash containing key 'name'
-    $api         = ${$_[0]}{'api'};
-    $search_term = ${$_[0]}{'search_term'};
-    $thing_id    = ${$_[0]}{'thing_id'};
+  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'api'} ) { # passed a hashref to a hash containing key 'api'
+    $api      = ${$_[0]}{'api'};
+    $term     = ${$_[0]}{'term'};
+    $thing_id = ${$_[0]}{'thing_id'};
   } else {
 # not sure what to do here
     return $class->$orig(@_);
@@ -72,8 +75,8 @@ around BUILDARGS => sub {
     $request = $api_bases->{$api};
   } elsif ( $api =~ qr(ancestors|derivatives|prints) ) {
     $request = sprintf $api_bases->{$api}, $thing_id;
-  } elsif ( $api eq 'search' ) {
-    $request = sprintf $api_bases->{$api}, $search_term;
+  } elsif ( $api =~ qr(search|categor|collect|tag) ) {
+    $request = sprintf $api_bases->{$api}, $term;
   } else {
     die "API specified ($api) not know to return list of things.";
   }
@@ -90,7 +93,7 @@ around BUILDARGS => sub {
   $hash->{things}      = $things;
   $hash->{things_api}  = $api;
   $hash->{request_url} = $request;
-  $hash->{search_term} = $search_term if ( $search_term ); 
+  $hash->{term}        = $term if ( $term ); 
   $hash->{thing_id}    = $thing_id    if ( $thing_id ); 
   return $hash;
 };
@@ -127,22 +130,12 @@ search
 
 things (without an id)
 
+Other objects generate a List of things as well:
+categories
+collections
+tags
+
 Need Pagination work for this one.
 
 Could do the same (or something similar) for Categories, Collections, Tags, Images and Files.
-
-
-    use Switch;
-    switch ($val) {
-        case 1          { print "number 1" }
-        case "a"        { print "string a" }
-        case [1..10,42] { print "number in list" }
-        case (@array)   { print "number in list" }
-        case /\w+/      { print "pattern" }
-        case qr/\w+/    { print "pattern" }
-        case (%hash)    { print "entry in hash" }
-        case (\%hash)   { print "entry in hash" }
-        case (\&sub)    { print "arg to subroutine" }
-        else            { print "previous case not true" }
-    }
 

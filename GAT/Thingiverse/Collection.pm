@@ -23,6 +23,12 @@ has thumbnail_2    => ( isa => 'Str',                 is => 'ro', required => 0,
 has thumbnail_3    => ( isa => 'Str',                 is => 'ro', required => 0, );
 has things         => ( isa => 'ArrayRef[HashRef]',   is => 'ro', required => 0, builder => '_get_things_belonging_to_collection' );
 
+# two ways to get a list of Collections:
+# /collections/                       with no added id, will give a list of the newest collections.
+# /users/perlygatekeeper/collections  will give that user's collections
+# /collections/id                     give all information on collection designated by that id
+# /collections/id/things              gives list of things belonging to that collection.
+
 around BUILDARGS => sub {
   my $orig = shift;
   my $class = shift;
@@ -38,13 +44,13 @@ around BUILDARGS => sub {
   } else {
     return $class->$orig(@_);
   }
-  $json = _get_from_collection_given_id($id);
+  $json = _get_collection_given_id($id);
   $hash = decode_json($json);
   $hash->{_original_json} = $json;
   return $hash;
 };
 
-sub _get_from_collection_given_id {
+sub _get_collection_given_id {
   my $id = shift;
   my $request = $api_base . $id;
   my $rest_client = Thingiverse::_establish_rest_client('');
@@ -55,12 +61,8 @@ sub _get_from_collection_given_id {
 
 sub _get_things_belonging_to_collection {
   my $self = shift;
-  my $request = $api_base . $self->id . '/things';
-  my $response = $self->rest_client->GET($request);
-  my $content = $response->responseContent;
-  my $return = decode_json($content);
-# Copy Pagination code from Category.pm
-  return $return;
+  return Thingiverse::Thing::List->new( { api => 'search', term => $self->id  } );
+
 }
 
 no Moose;

@@ -51,12 +51,7 @@ sub _get_from_thingi_given_name {
 
 sub _get_things_tagged_with_tag {
   my $self = shift;
-  my $request = $api_base . $self->name . '/things';
-  my $response = $self->rest_client->GET($request);
-# Copy Pagination code from Category.pm
-  my $content = $response->responseContent;
-  my $return = decode_json($content);
-  return $return;
+  return Thingiverse::Thing::List->new( { api => 'search', term => $self->name  } );
 }
 
 no Moose;

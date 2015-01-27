@@ -98,63 +98,15 @@ sub _get_the_things_list_prints_of_this_thing {
   return Thingiverse::Thing::List->new( { api => 'prints', thing_id => $self->id } );
 }
 
-#  sub _get_prints_of_this_thing {
-#    my $self = shift;
-#    my $request = $api_base . $self->id . '/prints';
-#    my $response = $self->rest_client->GET($request);
-#    my $content = $response->responseContent;
-#    my $return = decode_json($content);
-#  # Copy Pagination code from Category.pm
-#    return $return;
-#  }
-
 sub _get_the_things_list_ancestors_of_this_thing {
   my $self = shift;
   return Thingiverse::Thing::List->new( { api => 'ancestors', thing_id => $self->id } );
 }
 
-# sub _get_ancestors_of_this_thing {
-#   my $self = shift;
-#   my $request = $api_base . $self->id . '/ancestors';
-# # Copy Pagination code from Category.pm
-#   print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
-#   my $response = $self->rest_client->GET($request);
-#   my $content = $response->responseContent;
-#   my $return = decode_json($content);
-#   if ( ref($return) eq 'ARRAY' ) {
-#     foreach ( @{$return} ) {
-# 	  $_->{creator}{just_bless}=1;
-#       $_->{creator} = Thingiverse::User->new($_->{creator});
-#       $_->{just_bless} = 1;
-#       $_ = Thingiverse::Thing->new($_);
-#     }
-#   }
-#   return $return;
-# }
-
 sub _get_the_things_list_derivatives_of_this_thing {
   my $self = shift;
   return Thingiverse::Thing::List->new( { api => 'derivatives', thing_id => $self->id } );
 }
-
-# sub _get_derivatives_of_this_thing {
-#   my $self = shift;
-#   my $request = $api_base . $self->id . '/derivatives';
-# # Copy Pagination code from Category.pm
-#   print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
-#   my $response = $self->rest_client->GET($request);
-#   my $content = $response->responseContent;
-#   my $return = decode_json($content);
-#   if ( ref($return) eq 'ARRAY' ) {
-#     foreach ( @{$return} ) {
-# 	  $_->{creator}{just_bless}=1;
-#       $_->{creator} = Thingiverse::User->new($_->{creator});
-#       $_->{just_bless} = 1;
-#       $_ = Thingiverse::Thing->new($_);
-#     }
-#   }
-#   return $return;
-# }
 
 sub _get_images_for_this_thing {
   my $self = shift;
@@ -233,7 +185,7 @@ sub featured {
 
 sub search {
   my $search_term = shift;
-  return Thingiverse::Thing::List->new( { api => 'search', search_term => $search_term  } );
+  return Thingiverse::Thing::List->new( { api => 'search', term => $search_term  } );
 }
 
 # sub ancestors {
