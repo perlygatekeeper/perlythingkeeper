@@ -39,3 +39,4 @@ __PACKAGE__->meta->make_immutable;
 1;
 __END__
 
+need to add extraction from header routine and work out how pages/thing_count can be interrelated.

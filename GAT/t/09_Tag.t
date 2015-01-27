@@ -1,91 +1,39 @@
 #!/usr/bin/env perl 
 
-use Test::Most tests => 7 + 5;
+use Test::Most tests => 6 + 4;
 use Data::Dumper;
 
 use Thingiverse;
 use Thingiverse::Thing;
+use Thingiverse::Tag;
 
-my $id         = '209078';
-my $public_url = 'http://www.thingiverse.com/thing:'        . $id;
-my $url        = $Thingiverse::api_uri_base . $Thingiverse::Thing::api_base . $id;
+my $api_base = '/tags/';
 
-my $thing = Thingiverse::Thing->new( 'id' => $id );
-# print Dumper($thing);
+my $name           = 'banana';
+my $url            = $Thingiverse::api_uri_base . $api_base . $name;
+my $expected_count = '24';
+my $things_url     = $url . '/things';
 
-    ok( defined $thing,            'Thingiverse::Thing object is defined' ); 
-    ok( $thing->isa('Thingiverse::Thing'), 'can make an Thingiverse::Thing object' ); 
-can_ok( $thing, qw( id ),                  );
-can_ok( $thing, qw( name ),                );
-can_ok( $thing, qw( public_url ),          );
-can_ok( $thing, qw( url ),                 );
-can_ok( $thing, qw( images_url ),          );
+my $tag = Thingiverse::Tag->new( 'name' => $name );
+# print Dumper($tag);
 
-    is( $thing->id,                  $id,                              'id         accessor' ); 
-  like( $thing->name,                qr((?i:circular diz fiber tool)), 'name       accessor' ); 
-    is( $thing->public_url,          $public_url,                      'public_url accessor' ); 
-    is( $thing->url,                 $url,                             '       url accessor' ); 
-    is( $thing->images_url,          $url . '/images',                 'images_url accessor' ); 
+    ok( defined $tag,            'Thingiverse::Thing object is defined' ); 
+    ok( $tag->isa('Thingiverse::Tag'), 'can make an Thingiverse::Tag object' ); 
+can_ok( $tag, qw( name ),       );
+can_ok( $tag, qw( url ),        );
+can_ok( $tag, qw( count ),      );
+can_ok( $tag, qw( things_url ), );
+
+  like( $tag->name,             qr((?i:banana)),  'name       accessor' ); 
+cmp_ok( $tag->count,      "==", $expected_count,  'count      accessor' ); 
+    is( $tag->url,              $url,             'url        accessor' ); 
+    is( $tag->things_url,       $url . '/things', 'things_url accessor' ); 
+
+# need yet to test tags/NAME/things and Tag/List.pm yet.
 
 if ( 0 ) {
-  print "nothing\n";
+  print "notag\n";
 }
-
-exit 0;
-__END__
-
-special methods:
-  publish
-  like
-  unlike
-  package
-  threadedcomments
-
-Class methods or things.pm as well as thing.pm?
-  newest
-  featured
-  popular
-
-  search
-
-#!/usr/bin/env perl
-
-use Test::Most tests => 10 + 6;
-use Data::Dumper;
-
-use Thingiverse;
-use Thingiverse::Category;
-
-our $api_base = "/categories/";
-
-my $name       = 'Tools'; # tools gives a count of 10435 while Tools gives 10439, odd?
-my $url        = $Thingiverse::api_uri_base . $Thingiverse::Category::api_base . lc $name;
-my $things_url = $Thingiverse::api_uri_base . $Thingiverse::Category::api_base . lc $name . '/things';
-my $count      = 10439;
-my $things     = ( $count > 30 ) ? 30 : $count;
-my $children   = 4;
-
-my $category = Thingiverse::Category->new( 'name' => $name );
-# print Dumper($thing);
-
-    ok( defined $category,          'Thingiverse::Category  object is defined' ); 
-    ok( $category->isa('Thingiverse::Category'), 'can make an Thingiverse::Category object' ); 
-can_ok( $category, qw( name ),                );
-can_ok( $category, qw( count ),               );
-can_ok( $category, qw( url ),                 );
-can_ok( $category, qw( things_url ),          );
-can_ok( $category, qw( thumbnail ),           );
-can_ok( $category, qw( children ),            );
-can_ok( $category, qw( things ),              );
-can_ok( $category, qw( things_pagination),    );
-# can_ok( $category, qw( list ),              );
-
-  like( $category->name,              qr($name),                      'name         accessor' ); 
-    is( $category->count,             $count,                         'count        accessor' );
-    is( $category->url,               $url,                           'url          accessor' ); 
-    is( $category->things_url,        $things_url,                    'things_url   accessor' ); 
-    is( @{$category->children},       $children,                      'children     accessor' );
-    is( @{$category->things},         $things,                        'things       accessor' );
 
 exit 0;
 __END__

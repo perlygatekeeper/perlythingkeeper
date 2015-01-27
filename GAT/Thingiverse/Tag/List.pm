@@ -12,7 +12,7 @@ has pagination  => ( isa => 'Thingiverse::Pagination', is => 'ro', required => 0
 has tags  => (
   traits   => ['Array'],
   is       => 'ro',
-  isa      => 'ArrayRef[Thingiverse::Thing]',
+  isa      => 'ArrayRef[Thingiverse::Tag]',
   required => 0,
   handles  => {
     all_tags      => 'elements',
