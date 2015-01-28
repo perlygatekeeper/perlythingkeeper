@@ -5,6 +5,8 @@ use JSON;
 use Thingiverse;
 use Thingiverse::Types;
 
+extends('Thingiverse');
+
 # each of these 9 API's returns a list of Thingiverse::Things
 # and will benefit from the traits of ['Array'] provided by
 # Moose::Meta::Attribute::Native::Trait::Array
@@ -25,13 +27,17 @@ our $api_bases = {
   categorized_by => '/categories/%s/things',
   collected_in   => '/collections/%s/things',
   tagged_as      => '/tags/%s/things',
+  owned_by       => '/users/%s/things',
+  liked_by       => '/users/%s/likes',
+  copied_by      => '/users/%s/copies',
+  downloaded_by  => '/users/%s/downloads',
 };
 
 has things_api  => ( isa => 'Things_API',              is => 'ro', required => 1, );
 has search_term => ( isa => 'Str',                     is => 'ro', required => 0, );
 has thing_id    => ( isa => 'ID',                      is => 'ro', required => 0, );
 has request_url => ( isa => 'Str',                     is => 'ro', required => 0, );
-has pagination  => ( isa => 'Thingiverse::Pagination', is => 'ro', required => 0, );
+has pagination  => ( isa => 'Thingiverse::Pagination', is => 'rw', required => 0, );
 
 has things  => (
   traits   => ['Array'],
@@ -57,7 +63,7 @@ has things  => (
 around BUILDARGS => sub {
   my $orig = shift;
   my $class = shift;
-  my ( $api, $term, $things, $thing_id, $json, $hash, $request );
+  my ( $api, $term, $things, $thing_id, $json, $hash, $request, $response, $link_header, $total_count, $pagination );
   if ( @_ == 1 && !ref $_[0] ) {
     $api = $_[0];
   } elsif ( @_ == 2 && $_[0] =~ m'api'i ) {
@@ -75,13 +81,15 @@ around BUILDARGS => sub {
     $request = $api_bases->{$api};
   } elsif ( $api =~ qr(ancestors|derivatives|prints) ) {
     $request = sprintf $api_bases->{$api}, $thing_id;
-  } elsif ( $api =~ qr(search|categor|collect|tag) ) {
+  } elsif ( $api =~ qr(search|categorized|collected|tagged|owned|liked|copied|downloaded) ) {
     $request = sprintf $api_bases->{$api}, $term;
   } else {
     die "API specified ($api) not know to return list of things.";
   }
-  $json = _get_from_thingiverse($request);
-  $things = decode_json($json);
+  $response   = _get_from_thingiverse($request);
+  $json       = $response)->responseContent;
+  $things     = decode_json($json);
+  $pagination = Thingverse::Pagination( { response => $response, page => 1 } );
   if ( ref($things) eq 'ARRAY' ) {
     foreach ( @{$things} ) {
       $_->{creator}{just_bless}=1;
@@ -90,21 +98,20 @@ around BUILDARGS => sub {
       $_ = Thingiverse::Thing->new($_);
     }
   }
+  my $link_header = $response->responseHeader('Link');
   $hash->{things}      = $things;
   $hash->{things_api}  = $api;
   $hash->{request_url} = $request;
-  $hash->{term}        = $term if ( $term ); 
-  $hash->{thing_id}    = $thing_id    if ( $thing_id ); 
+  $hash->{term}        = $term     if ( $term ); 
+  $hash->{thing_id}    = $thing_id if ( $thing_id ); 
   return $hash;
 };
 
+# NEED A TRIGGER FOR CHANGE IN Pagination to make a new call to thingiverse!!!!
+
 sub _get_from_thingiverse {
   my $request = shift;
-  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
-  my $rest_client = Thingiverse::_establish_rest_client('');
-  my $response = $rest_client->GET($request);
-  my $content = $response->responseContent;
-  return $content;
+  return $self->rest_client->GET($request);
 }
 
 
@@ -139,3 +146,20 @@ Need Pagination work for this one.
 
 Could do the same (or something similar) for Categories, Collections, Tags, Images and Files.
 
+sub _get_things_organized_under_category {
+  my $self = shift;
+  my $request = $api_base . $self->name . '/things'; # should be a Thingiverse::Thing::List
+  my $response = $self->rest_client->GET($request);
+  my $content = $response->responseContent;
+  my $link_header = $response->responseHeader('Link');
+  my $return = decode_json($content);
+  if ($link_header =~ /rel=.(first|last|next|prev)/) {
+    my $pagination;
+    foreach my $link ( split( /,\s*/, $link_header ) ) {
+      my ($page_url, $page_label) = ( $link =~ /<([^>]+)>;\s+rel="([^"]+)"/);
+      $pagination->{$page_label}=$page_url;
+    }
+    $self->things_pagination($pagination);
+  }
+  return $return;
+}

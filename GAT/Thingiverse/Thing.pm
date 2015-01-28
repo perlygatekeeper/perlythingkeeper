@@ -29,15 +29,16 @@ has is_published         => ( isa => 'Any',                      is => 'ro', req
 has added                => ( isa => 'Str',                      is => 'ro', required => 0, );
 has modified             => ( isa => 'Str',                      is => 'ro', required => 0, );
 has license              => ( isa => 'Str',                      is => 'ro', required => 0, );
-has creator              => ( isa => 'Thingiverse::User',        is => 'ro', required => 0, builder => '_get_this_things_creator',                       lazy => 1, );
-has prints               => ( isa => 'Thingiverse::Thing::List', is => 'ro', required => 0, builder => '_get_the_things_list_prints_of_this_thing',      lazy => 1, );
-has ancestors            => ( isa => 'Thingiverse::Thing::List', is => 'ro', required => 0, builder => '_get_the_things_list_ancestors_of_this_thing',   lazy => 1, );
-has derivatives          => ( isa => 'Thingiverse::Thing::List', is => 'ro', required => 0, builder => '_get_the_things_list_derivatives_of_this_thing', lazy => 1, );
-has images               => ( isa => 'ArrayRef[Thingiverse::Image]',    is => 'ro', required => 0, builder => '_get_images_for_this_thing',     lazy => 1, );
-has tags                 => ( isa => 'ArrayRef[Thingiverse::Tag]',      is => 'ro', required => 0, builder => '_get_tags_for_this_thing',       lazy => 1, );
-has files                => ( isa => 'ArrayRef[Thingiverse::File]',     is => 'ro', required => 0, builder => '_get_tags_for_this_thing',       lazy => 1, );
-# has categories           => ( isa => 'ArrayRef[Thingiverse::Category]', is => 'ro', required => 0, );
-# ??? collections ???
+has creator              => ( isa => 'Thingiverse::User',           is => 'ro', required => 0, builder => '_get_things_creator',        lazy => 1, );
+has prints               => ( isa => 'Thingiverse::Thing::List',    is => 'ro', required => 0, builder => '_get_prints_of_thing',       lazy => 1, );
+has ancestors            => ( isa => 'Thingiverse::Thing::List',    is => 'ro', required => 0, builder => '_get_ancestors_of_thing',    lazy => 1, );
+has derivatives          => ( isa => 'Thingiverse::Thing::List',    is => 'ro', required => 0, builder => '_get_derivatives_of_thing',  lazy => 1, );
+has images               => ( isa => 'Thingiverse::Thing::List',    is => 'ro', required => 0, builder => '_get_images_for_thing',      lazy => 1, );
+has tags                 => ( isa => 'Thingiverse::Thing::List',    is => 'ro', required => 0, builder => '_get_tags_for_thing',        lazy => 1, );
+has files                => ( isa => 'Thingiverse::Thing::List',    is => 'ro', required => 0, builder => '_get_files_for_thing',       lazy => 1, );
+has likes                => ( isa => 'Thingiverse::User::List',     is => 'ro', required => 0, builder => '_get_users_who_liked_thing', lazy => 1, );
+has categories           => ( isa => 'Thingiverse::Category::List', is => 'ro', required => 0, builder => '_get_categories_for_thing',  lazy => 1, );
+# has comments/threadedcomments
 has public_url           => ( isa => 'Str',                      is => 'ro', required => 0, );
 has url                  => ( isa => 'Str',                      is => 'ro', required => 0, );
 has tags_url             => ( isa => 'Str',                      is => 'ro', required => 0, );
@@ -93,17 +94,17 @@ sub _get_from_thingi_given_id {
   return $content;
 }
 
-sub _get_the_things_list_prints_of_this_thing {
+sub _get_prints_of_this_thing {
   my $self = shift;
   return Thingiverse::Thing::List->new( { api => 'prints', thing_id => $self->id } );
 }
 
-sub _get_the_things_list_ancestors_of_this_thing {
+sub _get_ancestors_of_this_thing {
   my $self = shift;
   return Thingiverse::Thing::List->new( { api => 'ancestors', thing_id => $self->id } );
 }
 
-sub _get_the_things_list_derivatives_of_this_thing {
+sub _get_derivatives_of_this_thing {
   my $self = shift;
   return Thingiverse::Thing::List->new( { api => 'derivatives', thing_id => $self->id } );
 }

@@ -3,13 +3,14 @@ use Moose;
 use Carp;
 use REST::Client;
 
-my $VERSION="0.5.34";
-our $verbose      = 1;
+my $VERSION="0.6.1";
 
-our $api_uri_base = "https://api.thingiverse.com";
+our $api_uri_base      = "https://api.thingiverse.com";
+our $pagination_maxium = 30;
+our $verbose           = 2;
 
-our $client_id    = 'c587f0f2ee04adbe719b';
-our $access_token = 'b053a0798c50a84fbb80e66e51bba9c4';
+our $client_id         = 'c587f0f2ee04adbe719b';
+our $access_token      = 'b053a0798c50a84fbb80e66e51bba9c4';
 # has client_id    => ( isa => 'Str', is => 'ro', required => 1, default => 'c587f0f2ee04adbe719b', );
 # has access_token => ( isa => 'Str', is => 'ro', required => 1, default => 'b053a0798c50a84fbb80e66e51bba9c4', );
 
@@ -35,6 +36,20 @@ sub _establish_rest_client {
     $rest_client->addHeader( 'Authorization', 'Bearer ' . $access_token );
     return $rest_client;
   }
+}
+
+sub _send_request_to_thingiverse {
+  my $self = shift;
+  my $request = shift;
+
+  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
+  my $response = $self->rest_client->GET($request);
+
+# NEED TO ADD ERROR HANDLING HERE!!!
+
+# my $content = $response->responseContent;
+# my $headers = $response->responseHeaders;
+  return $response;
 }
 
 no Moose;
