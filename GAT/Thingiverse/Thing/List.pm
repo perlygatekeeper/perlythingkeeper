@@ -4,15 +4,18 @@ use Carp;
 use JSON;
 use Thingiverse;
 use Thingiverse::Types;
+use Thingiverse::Pagination;
 
 extends('Thingiverse');
 
-# each of these 9 API's returns a list of Thingiverse::Things
+# each of these 16 API's returns a list of Thingiverse::Things
 # and will benefit from the traits of ['Array'] provided by
 # Moose::Meta::Attribute::Native::Trait::Array
 # four of these API's need additional information
 # search API needs a search term
 # ancestors, derivates and prints  APIs all need a thing_id
+# owned_by, liked_by, copied_by and downloaded_by  APIs all need a user_name
+# tagged_as requires a tag name
 
 our $api_bases = {
   things         => "/things/",
@@ -63,7 +66,8 @@ has things  => (
 around BUILDARGS => sub {
   my $orig = shift;
   my $class = shift;
-  my ( $api, $term, $things, $thing_id, $json, $hash, $request, $response, $link_header, $total_count, $pagination );
+  my ( $api, $term, $things, $thing_id, $json, $hash, $from_thingiverse,
+       $request, $response, $link_header, $total_count, $pagination );
   if ( @_ == 1 && !ref $_[0] ) {
     $api = $_[0];
   } elsif ( @_ == 2 && $_[0] =~ m'api'i ) {
@@ -86,10 +90,11 @@ around BUILDARGS => sub {
   } else {
     die "API specified ($api) not know to return list of things.";
   }
-  $response   = _get_from_thingiverse($request);
-  $json       = $response)->responseContent;
-  $things     = decode_json($json);
-  $pagination = Thingverse::Pagination( { response => $response, page => 1 } );
+  $from_thingiverse = _get_from_thingiverse($request);
+  $response         = $from_thingiverse->{response};
+  $json             = $response->responseContent;
+  $things           = decode_json($json);
+  $pagination       = Thingverse::Pagination->new( { response => $response, page => 1 } );
   if ( ref($things) eq 'ARRAY' ) {
     foreach ( @{$things} ) {
       $_->{creator}{just_bless}=1;
@@ -98,12 +103,13 @@ around BUILDARGS => sub {
       $_ = Thingiverse::Thing->new($_);
     }
   }
-  my $link_header = $response->responseHeader('Link');
+  $link_header = $response->responseHeader('Link');
   $hash->{things}      = $things;
   $hash->{things_api}  = $api;
   $hash->{request_url} = $request;
   $hash->{term}        = $term     if ( $term ); 
   $hash->{thing_id}    = $thing_id if ( $thing_id ); 
+  $hash->{rest_client} = $from_thingiverse->{rest_client};
   return $hash;
 };
 
@@ -111,7 +117,10 @@ around BUILDARGS => sub {
 
 sub _get_from_thingiverse {
   my $request = shift;
-  return $self->rest_client->GET($request);
+  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
+  my $rest_client = Thingiverse::_establish_rest_client('');
+  my $response = $rest_client->GET($request);
+  return { response => $response, rest_client => $rest_client };
 }
 
 
@@ -138,13 +147,14 @@ search
 things (without an id)
 
 Other objects generate a List of things as well:
-categories
-collections
-tags
+categories  - categorized_as
+collections - collected_in
+tags        - tagged_by
+users       - owned_by, liked_by, collected_by and downloaded_by
 
 Need Pagination work for this one.
 
-Could do the same (or something similar) for Categories, Collections, Tags, Images and Files.
+Could do the same (or something similar) for Categories, Collections, Tags, Images, Files and Users.
 
 sub _get_things_organized_under_category {
   my $self = shift;

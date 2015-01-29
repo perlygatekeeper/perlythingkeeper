@@ -5,8 +5,11 @@ use JSON;
 use Thingiverse::Types;
 use Data::Dumper;
 
+use Thingiverse::Thing::List;
+
 extends('Thingiverse');
-extends('Thingiverse::Thing::List');
+# extends('Thingiverse::Thing::List');
+
 our $api_base = "/users/";
 
 has id              => ( isa => 'ID',                            is => 'ro', required => 0, );
@@ -29,13 +32,13 @@ has likes_url       => ( isa => 'Str',                           is => 'ro', req
 has default_license => ( isa => 'Str',                           is => 'ro', required => 0, );
 has email           => ( isa => 'Str',                           is => 'ro', required => 0, );
 has is_following    => ( isa => 'Boolean',                       is => 'ro', required => 0, );
-has things          => ( isa => 'Thingiverse::Thing::List',      is => 'ro', required => 0, builder => '_get_things_owned_by_user',         lazy => 1 );
-# has likes           => ( isa => 'Thingiverse::Thing::List',      is => 'ro', required => 0, builder  => '_get_things_liked_by_user',        lazy => 1, );
-# has copies          => ( isa => 'Thingiverse::Thing::List',      is => 'ro', required => 0, builder  => '_get_things_copied_by_user',       lazy => 1, );
-# has downloads       => ( isa => 'Thingiverse::Thing::List',      is => 'ro', required => 0, builder  => '_get_things_downloaded_by_user',   lazy => 1, );
-# has collections     => ( isa => 'Thingiverse::Collection::List', is => 'ro', required => 0, builder  => '_get_collections_created_by_user', lazy => 1, );
-# has avatarimage     => ( isa => 'Str',                           is => 'ro', required => 0, builder  => '_set_avatar_for_user',             lazy => 1, );
-# has coverimage      => ( isa => 'Str',                           is => 'ro', required => 0, builder  => '_set_coverimage_for_user',         lazy => 1, );
+has things          => ( isa => 'Thingiverse::Thing::List',      is => 'ro', required => 0, builder => '_get_things_owned_by_user',        lazy => 1, );
+has likes           => ( isa => 'Thingiverse::Thing::List',      is => 'ro', required => 0, builder => '_get_things_liked_by_user',        lazy => 1, );
+has copies          => ( isa => 'Thingiverse::Thing::List',      is => 'ro', required => 0, builder => '_get_things_copied_by_user',       lazy => 1, );
+has downloads       => ( isa => 'Thingiverse::Thing::List',      is => 'ro', required => 0, builder => '_get_things_downloaded_by_user',   lazy => 1, );
+has collections     => ( isa => 'Thingiverse::Collection::List', is => 'ro', required => 0, builder => '_get_collections_created_by_user', lazy => 1, );
+# has avatarimage     => ( isa => 'Str',                           is => 'ro', required => 0, builder => '_set_avatar_for_user',             lazy => 1, );
+# has coverimage      => ( isa => 'Str',                           is => 'ro', required => 0, builder => '_set_coverimage_for_user',         lazy => 1, );
 
 around BUILDARGS => sub {
   my $orig = shift;
@@ -90,46 +93,22 @@ sub _get_things_owned_by_user {
 
 sub _get_things_liked_by_user {
   my $self = shift;
-  my $request = $api_base . $self->name . '/likes';
-  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
-  my $response = $self->rest_client->GET($request);
-  my $content = $response->responseContent;
-  my $return = decode_json($content);
-# Copy Pagination code from Category.pm
-  return $return;
+  return Thingiverse::Thing::List->new( { api => 'liked_by', term => $self->id, } );
 }
 
-sub _get_copies_liked_by_user {
+sub _get_copied_by_user {
   my $self = shift;
-  my $request = $api_base . $self->name . '/copies';
-  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
-  my $response = $self->rest_client->GET($request);
-  my $content = $response->responseContent;
-  my $return = decode_json($content);
-# Copy Pagination code from Category.pm
-  return $return;
+  return Thingiverse::Thing::List->new( { api => 'copied_by', term => $self->id, } );
 }
 
 sub _get_things_downloaded_by_user {
   my $self = shift;
-  my $request = $api_base . $self->name . '/downloads';
-  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
-  my $response = $self->rest_client->GET($request);
-  my $content = $response->responseContent;
-  my $return = decode_json($content);
-# Copy Pagination code from Category.pm
-  return $return;
+  return Thingiverse::Thing::List->new( { api => 'downloaded_by', term => $self->id, } );
 }
 
 sub _get_collections_created_by_user {
   my $self = shift;
-  my $request = $api_base . $self->name . '/collections';
-  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
-  my $response = $self->rest_client->GET($request);
-  my $content = $response->responseContent;
-  my $return = decode_json($content);
-# Copy Pagination code from Category.pm
-  return $return;
+  return Thingiverse::Collection::List->new( { api => 'by', term => $self->id, } );
 }
 
 no Moose;

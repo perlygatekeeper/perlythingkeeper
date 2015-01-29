@@ -10,7 +10,7 @@ has page        => ( isa => 'Page',           is => 'ro', required => 0, default
 has per_page    => ( isa => 'PerPage',        is => 'ro', required => 0, default => $Thingiverse::pagination_maxium );
 has pages       => ( isa => 'Page',           is => 'ro', required => 0, );
 has total_count => ( isa => 'ThingiCount',    is => 'ro', required => 0, );
-has response    => ( isa => 'ThingiResponse', is => 'rw', required => 0, trigger => '_extract_pagination_links_from_responseHeaders', );
+has response    => ( isa => 'ThingiResponse', is => 'rw', required => 0, trigger => \&_extract_pagination_links_from_responseHeaders, );
 has first_url   => ( isa => 'Str',            is => 'ro', required => 0, builder => '_first_page_url', );
 has last_url    => ( isa => 'Str',            is => 'ro', required => 0, builder => ' _last_page_url', );
 has prev_url    => ( isa => 'Str',            is => 'ro', required => 0, builder => ' _prev_page_url', );

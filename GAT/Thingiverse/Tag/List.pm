@@ -1,4 +1,4 @@
-package Thingiverse::Tag;
+package Thingiverse::Tag::List;
 use Moose;
 use Carp;
 use JSON;

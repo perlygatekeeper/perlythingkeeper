@@ -1,55 +1,9 @@
-package Thingiverse::Collection::List;
+package Thingiverse::User::List;
 use Moose;
 use Carp;
 use JSON;
 use Thingiverse;
 use Thingiverse::Types;
-
-our $api_bases = {
-  created_by => '/users/%s/collections', # collections created by user
-  list       => '/collections',
-};
-
-has collections_api => ( isa => 'Collections_API',         is => 'ro', required => 0, );
-has user_id         => ( isa => 'ID',                      is => 'ro', required => 0, );
-has request_url     => ( isa => 'Str',                     is => 'ro', required => 0, );
-has pagination      => ( isa => 'Thingiverse::Pagination', is => 'ro', required => 0, );
-
-has collections  => (
-  traits   => ['Array'],
-  is       => 'ro',
-  isa      => 'ArrayRef[Thingiverse::Collection]',
-  required => 0,
-  handles  => {
-    all_collections      => 'elements',
-    add_collections      => 'push',
-    map_collections      => 'map',
-    filter_collections   => 'grep',
-    find_collections     => 'grep',
-    get_collections      => 'get',
-    join_collections     => 'join',
-    count_collections    => 'count',
-    has_collections      => 'count',
-    has_no_collections   => 'is_empty',
-    sorted_collections   => 'sort',
-  },
-# lazy => 1,
-);
-
-sub _get_from_thingiverse {
-  my $request = shift;
-  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
-  my $rest_client = Thingiverse::_establish_rest_client('');
-  my $response = $rest_client->GET($request);
-  my $content = $response->responseContent;
-  return $content;
-}
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
-
-1;
-__END__
 
 our $api_bases = {
   liked_by  => '/things/%s/liked',   # users that liked this thing

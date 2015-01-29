@@ -21,7 +21,7 @@ around BUILDARGS => sub {
   my $name;
   my $json;
   my $hash;
-  if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'just_bless'} && ${$_[0]}{'id'}) {
+  if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'just_bless'} && ${$_[0]}{'name'}) {
     delete ${$_[0]}{'just_bless'};
     return $class->$orig(@_);
   } elsif ( @_ == 1 && !ref $_[0] ) {
@@ -62,4 +62,3 @@ __END__
 special methods
 
 list
-
