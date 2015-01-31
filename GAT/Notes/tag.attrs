@@ -1,0 +1,4 @@
+has name                 => ( isa => 'Str',                      is => 'ro', required => 0, );
+has url                  => ( isa => 'Str',                      is => 'ro', required => 0, );
+has count                => ( isa => 'ThingiCount',              is => 'ro', required => 0, );
+has things_url           => ( isa => 'Str',                      is => 'ro', required => 0, );
