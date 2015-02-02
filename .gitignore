@@ -18,3 +18,14 @@ nytprof.out
 *.o
 *.bs
 /OLD/
+.build
+tmp
+*.patch
+# avoid temp and backup files
+*~
+*#
+*.bak
+*.old
+*.rej
+*.swp
+*.tmp
