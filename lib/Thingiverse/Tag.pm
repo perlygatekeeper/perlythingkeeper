@@ -29,14 +29,16 @@ This method returns a reason.
 
 =for :list
 * L<Thingiverse>
+* L<Thingiverse::User>
 * L<Thingiverse::User::List>
 * L<Thingiverse::Cache>
 * L<Thingiverse::Thing>
 * L<Thingiverse::Thing::List>
 * L<Thingiverse::Tag::List>
+* L<Thingiverse::Category>
 * L<Thingiverse::Collection>
 * L<Thingiverse::Collection::List>
-* L<Thingiverse::Category>
+* L<Thingiverse::Comment>
 * L<Thingiverse::File>
 * L<Thingiverse::File::List>
 * L<Thingiverse::Image>

@@ -23,8 +23,27 @@ This method returns a reason.
 =head1 SEE ALSO
 
 =for :list
-* L<Your::Module>
-* L<Your::Package>
+* L<Thingiverse>
+* L<Thingiverse::User>
+* L<Thingiverse::User::List>
+* L<Thingiverse::Cache>
+* L<Thingiverse::Thing>
+* L<Thingiverse::Thing::List>
+* L<Thingiverse::Tag>
+* L<Thingiverse::Tag::List>
+* L<Thingiverse::Category>
+* L<Thingiverse::Collection>
+* L<Thingiverse::Collection::List>
+* L<Thingiverse::Comment>
+* L<Thingiverse::File>
+* L<Thingiverse::File::List>
+* L<Thingiverse::Image>
+* L<Thingiverse::SizedImage>
+* L<Thingiverse::Copy>
+* L<Thingiverse::Pagination>
+* L<Thingiverse::Cache>
+* L<Thingiverse::Group>
+=cut
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
