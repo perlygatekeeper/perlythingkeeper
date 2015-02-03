@@ -7,6 +7,7 @@ use Data::Dumper;
 use Carp;
 use JSON;
 use Thingiverse::Types;
+use Thingiverse::Pagination;
 
 # ABSTRACT: a really awesome library
 

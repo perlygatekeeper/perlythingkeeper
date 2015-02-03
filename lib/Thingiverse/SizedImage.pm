@@ -7,11 +7,11 @@ use Data::Dumper;
 use Carp;
 use Thingiverse::Types;
 
-has url   => ( isa => 'Str',                  is => 'ro', required => 0, );
-has type  => ( isa => 'ThingiverseImageType', is => 'ro', required => 0, );
-has size  => ( isa => 'ThingiverseImageSize', is => 'ro', required => 0, );
+has url         => ( isa => 'Str',                  is => 'ro', required => 0, );
+has image_type  => ( isa => 'ThingiverseImageType', is => 'ro', required => 0, );
+has image_size  => ( isa => 'ThingiverseImageSize', is => 'ro', required => 0, );
 
-# ABSTRACT: a really awesome library
+# ABSTRACT: Images uploaded to Thingverse are resized to 15 different "standard" sizes, each with a url, a type and a size.
 
 =head1 SYNOPSIS
 

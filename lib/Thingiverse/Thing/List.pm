@@ -5,6 +5,7 @@ use Moose;
 use Moose::Util::TypeConstraints;
 use Data::Dumper;
 use Carp;
+use JSON;
 use Thingiverse;
 use Thingiverse::Types;
 use Thingiverse::Pagination;
@@ -152,7 +153,7 @@ around BUILDARGS => sub {
   $response         = $from_thingiverse->{response};
   $json             = $response->responseContent;
   $things           = decode_json($json);
-  $pagination       = Thingverse::Pagination->new( { response => $response, page => 1 } );
+  $pagination       = Thingiverse::Pagination->new( { response => $response, page => 1 } );
   if ( ref($things) eq 'ARRAY' ) {
     foreach ( @{$things} ) {
       $_->{creator}{just_bless}=1;

@@ -8,6 +8,7 @@ use Carp;
 use JSON;
 use Thingiverse;
 use Thingiverse::Types;
+use Thingiverse::Pagination;
 
 our $api_bases = {
   created_by => '/users/%s/collections', # collections created by user

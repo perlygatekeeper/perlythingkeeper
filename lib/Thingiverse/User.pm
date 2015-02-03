@@ -5,8 +5,9 @@ use Moose;
 use Moose::Util::TypeConstraints;
 use Data::Dumper;
 use Carp;
+use JSON;
 use Thingiverse::Types;
-
+# use Thingiverse::Pagination;
 use Thingiverse::Thing::List;
 
 extends('Thingiverse');
