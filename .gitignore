@@ -29,3 +29,6 @@ tmp
 *.rej
 *.swp
 *.tmp
+Thingiverse-*
+Old/*
+tests.out
