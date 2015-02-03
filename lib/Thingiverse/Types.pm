@@ -5,10 +5,10 @@ use Moose;
 use Moose::Util::TypeConstraints;
 use Data::Dumper;
 use Carp;
-use Thingiverse;
+use JSON;
 use DateTime;
 use DateTime::Format::ISO8601;
-use JSON;
+use Thingiverse;
 
 # ABSTRACT: Establishes the Types needed for the various Thingiverse/Moose object attributes
 
@@ -113,6 +113,11 @@ subtype 'PerPage',
   where { $_ >= 1 and $_ <= $Thingiverse::pagination_maximum },
   message { "$_ isn't an INT between 1 and $Thingiverse::pagination_maximum (presently thingiverse.com limits pagination via it's API to a maximum of 30)" };
 
+subtype 'ThingiResponse',
+  as 'REST::Client',
+  where { $_->responseHeader('X-RateLimit-Remaining') and $_->responseHeader('X-RateLimit-Remaining') > 0 },
+  message { "Well gee, this doesn't look like a valid REST API response from api.thingiverse.com ...\n"
+          . join("\n",$_->responseHeaders()) . "\n>" . $_->responseHeader('X-RateLimit-Remaining') . "<" }; 
 enum 'ThingiverseImageType', [ qw( thumb preview display ) ];
 
 enum 'ThingiverseImageSize', [ qw( birdwing card featured large medium small tiny tinycard ) ];

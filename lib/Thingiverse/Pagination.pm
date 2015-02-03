@@ -48,7 +48,7 @@ This method returns a reason.
 =cut
 
 has page        => ( isa => 'Page',           is => 'ro', required => 0, default => 1 );
-has per_page    => ( isa => 'PerPage',        is => 'ro', required => 0, default => $Thingiverse::pagination_maxium );
+has per_page    => ( isa => 'PerPage',        is => 'ro', required => 0, default => $Thingiverse::pagination_maximum );
 has pages       => ( isa => 'Page',           is => 'ro', required => 0, );
 has total_count => ( isa => 'ThingiCount',    is => 'ro', required => 0, );
 has response    => ( isa => 'ThingiResponse', is => 'rw', required => 0, trigger => \&_extract_pagination_links_from_responseHeaders, );
@@ -67,7 +67,7 @@ sub as_string {
   if ( $self->page > 1 ) {
     $page = "page=" . $self->page;
   }
-  if ( $self->per_page < $Thingiverse::pagination_maxium ) {
+  if ( $self->per_page < $Thingiverse::pagination_maximum ) {
     $per_page = "per_page=" . $self->per_page;
   }
   if ( $page || $per_page ) {

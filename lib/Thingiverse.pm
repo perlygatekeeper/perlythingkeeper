@@ -52,15 +52,21 @@ This method returns a reason.
 
 =cut
 
-our $api_uri_base      = "https://api.thingiverse.com";
-our $pagination_maxium = 30;
-our $verbose           = 2;
+our $api_uri_base       = "https://api.thingiverse.com";
+our $pagination_maximum = 30;
+our $verbose            = 0;
 
-our $client_id         = 'c587f0f2ee04adbe719b';
-our $access_token      = 'b053a0798c50a84fbb80e66e51bba9c4';
+our $client_id          = 'c587f0f2ee04adbe719b';
+our $access_token       = 'b053a0798c50a84fbb80e66e51bba9c4';
 
 # should I make rest_client an attribute or should I just have GAT use ISA = REST::Client? or extends REST::Client
 has rest_client  => ( isa => 'REST::Client', is => 'ro', required => 1, builder => '_establish_rest_client', lazy => 1 );
+has verbosity    => ( isa => 'Int',          is => 'rw', required => 1, default => 0, trigger => \&_set_verbosity );
+
+sub _set_verbosity {
+  my $self = shift;
+  $verbose = shift;
+}
 
 sub _establish_rest_client {
   my $self = shift;

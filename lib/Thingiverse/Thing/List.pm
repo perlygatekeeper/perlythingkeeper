@@ -8,6 +8,7 @@ use Carp;
 use JSON;
 use Thingiverse;
 use Thingiverse::Types;
+use Thingiverse::Thing;
 use Thingiverse::Pagination;
 
 extends('Thingiverse');

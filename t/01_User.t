@@ -7,6 +7,8 @@ use Thingiverse::User;
 
 my $user = Thingiverse::User->new( 'name' => 'perlygatekeeper' );
 
+   $user->verbosity(0);
+
     ok( defined $user,            'Thingiverse::User object is defined' ); 
     ok( $user->isa('Thingiverse::User'), 'can make an Thingiverse::User object' ); 
 can_ok( $user, qw( id ),              );
@@ -51,7 +53,7 @@ can_ok( $user, qw( things ),          );
     is( $user->registered->month,   11, 'registered month check' ); 
     is( $user->registered->day ,    20, 'registered day   check' ); 
     ok( $user->last_active->isa('DateTime'), 'last_active is a DateTime object' );
-    is( @{$user->things}, 27, 'things accessor' );
+    is( $user->things->count_things, 27, 'things accessor' );
 
 # print Dumper($user);
 
