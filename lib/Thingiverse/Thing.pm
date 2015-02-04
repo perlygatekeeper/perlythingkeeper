@@ -136,22 +136,22 @@ sub _get_from_thingi_given_id {
   return $content;
 }
 
-sub _get_prints_of_this_thing {
+sub _get_prints_of_thing {
   my $self = shift;
   return Thingiverse::Thing::List->new( { api => 'prints', thing_id => $self->id } );
 }
 
-sub _get_ancestors_of_this_thing {
+sub _get_ancestors_of_thing {
   my $self = shift;
   return Thingiverse::Thing::List->new( { api => 'ancestors', thing_id => $self->id } );
 }
 
-sub _get_derivatives_of_this_thing {
+sub _get_derivatives_of_thing {
   my $self = shift;
   return Thingiverse::Thing::List->new( { api => 'derivatives', thing_id => $self->id } );
 }
 
-sub _get_images_for_this_thing {
+sub _get_images_for_thing {
   my $self = shift;
   my $request = $api_base . $self->id . '/images';
 # Copy Pagination code from Category.pm
@@ -170,7 +170,7 @@ sub _get_images_for_this_thing {
   return $return;
 }
 
-sub _get_tags_for_this_thing {
+sub _get_tags_for_thing {
   my $self = shift;
   my $request = $api_base . $self->id . '/tags';
 # Copy Pagination code from Category.pm
@@ -187,7 +187,7 @@ sub _get_tags_for_this_thing {
   return $return;
 }
 
-sub _get_files_for_this_thing {
+sub _get_files_for_thing {
   my $self = shift;
   my $request = $api_base . $self->id . '/files';
 # Copy Pagination code from Category.pm

@@ -85,12 +85,21 @@ sub as_string {
 
 sub _extract_pagination_links_from_responseHeaders {
   my $self = shift;
+  my $page;
   my $response = $self->response;
   my $link_header = $response->responseHeader('Link');
-  if ($link_header =~ /rel=.(first|last|next|prev)/) {
+  if ($link_header and $link_header =~ /rel=.(first|last|next|prev)/) {
     foreach my $link ( split( /,\s*/, $link_header ) ) {
       my ($page_url, $page_label) = ( $link =~ /<([^>]+)>;\s+rel="([^"]+)"/);
       $self->{$page_label}=$page_url;
+	  if ( not $page and $page_label =~ /next/i ) { # if we haven't determined the current page, and have a link for the next page
+	    ( $page, ) = ( $page_url =~ /page=(\s+)/ ); # find the next page's number
+		$page--;                                    # and subtract 1 to obtain the current page's number
+	  }
+	  if ( not $page and $page_label =~ /prev/i ) { # if we haven't determined the current page, and have a link for the previous page
+	    ( $page, ) = ( $page_url =~ /page=(\s+)/ ); # find the previous page's number
+		$page--;                                    # and add 1 to obtain the current page's number
+	  }
 	  if ( $page_label =~ /last/i ) {
 	    ( $self->{pages}, ) = ( $page_url =~ /page=(\d+)/i );
 	  }
