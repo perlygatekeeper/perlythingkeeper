@@ -11,13 +11,13 @@ our $api_base = "/collections/";
 my $id           = '2334425';
 my $url          = $Thingiverse::api_uri_base . $Thingiverse::Collection::api_base . $id;
 my $name         = "Boxes and Containers";
-my $count        = 33;
-my $things       = 35;
+my $like_count   = 35;
+my $things_count = 35;
 my $creator_id   = 16273;
 my $creator_name = 'perlygatekeeper';
 
 # maximum of 30 things returned for collections?
-$things = ( $things > 30 ) ? 30 : $things;
+$things_count = ( $things_count > $Thingiverse::pagination_maximum ) ? $Thingiverse::pagination_maximum : $things_count;
 
 my $collection = Thingiverse::Collection->new( 'id' => $id );
 # print Dumper($thing);
@@ -42,7 +42,7 @@ can_ok( $collection, qw( things ),              );
     is( $collection->id,                $id,            'id           accessor' ); 
   like( $collection->name,              qr($name),      'name         accessor' ); 
   like( $collection->description,       qr(),           'description  accessor' ); 
-    is( $collection->count,             $count,         'like_count   accessor' );
+    is( $collection->count,             $like_count,    'like_count   accessor' );
   like( $collection->is_editable,       qr(true|false), 'is_editable  accessor' ); 
     is( $collection->url,               $url,           'url          accessor' ); 
     ok( $collection->added->isa('DateTime'),            'registered is a DateTime object' ); 
@@ -53,13 +53,18 @@ can_ok( $collection, qw( things ),              );
     is( ref($collection->creator),      'HASH',         'creator is a User_Hash' ); 
     is( $collection->creator->{id},     $creator_id,    'creator id' );
     is( $collection->creator->{name},   $creator_name,  'creator name' );
-# like( $collection->added,             qr(^2014-\d\d-\d\dT\d\d:\d\d:\d\d\+00:00$), 'added    accessor' );
-# like( $collection->modified,          qr(^2014-\d\d-\d\dT\d\d:\d\d:\d\d\+00:00$), 'modified accessor' );
   like( $collection->thumbnail,         qr(^(?i)https://thingiverse-production.*\.(jpg|png)), 'thumbnail    accessor' );
   like( $collection->thumbnail_1,       qr(^(?i)https://thingiverse-production.*\.(jpg|png)), 'thumbnail_1  accessor' );
   like( $collection->thumbnail_2,       qr(^(?i)https://thingiverse-production.*\.(jpg|png)), 'thumbnail_2  accessor' );
   like( $collection->thumbnail_3,       qr(^(?i)https://thingiverse-production.*\.(jpg|png)), 'thumbnail_3  accessor' );
-    is( @{$collection->things},         $things,                                              'things       accessor' );
+
+    my $things = $collection->things;
+    is( ref($things), 'Thingiverse::Thing::List', 'things accessor returns a Thingiverse::Thing::List' );
+can_ok( $things, qw( count_things ), );
+    is( $things->count_things, $things_count,     "tags contains $things_count tags" );
+can_ok( $things, qw( get_things ), );
+    my $first_things = $things->get_things(0);
+    ok( $first_things->isa('Thingiverse::Thing'), 'first thing is a Thingiverse::Thing' );
 
 if ( 0 ) {
   print "nothing\n";

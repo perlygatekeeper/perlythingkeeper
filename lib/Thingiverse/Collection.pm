@@ -7,6 +7,7 @@ use Data::Dumper;
 use Carp;
 use JSON;
 use Thingiverse::Types;
+use Thingiverse::Thing::List;
 
 extends('Thingiverse');
 
@@ -50,21 +51,21 @@ This method returns a reason.
 * L<Thingiverse::Group>
 =cut
 
-has id             => ( isa => 'ID',                  is => 'ro', required => 1, );
-has _original_json => ( isa => 'Str',                 is => 'ro', required => 0, );
-has name           => ( isa => 'Str',                 is => 'ro', required => 0, );
-has description    => ( isa => 'Str',                 is => 'ro', required => 0, );
-has count          => ( isa => 'ThingiCount',         is => 'ro', required => 0, );
-has is_editable    => ( isa => 'Any',                 is => 'ro', required => 0, );
-has url            => ( isa => 'Str',                 is => 'ro', required => 0, );
-has added          => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
-has modified       => ( isa => 'ThingiverseDateTime', is => 'ro', required => 0, coerce => 1 );
-has creator        => ( isa => 'User_Hash',           is => 'rw', required => 0, coerce => 1 );
-has thumbnail      => ( isa => 'Str',                 is => 'ro', required => 0, );
-has thumbnail_1    => ( isa => 'Str',                 is => 'ro', required => 0, );
-has thumbnail_2    => ( isa => 'Str',                 is => 'ro', required => 0, );
-has thumbnail_3    => ( isa => 'Str',                 is => 'ro', required => 0, );
-has things         => ( isa => 'ArrayRef[HashRef]',   is => 'ro', required => 0, builder => '_get_things_belonging_to_collection' );
+has id             => ( isa => 'ID',                       is => 'ro', required => 1, );
+has _original_json => ( isa => 'Str',                      is => 'ro', required => 0, );
+has name           => ( isa => 'Str',                      is => 'ro', required => 0, );
+has description    => ( isa => 'Str',                      is => 'ro', required => 0, );
+has count          => ( isa => 'ThingiCount',              is => 'ro', required => 0, );
+has is_editable    => ( isa => 'Any',                      is => 'ro', required => 0, );
+has url            => ( isa => 'Str',                      is => 'ro', required => 0, );
+has added          => ( isa => 'ThingiverseDateTime',      is => 'ro', required => 0, coerce => 1 );
+has modified       => ( isa => 'ThingiverseDateTime',      is => 'ro', required => 0, coerce => 1 );
+has creator        => ( isa => 'User_Hash',                is => 'rw', required => 0, coerce => 1 );
+has thumbnail      => ( isa => 'Str',                      is => 'ro', required => 0, );
+has thumbnail_1    => ( isa => 'Str',                      is => 'ro', required => 0, );
+has thumbnail_2    => ( isa => 'Str',                      is => 'ro', required => 0, );
+has thumbnail_3    => ( isa => 'Str',                      is => 'ro', required => 0, );
+has things         => ( isa => 'Thingiverse::Thing::List', is => 'ro', required => 0, builder => '_get_things_belonging_to_collection' );
 
 # two ways to get a list of Collections:
 # /collections/                       with no added id, will give a list of the newest collections.
@@ -104,8 +105,7 @@ sub _get_collection_given_id {
 
 sub _get_things_belonging_to_collection {
   my $self = shift;
-  return Thingiverse::Thing::List->new( { api => 'search', term => $self->id  } );
-
+  return Thingiverse::Thing::List->new( { api => 'collected_in', term => $self->id  } );
 }
 
 no Moose;
