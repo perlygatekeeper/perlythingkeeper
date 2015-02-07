@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 16 + 19;
+use Test::Most tests => 16 + 23;
 use Data::Dumper;
 
 use Thingiverse;

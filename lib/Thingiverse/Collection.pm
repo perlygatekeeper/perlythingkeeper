@@ -70,6 +70,7 @@ has things         => ( isa => 'Thingiverse::Thing::List', is => 'ro', required 
 # two ways to get a list of Collections:
 # /collections/                       with no added id, will give a list of the newest collections.
 # /users/perlygatekeeper/collections  will give that user's collections
+# two other calls to the API involving collections
 # /collections/id                     give all information on collection designated by that id
 # /collections/id/things              gives list of things belonging to that collection.
 
@@ -79,7 +80,11 @@ around BUILDARGS => sub {
   my $id;
   my $json;
   my $hash;
-  if ( @_ == 1 && !ref $_[0] ) {
+  if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'just_bless'} && ${$_[0]}{'id'}) {
+    print "I think I'll just be blessin' this collection: " . ${$_[0]}{'name'} . "\n" if ($Thingiverse::verbose);
+    print Dumper($_[0]) if ($Thingiverse::verbose > 1);
+    return $class->$orig(@_);
+  } elsif ( @_ == 1 && !ref $_[0] ) {
     $id = $_[0];
   } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} ) { # passed a hashref to a hash containing key 'id'
     $id = ${$_[0]}->{'id'};

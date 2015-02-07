@@ -88,8 +88,8 @@ around BUILDARGS => sub {
   my $json;
   my $hash;
   if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'just_bless'} && ${$_[0]}{'name'}) {
-  print "just blessin' this user ya see: " . ${$_[0]}{'name'} . "\n" if ($Thingiverse::verbose);
-  print Dumper($_[0]) if ($Thingiverse::verbose > 1);
+    print "just blessin' this user ya see: " . ${$_[0]}{'name'} . "\n" if ($Thingiverse::verbose);
+    print Dumper($_[0]) if ($Thingiverse::verbose > 1);
     return $class->$orig(@_);
   } elsif ( @_ == 1 && !ref $_[0] ) {
     $name = $_[0];

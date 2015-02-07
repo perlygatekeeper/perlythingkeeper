@@ -79,100 +79,64 @@ has collections  => (
 # lazy => 1,
 );
 
-sub _get_from_thingiverse {
-  my $request = shift;
-  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
-  my $rest_client = Thingiverse::_establish_rest_client('');
-  my $response = $rest_client->GET($request);
-  my $content = $response->responseContent;
-  return $content;
-}
-
-no Moose;
-__PACKAGE__->meta->make_immutable;
-
-1;
-__END__
-
-our $api_bases = {
-  liked_by  => '/things/%s/liked',   # users that liked this thing
-};
-
-has users_api   => ( isa => 'Users_API',               is => 'ro', required => 0, );
-has thing_id    => ( isa => 'ID',                      is => 'ro', required => 0, );
-has request_url => ( isa => 'Str',                     is => 'ro', required => 0, );
-has pagination  => ( isa => 'Thingiverse::Pagination', is => 'ro', required => 0, );
-
-has users  => (
-  traits   => ['Array'],
-  is       => 'ro',
-  isa      => 'ArrayRef[Thingiverse::User]',
-  required => 0,
-  handles  => {
-    all_users      => 'elements',
-    add_users      => 'push',
-    map_users      => 'map',
-    filter_users   => 'grep',
-    find_users     => 'grep',
-    get_users      => 'get',
-    join_users     => 'join',
-    count_users    => 'count',
-    has_users      => 'count',
-    has_no_users   => 'is_empty',
-    sorted_users   => 'sort',
-  },
-# lazy => 1,
-);
-
 around BUILDARGS => sub {
   my $orig = shift;
   my $class = shift;
-  my ( $api, $term, $users, $user_name, $json, $hash, $request, $response, $link_header, $total_count, $pagination );
-  if ( @_ == 1 && !ref $_[0] ) {
+  my ( $api, $term, $collections, $username, $json, $hash, $from_thingiverse,
+       $request, $response, $link_header, $total_count, $pagination );
+
+  if ( @_ == 0 ) {
+    $api = 'list';
+  } elsif ( @_ == 1 && !ref $_[0] ) {
     $api = $_[0];
   } elsif ( @_ == 2 && $_[0] =~ m'api'i ) {
     $api = $_[1];
   } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'api'} ) { # passed a hashref to a hash containing key 'api'
     $api      = ${$_[0]}{'api'};
-    $thing_id = ${$_[0]}{'thing_id'};
-    $term     = ${$_[0]}{'term'};
+    $username = ${$_[0]}{'username'};
   } else {
 # not sure what to do here
     return $class->$orig(@_);
   }
 # Now decide what to do.
-  if      ( $api =~ qr(liked) ) {
-    $request = sprintf $api_bases->{$api}, $thing_id;
-  } elsif ( $api =~ qr(qqq|xxx) ) {
-    $request = sprintf $api_bases->{$api}, $thing_id;
+  if      ( $api =~ qr(list) ) {
+    $request = $api_bases->{$api};
+  } elsif ( $api =~ qr(created_by) ) {
+    $request = sprintf $api_bases->{$api}, $username;
+  } elsif ( $api =~ qr(search|categorized|collected|tagged|owned|liked|copied|downloaded) ) {
+    $request = sprintf $api_bases->{$api}, $term;
   } else {
-    die "API specified ($api) not know to return list of users.";
+    die "API specified ($api) not know to return list of collections.";
   }
-  $response   = _get_from_thingiverse($request);
-  $json       = $response)->responseContent;
-  $users      = decode_json($json);
-  $pagination = Thingverse::Pagination( { response => $response, page => 1 } );
-  if ( ref($users) eq 'ARRAY' ) {
-    foreach ( @{$users} ) {
+
+  $from_thingiverse = _get_from_thingiverse($request);
+  $response         = $from_thingiverse->{response};
+  $json             = $response->responseContent;
+  $collections      = decode_json($json);
+  $pagination       = Thingiverse::Pagination->new( { response => $response, page => 1 } );
+  if ( ref($collections) eq 'ARRAY' ) {
+    foreach ( @{$collections} ) {
       $_->{'just_bless'} = 1;
-      $_ = Thingiverse::User->new($_);
+      $_ = Thingiverse::Collection->new($_);
     }
   }
-  my $link_header = $response->responseHeader('Link');
-  $hash->{users}       = $users;
-  $hash->{users_api}   = $api;
-  $hash->{request_url} = $request;
-  $hash->{thing_id}    = $thing_id if ( $thing_id ); 
+  $link_header = $response->responseHeader('Link');
+  $hash->{collections}     = $collections;
+  $hash->{collections_api} = $api;
+  $hash->{request_url}     = $request;
+  $hash->{username}        = $username if ( $username );
+  $hash->{rest_client}     = $from_thingiverse->{rest_client};
   return $hash;
 };
+
+# NEED A TRIGGER FOR CHANGE IN Pagination to make a new call to thingiverse!!!!
 
 sub _get_from_thingiverse {
   my $request = shift;
   print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $rest_client = Thingiverse::_establish_rest_client('');
   my $response = $rest_client->GET($request);
-  my $content = $response->responseContent;
-  return $content;
+  return { response => $response, rest_client => $rest_client };
 }
 
 no Moose;
@@ -180,3 +144,4 @@ __PACKAGE__->meta->make_immutable;
 
 1;
 __END__
+
