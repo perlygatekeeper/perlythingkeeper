@@ -51,8 +51,8 @@ This method returns a reason.
 * L<Thingiverse::Group>
 =cut
 
-has thing_id             => ( isa => 'ID',                         is => 'ro', required => 1, );
 has id                   => ( isa => 'ID',                         is => 'ro', required => 1, );
+has thing_id             => ( isa => 'ID',                         is => 'ro', required => 0, );
 has _original_json       => ( isa => 'Str',                        is => 'ro', required => 0, );
 has name                 => ( isa => 'Str',                        is => 'ro', required => 0, );
 has url                  => ( isa => 'Str',                        is => 'ro', required => 0, );

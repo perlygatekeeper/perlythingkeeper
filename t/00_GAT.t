@@ -1,16 +1,20 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 3;
+use Test::Most tests => 7;
 
 use Thingiverse;
 
-my $gat = Thingiverse->new();
+my $thingiverse = Thingiverse->new();
 
-    ok( defined $gat,      'Thingiverse object is defined'); 
-    ok( $gat->isa('Thingiverse'),  'can make a Thingiverse object' ); 
-can_ok( $gat, qw( rest_client ), );
-# my $rc = $gat->rest_client;
-#    is( $rc->isa('REST::Client'), 'is our rest_client a REST::Client?' ); 
+    ok( defined $thingiverse,      'Thingiverse object is defined'); 
+    ok( $thingiverse->isa('Thingiverse'),  'can make a Thingiverse object' ); 
+can_ok( $thingiverse, qw( rest_client ), );
+ my $rc = $thingiverse->rest_client;
+    ok( $rc->isa('REST::Client'), 'is our rest_client a REST::Client?' ); 
+can_ok( $thingiverse, qw( verbosity ), );
+cmp_ok( $thingiverse->verbosity, '==', '0', 'default verbosity is 0', );
+$thingiverse->verbosity(2);
+cmp_ok( $thingiverse->verbosity, '==', '2', 'set verbosity to 2', );
 
 
 exit 0;

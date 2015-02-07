@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 24 + 18;
+use Test::Most tests => 24 + 20;
 use Data::Dumper;
 
 use Thingiverse::User;
@@ -31,8 +31,8 @@ can_ok( $user, qw( default_license ), );
 can_ok( $user, qw( email ),           );
 can_ok( $user, qw( is_following ),    );
 can_ok( $user, qw( things ),          );
-#can_ok( $user, qw( copies ),          );
-#can_ok( $user, qw( collections ),     );
+can_ok( $user, qw( copies ),          );
+can_ok( $user, qw( collections ),     );
 
     is( $user->id,              '16273',                        'id accessor' ); 
     is( $user->first_name,      'Steve',                'first_name accessor' ); 
@@ -48,12 +48,12 @@ can_ok( $user, qw( things ),          );
     is( $user->likes_url,       'https://api.thingiverse.com/users/perlygatekeeper/likes',   'likes_url accessor' ); 
     is( $user->default_license, 'cc', 'default_license accessor' );
   like( $user->bio,             qr(Ohio State University), 'bio accessor' ); 
-    ok( $user->registered->isa('DateTime'), 'registered is a DateTime object' ); 
-    is( $user->registered->year,  2011, 'registered year  check' ); 
-    is( $user->registered->month,   11, 'registered month check' ); 
-    is( $user->registered->day ,    20, 'registered day   check' ); 
+    ok( $user->registered->isa('DateTime'),  'registered is a DateTime object' ); 
+    is( $user->registered->year,      2011,  'registered year  check' ); 
+    is( $user->registered->month,       11,  'registered month check' ); 
+    is( $user->registered->day ,        20,  'registered day   check' ); 
+    is( $user->things->count_things,    27,  'things accessor' );
     ok( $user->last_active->isa('DateTime'), 'last_active is a DateTime object' );
-    is( $user->things->count_things, 27, 'things accessor' );
 
 # print Dumper($user);
 
@@ -71,50 +71,6 @@ has      is_following => ( isa => 'Boolean',      is => 'ro', required => 0, );
 # has     avatarimage => ( isa => 'Str',                  is => 'ro', required => 0, );
 # has      coverimage => ( isa => 'Str',                  is => 'ro', required => 0, );
 
-{
-        id: 16273
-        name: "perlygatekeeper"
-        first_name: "Steve"
-        last_name: "Parker"
-        full_name: "Steve Parker"
-        url: "https://api.thingiverse.com/users/perlygatekeeper"
-        public_url: "http://www.thingiverse.com/perlygatekeeper"
-        thumbnail: "https://www.thingiverse.com/img/default/avatar/avatar_default_thumb_medium.jpg"
-        bio: ""
-        location: ""
-        registered: "2011-11-20T18:52:00+00:00"
-        last_active: "2015-01-03T01:39:45+00:00"
-        cover_image: null
-        things_url: "https://api.thingiverse.com/users/perlygatekeeper/things"
-        copies_url: "https://api.thingiverse.com/users/perlygatekeeper/copies"
-        likes_url: "https://api.thingiverse.com/users/perlygatekeeper/likes"
-        default_license: "cc"
-        email: "perlygatekeeper@gmail.com"
-}
-1..23
-ok 1 - Thingiverse::User object is defined
-ok 2 - can make an Thingiverse::User object
-ok 3 - Thingiverse::User->can('id')
-ok 4 - Thingiverse::User->can('name')
-ok 5 - Thingiverse::User->can('first_name')
-ok 6 - Thingiverse::User->can('last_name')
-ok 7 - Thingiverse::User->can('full_name')
-ok 8 - Thingiverse::User->can('url')
-ok 9 - Thingiverse::User->can('public_url')
-ok 10 - Thingiverse::User->can('thumbnail')
-ok 11 - Thingiverse::User->can('bio')
-ok 12 - Thingiverse::User->can('location')
-ok 13 - Thingiverse::User->can('registered')
-ok 14 - Thingiverse::User->can('last_active')
-ok 15 - Thingiverse::User->can('cover_image')
-ok 16 - Thingiverse::User->can('things_url')
-ok 17 - Thingiverse::User->can('copies_url')
-ok 18 - Thingiverse::User->can('likes_url')
-ok 19 - Thingiverse::User->can('default_license')
-ok 20 - Thingiverse::User->can('email')
-ok 21 - Thingiverse::User->can('is_following')
-ok 22 - id accessor
-ok 23 - name accessor
 $VAR1 = bless( {
                  'id' => 16273,
                  'name' => 'perlygatekeeper',
