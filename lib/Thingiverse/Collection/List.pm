@@ -12,7 +12,7 @@ use Thingiverse::Pagination;
 
 our $api_bases = {
   created_by => '/users/%s/collections', # collections created by user
-  list       => '/collections',
+  newest     => '/collections',
 };
 
 # ABSTRACT: a really awesome library
@@ -86,7 +86,7 @@ around BUILDARGS => sub {
        $request, $response, $link_header, $total_count, $pagination );
 
   if ( @_ == 0 ) {
-    $api = 'list';
+    $api = 'newest';
   } elsif ( @_ == 1 && !ref $_[0] ) {
     $api = $_[0];
   } elsif ( @_ == 2 && $_[0] =~ m'api'i ) {
@@ -99,7 +99,7 @@ around BUILDARGS => sub {
     return $class->$orig(@_);
   }
 # Now decide what to do.
-  if      ( $api =~ qr(list) ) {
+  if      ( $api =~ qr(newest) ) {
     $request = $api_bases->{$api};
   } elsif ( $api =~ qr(created_by) ) {
     $request = sprintf $api_bases->{$api}, $username;

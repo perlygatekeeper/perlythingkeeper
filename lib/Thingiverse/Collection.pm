@@ -8,6 +8,7 @@ use Carp;
 use JSON;
 use Thingiverse::Types;
 use Thingiverse::Thing::List;
+use Thingiverse::Collection::List;
 
 extends('Thingiverse');
 
@@ -115,6 +116,12 @@ sub _get_things_belonging_to_collection {
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
+
+
+sub newest {
+  my $class = shift;
+  return Thingiverse::Collection::List->new( 'newest' );
+}
 
 1;
 __END__

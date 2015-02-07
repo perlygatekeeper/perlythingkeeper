@@ -127,7 +127,7 @@ enum 'Things_API',      [ qw( things search newest popular featured copies ances
 
 enum 'Users_API',       [ qw( liked_by ) ];
 
-enum 'Collections_API', [ qw( created_by list ) ];
+enum 'Collections_API', [ qw( created_by newest ) ];
 
 no Moose::Util::TypeConstraints;
 1;
