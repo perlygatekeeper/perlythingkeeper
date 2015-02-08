@@ -7,7 +7,6 @@ use Data::Dumper;
 use Carp;
 use JSON;
 use Thingiverse::Types;
-# use Thingiverse::Pagination;
 use Thingiverse::Thing::List;
 use Thingiverse::Collection::List;;
 

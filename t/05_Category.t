@@ -33,7 +33,7 @@ can_ok( $category, qw( things_pagination),    );
 # can_ok( $category, qw( list ),              );
 
   like( $category->name,              qr($name),                      'name         accessor' ); 
-    is( $category->count,             $count,                         'count        accessor' );
+cmp_ok( $category->count,     '>',    $count,                         'count        accessor' );
     is( $category->url,               $url,                           'url          accessor' ); 
     is( $category->things_url,        $things_url,                    'things_url   accessor' ); 
     is( @{$category->children},       $children,                      'children     accessor' );
