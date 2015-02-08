@@ -111,7 +111,7 @@ sub _get_from_thingiverse {
 sub _get_from_thingiverse_given_name {
   my $name = shift;
   my $request = $api_base . $name;
-  my $rest_client = Thingiverse::_establish_rest_client('');
+  my $rest_client = Thingiverse::_build_rest_client('');
   print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $response = $rest_client->GET($request);
   my $content = $response->responseContent;
