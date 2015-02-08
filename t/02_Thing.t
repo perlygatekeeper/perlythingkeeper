@@ -139,7 +139,7 @@ can_ok( $tags, qw( count_tags ), );
     is( $tags->count_tags, 6,                   'tags contains 6 tags' );
 can_ok( $tags, qw( get_tags ), );
     my $first_tag = $tags->get_tags(0);
-    ok( $first_tag->isa('Thingiverse::Tag'),   'first tag is    a     Thingiverse::Tag' );
+    ok( $first_tag->isa('Thingiverse::Tag'),   'first tag is a Thingiverse::Tag' );
 }
 
 if ( 0 ) {
