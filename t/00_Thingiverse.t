@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 7;
+use Test::Most tests => 8;
 
 BEGIN {
     use_ok('Thingiverse');
