@@ -11,7 +11,9 @@ my $VERSION="0.6.1";
 
 # ABSTRACT: library to interface with Thingiverse's REST API:
 
-=head1 Base Class for client library to interface with Thingiverse's REST API
+=head1 DESCRIPTION
+
+Base Class for client library to interface with Thingiverse's REST API
 
 //http://www.thingiverse.com/developers/rest-api-reference
 
@@ -19,6 +21,14 @@ Main purposes for this base class is to hold global values like the api_uri_base
 pagination maxium, debug/verbosity flags for debugging, and the access_token used
 for authentication/authorization to the API.  It also serves to make and store
 the rest_client attribute which all the sub classes will need and use.
+
+=method rest_client
+
+The client object that will be used to complete all requests.
+
+=method verbosity
+
+The verbosity level of the client connections.
 
 =head1 SEE ALSO
 
