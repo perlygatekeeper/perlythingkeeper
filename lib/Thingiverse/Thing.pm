@@ -11,6 +11,7 @@ use Thingiverse::Types;
 use Thingiverse::Thing::List;
 use Thingiverse::User;
 use Thingiverse::Image;
+use Thingiverse::Image::List;
 use Thingiverse::Tag::List;
 
 # ABSTRACT: defines attributes for a given object on thingiverse (called a thing).
