@@ -54,9 +54,8 @@ our $access_token       = 'b053a0798c50a84fbb80e66e51bba9c4';
 # should I make rest_client an attribute or should I just have GAT use ISA = REST::Client? or extends REST::Client
 has rest_client  => (
     isa => 'REST::Client',
-    is => 'ro', required => 1,
-    builder => '_establish_rest_client',
-    lazy => 1
+    is => 'ro',
+    lazy_build => 1,
 );
 
 has verbosity    => (
@@ -71,7 +70,7 @@ sub _set_verbosity {
   $verbose = shift;
 }
 
-sub _establish_rest_client {
+sub _build_rest_client {
   my $self = shift;
   if ( not $self or ( $self and  not $self->{rest_client} ) ) {
     my %config = (
