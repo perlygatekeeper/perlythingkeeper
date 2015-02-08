@@ -101,7 +101,7 @@ can_ok( $thing, qw( tags ),                );
 $thing = Thingiverse::Thing->new( 'id' => '316754' );
 SKIP: {
     skip "no prints for test thing", 1 unless defined($thing->prints) and ref($thing->prints) eq 'ARRAY';
-    is( @{$thing->prints},           0,        'prints         an  ArraryRef' );
+    is( @{$thing->prints},           0,        'prints         an  ArrayRef' );
 }
 
 ## print "==\n";
@@ -109,13 +109,13 @@ $thing = Thingiverse::Thing->new( 'id' => '313179' );
 SKIP: {
     skip "no ancestors of test thing", 2 unless defined($thing->ancestors) and defined($thing->ancestors->things);
     print "thing->ancestors is (" . $thing->ancestors . ")\n" if ($Thingiverse::verbose);
-    is( @{$thing->ancestors->things},         1,       'ancestors list is an ArraryRef' );
+    is( @{$thing->ancestors->things},         1,       'ancestors list is an ArrayRef' );
     is( ${$thing->ancestors->things}[0]->id, '275033', 'first ancestor is the right one' );
 }
 ## print "**\n";
 SKIP: {
     skip "no derivatives of test thing", 1 unless defined($thing->derivatives) and defined($thing->derivatives->things);
-    is( @{$thing->derivatives->things},      2,        'derivatives list is an ArraryRef' );
+    is( @{$thing->derivatives->things},      2,        'derivatives list is an ArrayRef' );
 }
 # print "==\n";
 
