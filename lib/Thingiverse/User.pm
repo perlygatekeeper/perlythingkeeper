@@ -9,6 +9,7 @@ use JSON;
 use Thingiverse::Types;
 # use Thingiverse::Pagination;
 use Thingiverse::Thing::List;
+use Thingiverse::Collection::List;;
 
 extends('Thingiverse');
 
@@ -148,7 +149,7 @@ sub _get_things_downloaded_by_user {
 
 sub _get_collections_created_by_user {
   my $self = shift;
-  return Thingiverse::Collection::List->new( { api => 'by', term => $self->id, } );
+  return Thingiverse::Collection::List->new( { api => 'created_by', username => $self->name, } );
 }
 
 no Moose;

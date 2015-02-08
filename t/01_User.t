@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 24 + 20;
+use Test::Most tests => 45;
 use Data::Dumper;
 
 use Thingiverse::User;
@@ -49,10 +49,11 @@ can_ok( $user, qw( collections ),     );
     is( $user->default_license, 'cc', 'default_license accessor' );
   like( $user->bio,             qr(Ohio State University), 'bio accessor' ); 
     ok( $user->registered->isa('DateTime'),  'registered is a DateTime object' ); 
-    is( $user->registered->year,      2011,  'registered year  check' ); 
-    is( $user->registered->month,       11,  'registered month check' ); 
-    is( $user->registered->day ,        20,  'registered day   check' ); 
-    is( $user->things->count_things,    27,  'things accessor' );
+    is( $user->registered->year,             2011,  'registered year  check' ); 
+    is( $user->registered->month,              11,  'registered month check' ); 
+    is( $user->registered->day ,               20,  'registered day   check' ); 
+    is( $user->things->count_things,           27,  'things accessor' );
+    is( $user->collections->count_collections, 30,  'collections accessor' );
     ok( $user->last_active->isa('DateTime'), 'last_active is a DateTime object' );
 
 # print Dumper($user);

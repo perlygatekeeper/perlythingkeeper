@@ -9,6 +9,7 @@ use JSON;
 use Thingiverse;
 use Thingiverse::Types;
 use Thingiverse::Pagination;
+use Thingiverse::Collection;
 
 our $api_bases = {
   created_by => '/users/%s/collections', # collections created by user
@@ -103,8 +104,6 @@ around BUILDARGS => sub {
     $request = $api_bases->{$api};
   } elsif ( $api =~ qr(created_by) ) {
     $request = sprintf $api_bases->{$api}, $username;
-  } elsif ( $api =~ qr(search|categorized|collected|tagged|owned|liked|copied|downloaded) ) {
-    $request = sprintf $api_bases->{$api}, $term;
   } else {
     die "API specified ($api) not know to return list of collections.";
   }
