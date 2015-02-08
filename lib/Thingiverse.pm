@@ -20,14 +20,6 @@ pagination maxium, debug/verbosity flags for debugging, and the access_token use
 for authentication/authorization to the API.  It also serves to make and store
 the rest_client attribute which all the sub classes will need and use.
 
-=method method_x
-
-This method does something experimental.
-
-=method method_y
-
-This method returns a reason.
-
 =head1 SEE ALSO
 
 =for :list

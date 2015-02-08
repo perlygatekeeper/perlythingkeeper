@@ -17,14 +17,6 @@ has image_size  => ( isa => 'ThingiverseImageSize', is => 'ro', required => 0, )
 
   ...
 
-=method method_x
-
-This method does something experimental.
-
-=method method_y
-
-This method returns a reason.
-
 =head1 SEE ALSO
 
 =for :list

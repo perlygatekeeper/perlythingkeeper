@@ -44,15 +44,6 @@ tagged_as                       API requires a tag name
   copied_by
   downloaded_by
 
-
-=method method_x
-
-This method does something experimental.
-
-=method method_y
-
-This method returns a reason.
-
 =head1 SEE ALSO
 
 =for :list
