@@ -7,8 +7,6 @@ use Data::Dumper;
 use Carp;
 use REST::Client;
 
-my $VERSION="0.6.1";
-
 # ABSTRACT: library to interface with Thingiverse's REST API:
 
 =head1 DESCRIPTION
