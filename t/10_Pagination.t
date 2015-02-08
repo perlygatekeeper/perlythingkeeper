@@ -1,6 +1,6 @@
 #!/usr/bin/env perl 
 
-use Test::Most;
+use Test::Most tests => 25;
 use Test::Exception;
 use Data::Dumper;
 
@@ -70,9 +70,6 @@ $per_page  = 20;
 $string    = "?page=$page&per_page=$per_page";
 $pagination = Thingiverse::Pagination->new( { page => $page, per_page => $per_page } );
 is( $pagination->as_string, $string, "Thingiverse::Pagination object with  (page=$page)      and  (per_page=$per_page)    correctly returns >> $string <<  both parameters non-default, requiring use of &");
-
-
-done_testing;
 
 if ( 0 ) {
   print "nothing\n";
