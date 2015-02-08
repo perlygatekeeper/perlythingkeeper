@@ -1,10 +1,12 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 9;
+use Test::Most tests => 12;
 use Data::Dumper;
 
-use Thingiverse;
-use Thingiverse::Tag;
+BEGIN {
+    use_ok('Thingiverse');
+    use_ok('Thingiverse::Tag');
+}
 
 our $api_base = "/tags/";
 
@@ -25,7 +27,7 @@ can_ok( $tag, qw( things_url ),          );
 # can_ok( $tag, qw( things ),              );
 
   like( $tag->name,              qr($name),                      'name         accessor' ); 
-    is( $tag->count,             $count,                         'like_count   accessor' );
+cmp_ok( $tag->count,     '>',    $count,                         'like_count   accessor' );
     is( $tag->url,               $url,                           'url          accessor' ); 
     is( $tag->things_url,        $things_url,                    'things_url   accessor' ); 
 #   is( @{$tag->things},         $count,                         'things       accessor' );

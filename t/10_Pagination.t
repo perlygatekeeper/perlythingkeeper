@@ -1,11 +1,13 @@
 #!/usr/bin/env perl 
 
-use Test::Most tests => 25;
+use Test::Most tests => 27;
 use Test::Exception;
 use Data::Dumper;
 
-use Thingiverse;
-use Thingiverse::Pagination;
+BEGIN {
+    use_ok('Thingiverse');
+    use_ok('Thingiverse::Pagination');
+}
 
 my $page             = 2;
 my $per_page         = 20;

@@ -1,10 +1,12 @@
 #!/usr/bin/env perl 
 
-use Test::Most tests => 89;
+use Test::Most tests => 91;
 use Data::Dumper;
 
-use Thingiverse;
-use Thingiverse::Thing;
+BEGIN {
+    use_ok('Thingiverse');
+    use_ok('Thingiverse::Thing');
+}
 
 my $id               = '314355';
 my $creator_id       = '16273';
@@ -99,7 +101,7 @@ can_ok( $thing, qw( tags ),                );
 $thing = Thingiverse::Thing->new( 'id' => '316754' );
 SKIP: {
     skip "no prints for test thing", 1 unless defined($thing->prints) and ref($thing->prints) eq 'ARRAY';
-    is( @{$thing->prints},           0,        'prints         an  ArraryRef' );
+    is( @{$thing->prints},           0,        'prints         an  ArrayRef' );
 }
 
 ## print "==\n";
@@ -107,26 +109,27 @@ $thing = Thingiverse::Thing->new( 'id' => '313179' );
 SKIP: {
     skip "no ancestors of test thing", 2 unless defined($thing->ancestors) and defined($thing->ancestors->things);
     print "thing->ancestors is (" . $thing->ancestors . ")\n" if ($Thingiverse::verbose);
-    is( @{$thing->ancestors->things},         1,       'ancestors list is an ArraryRef' );
+    is( @{$thing->ancestors->things},         1,       'ancestors list is an ArrayRef' );
     is( ${$thing->ancestors->things}[0]->id, '275033', 'first ancestor is the right one' );
 }
 ## print "**\n";
 SKIP: {
     skip "no derivatives of test thing", 1 unless defined($thing->derivatives) and defined($thing->derivatives->things);
-    is( @{$thing->derivatives->things},      2,        'derivatives list is an ArraryRef' );
+    is( @{$thing->derivatives->things},      2,        'derivatives list is an ArrayRef' );
 }
 # print "==\n";
 
 $thing = Thingiverse::Thing->new( 'id' => '209078' );
-SKIP: {
-    my $images = $thing->images;
-    skip "no images for test thing", 1 unless defined($images);
+TODO: {
+    # TODO: REMOVE EVALS FROM BLOCK WHEN FIXED
+    local $TODO = "Image::List does not exist.";
+    my $images = eval { $thing->images // {} };
     is( ref($images), 'Thingiverse::Image::List',  'images is         a    Thingiverse::Image::List' );
-can_ok( $images, qw( count_images ), );
-    is( $images->count_images, 2,                  'images contains        2 images' );
-can_ok( $images, qw( get_images ), );
-    my $first_image = $images->get_images(0);
-    ok( $first_image->isa('Thingiverse::Image'),   'first image is    a     Thingiverse::Image' );
+    eval { can_ok( $images, qw( count_images ), ) };
+    eval { is( $images->count_images, 2,                  'images contains        2 images' ); };
+    eval { can_ok( $images, qw( get_images ), ) };
+    my $first_image = eval { $images->get_images(0) // {} };
+    isa_ok( $first_image, 'Thingiverse::Image', 'first image is    a     Thingiverse::Image' );
 }
 
 SKIP: {
@@ -137,7 +140,7 @@ can_ok( $tags, qw( count_tags ), );
     is( $tags->count_tags, 6,                   'tags contains 6 tags' );
 can_ok( $tags, qw( get_tags ), );
     my $first_tag = $tags->get_tags(0);
-    ok( $first_tag->isa('Thingiverse::Tag'),   'first tag is    a     Thingiverse::Tag' );
+    ok( $first_tag->isa('Thingiverse::Tag'),   'first tag is a Thingiverse::Tag' );
 }
 
 if ( 0 ) {

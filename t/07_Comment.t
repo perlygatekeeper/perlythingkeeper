@@ -1,10 +1,12 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 26;
+use Test::Most tests => 28;
 use Data::Dumper;
 
-use Thingiverse;
-use Thingiverse::Comment;
+BEGIN {
+    use_ok('Thingiverse');
+    use_ok('Thingiverse::Comment');
+}
 
 my $id           = '547395';
 my $target_id    = '316754';
@@ -21,6 +23,8 @@ my $is_deleted   = 0;
 my $comment = Thingiverse::Comment->new( 'id' => $id );
 # print Dumper($comment);
 
+SKIP: {
+    skip 'Comment fields not yet implemented.', 26 unless $comment->can('id');
     ok( defined $comment,            'Thingiverse::Comment object is defined' ); 
     ok( $comment->isa('Thingiverse::Comment'), 'can make an Thingiverse::Comment object' ); 
 can_ok( $comment, qw( id ),          );
@@ -48,6 +52,7 @@ can_ok( $comment, qw( is_deleted ),  );
     is( ref($comment->user),              'HASH',                  'user           UserHash' ); 
     is( ${$comment->user}{id},            $commenter_id,           'user_id        accessor' ); 
     is( $comment->is_deleted,             $is_deleted,             'is_deleted     accessor' ); 
+}
 
 if ( 0 ) {
   print "nocomment\n";

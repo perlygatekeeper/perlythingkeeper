@@ -11,7 +11,6 @@ use Thingiverse::Types;
 use Thingiverse::Thing::List;
 use Thingiverse::User;
 use Thingiverse::Image;
-use Thingiverse::Image::List;
 use Thingiverse::Tag::List;
 
 # ABSTRACT: defines attributes for a given object on thingiverse (called a thing).
@@ -19,14 +18,6 @@ use Thingiverse::Tag::List;
 =head1 SYNOPSIS
 
   ...
-
-=method method_x
-
-This method does something experimental.
-
-=method method_y
-
-This method returns a reason.
 
 =head1 SEE ALSO
 
@@ -138,7 +129,7 @@ sub _get_from_thingi_given_id {
   my $id = shift;
   my $request = $api_base . $id;
   print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
-  my $rest_client = Thingiverse::_establish_rest_client('');
+  my $rest_client = Thingiverse::_build_rest_client('');
   my $response = $rest_client->GET($request);
   my $content = $response ->responseContent;
   return $content;

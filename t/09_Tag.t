@@ -1,11 +1,13 @@
 #!/usr/bin/env perl 
 
-use Test::Most tests => 10;
+use Test::Most tests => 13;
 use Data::Dumper;
 
-use Thingiverse;
-use Thingiverse::Thing;
-use Thingiverse::Tag;
+BEGIN {
+    use_ok('Thingiverse');
+    use_ok('Thingiverse::Thing');
+    use_ok('Thingiverse::Tag');
+}
 
 my $api_base = '/tags/';
 

@@ -1,10 +1,12 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 19;
+use Test::Most tests => 22;
 use Data::Dumper;
 
-use Thingiverse;
-use Thingiverse::File;
+BEGIN {
+    use_ok('Thingiverse');
+    use_ok('Thingiverse::File');
+}
 
 my $id           = '556207';
 my $image_id     = '875072';

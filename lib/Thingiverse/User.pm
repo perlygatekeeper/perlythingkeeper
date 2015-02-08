@@ -7,7 +7,6 @@ use Data::Dumper;
 use Carp;
 use JSON;
 use Thingiverse::Types;
-# use Thingiverse::Pagination;
 use Thingiverse::Thing::List;
 use Thingiverse::Collection::List;;
 
@@ -20,14 +19,6 @@ our $api_base = "/users/";
 =head1 SYNOPSIS
 
   ...
-
-=method method_x
-
-This method does something experimental.
-
-=method method_y
-
-This method returns a reason.
 
 =head1 SEE ALSO
 
@@ -120,7 +111,7 @@ sub _get_from_thingiverse {
 sub _get_from_thingiverse_given_name {
   my $name = shift;
   my $request = $api_base . $name;
-  my $rest_client = Thingiverse::_establish_rest_client('');
+  my $rest_client = Thingiverse::_build_rest_client('');
   print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $response = $rest_client->GET($request);
   my $content = $response->responseContent;

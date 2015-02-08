@@ -29,3 +29,22 @@ API actually supports this new, experimental? feature).
 Finally, this project will concentrate on a ReadOnly interface and ignore, Create, Update and Delete portions of CRUD.
 These aspects all change the data stored at Thingiverse, which is outside of my original motiviation for beginning this
 project.  I will also need to read the API terms of service again and carefully before I plunge into this phase of the project.
+
+BUILD STEPS
+===========
+
+Assuming ubuntu at the moment because that's what I'm using.  This documentation should probably use cpan to get cpanm.
+
+```
+sudo apt-get install cpanminus build-essential libdist-zilla-perl
+dzil authordeps --missing | sudo cpanm # sudo optional for non-lazy folks
+dzil build
+```
+
+RUNNING TESTS
+=============
+
+```
+sudo apt-get install libssl-dev
+dzil listdeps | sudo cpanm
+```

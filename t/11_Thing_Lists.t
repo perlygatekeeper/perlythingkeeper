@@ -1,10 +1,12 @@
 #!/usr/bin/env perl 
 
-use Test::Most tests => 12;
+use Test::Most tests => 14;
 use Data::Dumper;
 
-use Thingiverse;
-use Thingiverse::Thing;
+BEGIN {
+    use_ok('Thingiverse');
+    use_ok('Thingiverse::Thing');
+}
 
 my $newest_things = Thingiverse::Thing->newest( );
 # print Dumper($newest_things);

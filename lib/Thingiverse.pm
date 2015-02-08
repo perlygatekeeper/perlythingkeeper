@@ -11,7 +11,9 @@ my $VERSION="0.6.1";
 
 # ABSTRACT: library to interface with Thingiverse's REST API:
 
-=head1 Base Class for client library to interface with Thingiverse's REST API
+=head1 DESCRIPTION
+
+Base Class for client library to interface with Thingiverse's REST API
 
 //http://www.thingiverse.com/developers/rest-api-reference
 
@@ -20,13 +22,13 @@ pagination maxium, debug/verbosity flags for debugging, and the access_token use
 for authentication/authorization to the API.  It also serves to make and store
 the rest_client attribute which all the sub classes will need and use.
 
-=method method_x
+=method rest_client
 
-This method does something experimental.
+The client object that will be used to complete all requests.
 
-=method method_y
+=method verbosity
 
-This method returns a reason.
+The verbosity level of the client connections.
 
 =head1 SEE ALSO
 
@@ -60,15 +62,25 @@ our $client_id          = 'c587f0f2ee04adbe719b';
 our $access_token       = 'b053a0798c50a84fbb80e66e51bba9c4';
 
 # should I make rest_client an attribute or should I just have GAT use ISA = REST::Client? or extends REST::Client
-has rest_client  => ( isa => 'REST::Client', is => 'ro', required => 1, builder => '_establish_rest_client', lazy => 1 );
-has verbosity    => ( isa => 'Int',          is => 'rw', required => 1, default => 0, trigger => \&_set_verbosity );
+has rest_client  => (
+    isa => 'REST::Client',
+    is => 'ro',
+    lazy_build => 1,
+);
+
+has verbosity    => (
+    isa => 'Int',
+    is => 'rw',
+    default => 0,
+    trigger => \&_set_verbosity
+);
 
 sub _set_verbosity {
   my $self = shift;
   $verbose = shift;
 }
 
-sub _establish_rest_client {
+sub _build_rest_client {
   my $self = shift;
   if ( not $self or ( $self and  not $self->{rest_client} ) ) {
     my %config = (
@@ -164,4 +176,4 @@ Use these methods to gather information about the last requset performed.
 * responseXpath ()
   A convienience wrapper that returns a XML::LibXML xpath context for the body content. Assumes the content is XML.
 
-has rest_client  => ( isa => 'REST::Client', is => 'ro', required => 1, builder => '_establish_rest_client', lazy => 1 );
+has rest_client  => ( isa => 'REST::Client', is => 'ro', required => 1, builder => '_build_rest_client', lazy => 1 );
