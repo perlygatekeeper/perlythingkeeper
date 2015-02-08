@@ -40,3 +40,11 @@ sudo apt-get install cpanminus build-essential libdist-zilla-perl
 dzil authordeps --missing | sudo cpanm # sudo optional for non-lazy folks
 dzil build
 ```
+
+RUNNING TESTS
+=============
+
+```
+sudo apt-get install libssl-dev
+dzil listdeps | sudo cpanm
+```
