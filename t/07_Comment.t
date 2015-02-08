@@ -3,8 +3,10 @@
 use Test::Most tests => 26;
 use Data::Dumper;
 
-use Thingiverse;
-use Thingiverse::Comment;
+BEGIN {
+    use_ok('Thingiverse');
+    use_ok('Thingiverse::Comment');
+}
 
 my $id           = '547395';
 my $target_id    = '316754';

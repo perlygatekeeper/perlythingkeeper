@@ -176,4 +176,4 @@ Use these methods to gather information about the last requset performed.
 * responseXpath ()
   A convienience wrapper that returns a XML::LibXML xpath context for the body content. Assumes the content is XML.
 
-has rest_client  => ( isa => 'REST::Client', is => 'ro', required => 1, builder => '_establish_rest_client', lazy => 1 );
+has rest_client  => ( isa => 'REST::Client', is => 'ro', required => 1, builder => '_build_rest_client', lazy => 1 );

@@ -77,7 +77,7 @@ around BUILDARGS => sub {
 sub _get_from_thingi_given_name {
   my $name = shift;
   my $request = $api_base . $name;
-  my $rest_client = Thingiverse::_establish_rest_client('');
+  my $rest_client = Thingiverse::_build_rest_client('');
   my $response = $rest_client->GET($request);
   my $content = $response->responseContent;
   return $content;

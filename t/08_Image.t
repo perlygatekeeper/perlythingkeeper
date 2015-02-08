@@ -3,8 +3,10 @@
 use Test::Most tests => 7 + 5;
 use Data::Dumper;
 
-use Thingiverse;
-use Thingiverse::Thing;
+BEGIN {
+    use_ok('Thingiverse');
+    use_ok('Thingiverse::Thing');
+}
 
 my $id         = '209078';
 my $public_url = 'http://www.thingiverse.com/thing:'        . $id;

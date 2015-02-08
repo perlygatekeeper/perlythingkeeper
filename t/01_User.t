@@ -3,7 +3,9 @@
 use Test::Most tests => 45;
 use Data::Dumper;
 
-use Thingiverse::User;
+BEGIN {
+    use_ok('Thingiverse::User');
+}
 
 my $user = Thingiverse::User->new( 'name' => 'perlygatekeeper' );
 

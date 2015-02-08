@@ -3,8 +3,10 @@
 use Test::Most tests => 39;
 use Data::Dumper;
 
-use Thingiverse;
-use Thingiverse::Collection;
+BEGIN {
+    use_ok('Thingiverse');
+    use_ok('Thingiverse::Collection');
+}
 
 our $api_base = "/collections/";
 

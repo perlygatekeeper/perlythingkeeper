@@ -3,8 +3,10 @@
 use Test::Most tests => 9;
 use Data::Dumper;
 
-use Thingiverse;
-use Thingiverse::Tag;
+BEGIN {
+    use_ok('Thingiverse');
+    use_ok('Thingiverse::Tag');
+}
 
 our $api_base = "/tags/";
 

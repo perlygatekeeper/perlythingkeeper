@@ -95,7 +95,7 @@ around BUILDARGS => sub {
 sub _get_collection_given_id {
   my $id = shift;
   my $request = $api_base . $id;
-  my $rest_client = Thingiverse::_establish_rest_client('');
+  my $rest_client = Thingiverse::_build_rest_client('');
   my $response = $rest_client->GET($request);
   my $content = $response ->responseContent;
   return $content;

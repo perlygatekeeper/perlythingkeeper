@@ -75,7 +75,7 @@ sub _get_sized_versions_of_this_image {
 sub _get_from_thingi_given_id {
   my ( $thing_id, $image_id ) = @_;
   my $request = sprintf $api_base, $thing_id, $image_id;
-  my $rest_client = Thingiverse::_establish_rest_client('');
+  my $rest_client = Thingiverse::_build_rest_client('');
   my $response = $rest_client->GET($request);
   my $content = $response ->responseContent;
   return $content;

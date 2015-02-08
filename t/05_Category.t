@@ -3,8 +3,10 @@
 use Test::Most tests => 16;
 use Data::Dumper;
 
-use Thingiverse;
-use Thingiverse::Category;
+BEGIN {
+    use_ok('Thingiverse');
+    use_ok('Thingiverse::Category');
+}
 
 our $api_base = "/categories/";
 

@@ -2,7 +2,9 @@
 
 use Test::Most tests => 7;
 
-use Thingiverse;
+BEGIN {
+    use_ok('Thingiverse');
+}
 
 my $thingiverse = Thingiverse->new();
 
