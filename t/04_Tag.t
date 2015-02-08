@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 
-use Test::Most tests => 5 + 4;
+use Test::Most tests => 9;
 use Data::Dumper;
 
 use Thingiverse;
@@ -14,7 +14,7 @@ my $things_url = $Thingiverse::api_uri_base . $Thingiverse::Tag::api_base . $nam
 my $count      = 1461;
 
 my $tag = Thingiverse::Tag->new( 'name' => $name );
-# print Dumper($thing);
+# print Dumper($tag);
 
     ok( defined $tag,          'Thingiverse::Tag  object is defined' ); 
     ok( $tag->isa('Thingiverse::Tag'), 'can make an Thingiverse::Tag object' ); 
