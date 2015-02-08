@@ -1,6 +1,6 @@
 #!/usr/bin/env perl 
 
-use Test::Most tests => 87;
+use Test::Most tests => 91;
 use Data::Dumper;
 
 BEGIN {
@@ -121,14 +121,15 @@ SKIP: {
 
 $thing = Thingiverse::Thing->new( 'id' => '209078' );
 TODO: {
+    # TODO: REMOVE EVALS FROM BLOCK WHEN FIXED
     local $TODO = "Image::List does not exist.";
-    # my $images = $thing->images;
-    # is( ref($images), 'Thingiverse::Image::List',  'images is         a    Thingiverse::Image::List' );
-    # can_ok( $images, qw( count_images ), );
-    # is( $images->count_images, 2,                  'images contains        2 images' );
-    # can_ok( $images, qw( get_images ), );
-    # my $first_image = $images->get_images(0);
-    # ok( $first_image->isa('Thingiverse::Image'),   'first image is    a     Thingiverse::Image' );
+    my $images = eval { $thing->images // {} };
+    is( ref($images), 'Thingiverse::Image::List',  'images is         a    Thingiverse::Image::List' );
+    eval { can_ok( $images, qw( count_images ), ) };
+    eval { is( $images->count_images, 2,                  'images contains        2 images' ); };
+    eval { can_ok( $images, qw( get_images ), ) };
+    my $first_image = eval { $images->get_images(0) // {} };
+    isa_ok( $first_image, 'Thingiverse::Image', 'first image is    a     Thingiverse::Image' );
 }
 
 SKIP: {
