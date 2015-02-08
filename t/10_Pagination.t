@@ -1,6 +1,6 @@
 #!/usr/bin/env perl 
 
-use Test::Most tests => 25;
+use Test::Most tests => 27;
 use Test::Exception;
 use Data::Dumper;
 
