@@ -1,27 +1,28 @@
 # Developers - REST API Reference - Thingiverse
 ## Thingiverse REST API Reference
-<ul id="api-list">
-*             <a name="users"></a>
-### Users
-<ul class="methods">
-*                 <a name="users-get"></a>
-#### Get the specified user
+
+
+* ### Users
+
+
+* #### Get the specified user
+
 ```
 GET /users/{$username}/
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$username** - Required string - The username of the
 user to get. Use the special name "me" to get information about the
 current user.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The user.
-</ul>
+
 ```
 
 *                 <a name="users-patch"></a>
@@ -32,7 +33,7 @@ PATCH /users/{$username}/
 <p>Must use the PATCH method.</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **first_name** - string - Optional. Replace the first
 name of this user.
 - **last_name** - string - Optional. Replace the last name
@@ -42,20 +43,20 @@ this user.
 - **location** - string - Optional. Replace the location
 for this user.
 - **default_license** - string - Optional. One of cc, cc-sa, cc-nd, cc-nc, cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Update default license.
-</ul>
+
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$username** - Required integer - The username of the
 user to update
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The updated user.
-</ul>
+
 ```
 
 *                 <a name="users-getthings"></a>
@@ -68,16 +69,16 @@ unpublished things will also appear in the list. If the user doesn't
 exist, result is 404 Not Found.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$username** - Required string - The username of the
 user for which to fetch things.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - Thing objects
-</ul>
+
 ```
 
 *                 <a name="users-getlikes"></a>
@@ -88,16 +89,16 @@ GET /users/{$username}/likes
 <p>If the user doesn't exist, result is 404 Not Found.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$username** - Required string - The username of the
 user for which to fetch likes.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - Thing objects
-</ul>
+
 ```
 
 *                 <a name="users-getcopies"></a>
@@ -108,16 +109,16 @@ GET /users/{$username}/copies
 <p>If the user doesn't exist, result is 404 Not Found.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$username** - Required string - The username of the
 user for which to fetch copies.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - Copy objects
-</ul>
+
 ```
 
 *                 <a name="users-getcollections"></a>
@@ -128,16 +129,16 @@ GET /users/{$username}/collections
 <p>If the user doesn't exist, result is 404 Not Found.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$username** - Required string - The username of the
 user for which to fetch collections.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - Collection objects
-</ul>
+
 ```
 
 *                 <a name="users-getdownloads"></a>
@@ -148,16 +149,16 @@ GET /users/{$username}/downloads
 <p>If the user doesn't exist, result is 404 Not Found.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$username** - Required string - The username of the
 user in question.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - Thing objects
-</ul>
+
 ```
 
 *                 <a name="users-postfollowers"></a>
@@ -170,16 +171,16 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 follow itself.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$username** - Required string - The username of the
 user to "follow".
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The "ok" object.
-</ul>
+
 ```
 
 *                 <a name="users-deletefollowers"></a>
@@ -191,16 +192,16 @@ DELETE /users/{$username}/followers
 doesn't exist.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$username** - Required string - The username of the
 user to "unfollow".
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The "ok" object.
-</ul>
+
 ```
 
 *                 <a name="users-postavatarimage"></a>
@@ -211,24 +212,24 @@ POST /users/{$username}/avatarimage
 <p>Must use the POST method</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **filename** - string - Set the name of the image to
 upload.
-</ul>
+
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$username** - Required string - The username of the
 user that will own this file.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The data needed to upload a file via an
 HTTP POST with multipart/form-data encoding.
-</ul>
+
 ```
 
 *                 <a name="users-postcoverimage"></a>
@@ -239,31 +240,31 @@ POST /users/{$username}/coverimage
 <p>Must use the POST method</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **filename** - string - Set the name of the image to
 upload.
-</ul>
+
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$username** - Required string - The username of the
 user that will own this file.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The data needed to upload a file via an
 HTTP POST with multipart/form-data encoding.
-</ul>
+
 ```
 
-</ul>
+
 
 *             <a name="things"></a>
 ### Things
-<ul class="methods">
+
 *                 <a name="things-get"></a>
 #### Get thing by id
 ```
@@ -275,17 +276,17 @@ an unpublished thing you do not own will result in a 403 Forbidden.
 Invalid or deleted things will result in 404 Not Found.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to
 get
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - An object representing the thing
 requested
-</ul>
+
 ```
 
 *                 <a name="things-getimages"></a>
@@ -297,19 +298,19 @@ GET /things/{$id}/images/{$image_id}
 more detailed information about a specific image.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to get
 images from
 - **$image_id** - Optional integer - Optional id of image
 to get details for
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array|object)** - An array of images associated with
 a thing or detailed info about a specific image.
-</ul>
+
 ```
 
 *                 <a name="things-patchimages"></a>
@@ -320,23 +321,23 @@ PATCH /things/{$id}/images/{$image_id}
 <p>Must use the PATCH method.</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **rank** - integer - Optional.
 - **featured** - boolean - Optional.
-</ul>
+
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required -
 - **$image_id** - Required -
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The "ok" object
-</ul>
+
 ```
 
 *                 <a name="things-deleteimages"></a>
@@ -347,18 +348,18 @@ DELETE /things/{$id}/images/{$image_id}
 <p>Must use the DELETE method. This cannot be undone.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the Thing the
 image belongs to
 - **$image_id** - Required integer - The id of the image
 to delete.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The "ok" object
-</ul>
+
 ```
 
 *                 <a name="things-getfiles"></a>
@@ -371,19 +372,19 @@ gets more detailed info about a specific file belonging to this
 thing.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to get
 files from
 - **$file_id** - Optional integer - Optional id of the
 file to get more details for
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array|object)** - An array of files associated with a
 thing or detail about a specific file
-</ul>
+
 ```
 
 *                 <a name="things-deletefiles"></a>
@@ -394,18 +395,18 @@ DELETE /things/{$id}/files/{$file_id}
 <p>Must use the DELETE method. This cannot be undone.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the Thing the
 file belongs to
 - **$file_id** - Required integer - The id of the file to
 delete.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The "ok" object
-</ul>
+
 ```
 
 *                 <a name="things-getlikes"></a>
@@ -415,17 +416,17 @@ GET /things/{$id}/likes
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to get
 likes from
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - An array of users who liked this
 thing
-</ul>
+
 ```
 
 *                 <a name="things-getancestors"></a>
@@ -435,17 +436,17 @@ GET /things/{$id}/ancestors
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to get
 ancestors of
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - An array containing a list of things this
 thing is derived from
-</ul>
+
 ```
 
 *                 <a name="things-getderivatives"></a>
@@ -455,17 +456,17 @@ GET /things/{$id}/derivatives
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to get
 derivatives for
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - An array containing a list of things that
 derive from this thing
-</ul>
+
 ```
 
 *                 <a name="things-gettags"></a>
@@ -475,17 +476,17 @@ GET /things/{$id}/tags
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing for
 which to list tags
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - An array containing a list of things that
 derive from this thing
-</ul>
+
 ```
 
 *                 <a name="things-getcategories"></a>
@@ -495,17 +496,17 @@ GET /things/{$id}/categories
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing for
 which to list it's categories
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - An array containing a list of categories
 this thing is in
-</ul>
+
 ```
 
 *                 <a name="things-patch"></a>
@@ -516,7 +517,7 @@ PATCH /things/{$id}/
 <p>Must use the PATCH method.</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **name** - string - Optional. Replace the name of the
 thing
 - **license** - string - Optional. One of cc, cc-sa,
@@ -531,20 +532,20 @@ instructions.
 thing is a work in progress.
 - **tags** - array - Optional. An array of strings
 containing tag names. Replaces all current tags.
-</ul>
+
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to
 update
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The updated thing.
-</ul>
+
 ```
 
 *                 <a name="things-post"></a>
@@ -555,7 +556,7 @@ POST /things/
 <p>Must use the POST method</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **name** - string - Set the name of the thing
 - **license** - string - One of cc, cc-sa, cc-nd,
 cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Set license.
@@ -571,13 +572,13 @@ thing is a work in progress. Default is false.
 containing tag names. Sets all current tags.
 - **ancestors** - array - Optional. An array of thing ids
 that this thing is derived from.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The newly created thing.
-</ul>
+
 ```
 
 *                 <a name="things-delete"></a>
@@ -588,16 +589,16 @@ DELETE /things/{$id}/
 <p>Must use the DELETE method. This cannot be undone.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to
 delete.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The "ok" object
-</ul>
+
 ```
 
 *                 <a name="things-postfiles"></a>
@@ -608,24 +609,24 @@ POST /things/{$id}/files
 <p>Must use the POST method</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **filename** - string - Set the name of the file to
 upload.
-</ul>
+
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing that
 will own this file.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The data needed to upload a file via an
 HTTP POST with multipart/form-data encoding.
-</ul>
+
 ```
 
 *                 <a name="things-postpublish"></a>
@@ -639,17 +640,17 @@ and a body containing a JSON object of the form: {"errors":["&lt;%=
 reason %&gt;", ...]} Must use the POST method</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to
 publish.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The published Thing or an object
 containing an array named "errors".
-</ul>
+
 ```
 
 *                 <a name="things-getcopies"></a>
@@ -659,17 +660,17 @@ GET /things/{$id}/copies
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to get
 copies from
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - An array of copies (and their images)
 associated with a thing
-</ul>
+
 ```
 
 *                 <a name="things-postcopies"></a>
@@ -680,24 +681,24 @@ POST /things/{$id}/copies
 <p>Must use the POST method</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **filename** - string - The name of the image file to
 upload.
-</ul>
+
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing that
 gets the new copy.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The data needed to upload this copy's
 image file via an HTTP POST with multipart/form-data encoding.
-</ul>
+
 ```
 
 *                 <a name="things-postlikes"></a>
@@ -710,16 +711,16 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 like their own thing.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to
 like.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The "ok" object.
-</ul>
+
 ```
 
 *                 <a name="things-deletelikes"></a>
@@ -732,16 +733,16 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 "unlike" their own thing.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to
 "unlike".
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The "ok" object.
-</ul>
+
 ```
 
 *                 <a name="things-getpackageurl"></a>
@@ -751,16 +752,16 @@ GET /things/{$id}/packageurl
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the Thing the
 package belongs to
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(string)** - The "url" object
-</ul>
+
 ```
 
 *                 <a name="things-getprints"></a>
@@ -770,17 +771,17 @@ GET /things/{$id}/prints
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - $id The id of the thing to
 get prints from
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - An array of prints associated with a
 thing
-</ul>
+
 ```
 
 *                 <a name="things-getthreadedcomments"></a>
@@ -791,18 +792,18 @@ GET /things/{$id}/threadedcomments
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to
 get
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - An array containing comment threads
 indexed by comment parent id (blank for top level comments) and users
 indexed by user id used in those comments
-</ul>
+
 ```
 
 *                 <a name="things-getcomments"></a>
@@ -813,17 +814,17 @@ GET /things/{$id}/comments
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to get
 comments for
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - An array containing a list of comments on
 this thing
-</ul>
+
 ```
 
 *                 <a name="things-postcomments"></a>
@@ -833,23 +834,23 @@ POST /things/{$id}/comments
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to
 comment on
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The newly created comment
-</ul>
+
 ```
 
-</ul>
+
 
 *             <a name="files"></a>
 ### Files
-<ul class="methods">
+
 *                 <a name="files-get"></a>
 #### Get info about a file by id
 ```
@@ -859,16 +860,16 @@ GET /files/{$id}/
 a thumbnail image or three.js json file may be available.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the file
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - An object with urls of the file
 requested
-</ul>
+
 ```
 
 *                 <a name="files-postfinalize"></a>
@@ -879,17 +880,17 @@ POST /files/{$id}/finalize
 <p>Must use the POST method</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the PendingUpload
 for this file
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - Summary of the ObjectFile or Image that
 was created, or error.
-</ul>
+
 ```
 
 *                 <a name="files-getdownload"></a>
@@ -902,22 +903,22 @@ download history for use with the GET /users/{$username}/downloads
 endpoint, as opposed to the public url which is anonymous.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the file
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - NONE
-</ul>
+
 ```
 
-</ul>
+
 
 *             <a name="copies"></a>
 ### Copies
-<ul class="methods">
+
 *                 <a name="copies-get"></a>
 #### Get copy by id
 ```
@@ -926,17 +927,17 @@ GET /copies/{$id}/
 <p>If no id is given, gets the list of latest copies.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Optional integer - The id of the copy to get.
 Omit this to get the list of the latest copies.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object|array)** - An object representing the copy
 requested, or an array of copy objects.
-</ul>
+
 ```
 
 *                 <a name="copies-getimages"></a>
@@ -946,17 +947,17 @@ GET /copies/{$id}/images
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the copy to get
 images from
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - An array of images associated with the
 copy
-</ul>
+
 ```
 
 *                 <a name="copies-postimages"></a>
@@ -967,23 +968,23 @@ POST /copies/{$id}/images
 <p>Must use the POST method</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **filename** - string - The name of the image file to
 upload.
-</ul>
+
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the copy.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The data needed to upload this copy's
 image file via an HTTP POST with multipart/form-data encoding.
-</ul>
+
 ```
 
 *                 <a name="copies-patchimages"></a>
@@ -994,23 +995,23 @@ PATCH /copies/{$id}/images/{$image_id}
 <p>Must use the PATCH method.</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **rank** - integer - Optional.
 - **featured** - boolean - Optional.
-</ul>
+
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required -
 - **$image_id** - Required -
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The "ok" object
-</ul>
+
 ```
 
 *                 <a name="copies-deleteimages"></a>
@@ -1021,18 +1022,18 @@ DELETE /copies/{$id}/images/{$image_id}
 <p>Must use the DELETE method. This cannot be undone.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the Copy the
 image belongs to
 - **$image_id** - Required integer - The id of the image
 to delete.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The "ok" object
-</ul>
+
 ```
 
 *                 <a name="copies-patch"></a>
@@ -1043,23 +1044,23 @@ PATCH /copies/{$id}/
 <p>Must use the PATCH method.</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **description** - string - Optional. Replace the
 description.
-</ul>
+
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the copy to
 update
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The updated thing.
-</ul>
+
 ```
 
 *                 <a name="copies-delete"></a>
@@ -1069,15 +1070,15 @@ DELETE /copies/{$id}/
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the copy.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - NONE
-</ul>
+
 ```
 
 *                 <a name="copies-postlikes"></a>
@@ -1090,16 +1091,16 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 like their own copy.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the copy to
 like.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The "ok" object.
-</ul>
+
 ```
 
 *                 <a name="copies-deletelikes"></a>
@@ -1112,16 +1113,16 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 "unlike" their own copy.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the copy to
 "unlike".
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The "ok" object.
-</ul>
+
 ```
 
 *                 <a name="copies-getthreadedcomments"></a>
@@ -1132,18 +1133,18 @@ GET /copies/{$id}/threadedcomments
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the thing to
 get
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - An array containing comment threads
 indexed by comment parent id (blank for top level comments) and users
 indexed by user id used in those comments
-</ul>
+
 ```
 
 *                 <a name="copies-getcomments"></a>
@@ -1154,17 +1155,17 @@ GET /copies/{$id}/comments
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the copy to get
 comments for
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - An array containing a list of comments on
 this copy
-</ul>
+
 ```
 
 *                 <a name="copies-postcomments"></a>
@@ -1174,23 +1175,23 @@ POST /copies/{$id}/comments
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the copy to
 comment on
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The newly created comment
-</ul>
+
 ```
 
-</ul>
+
 
 *             <a name="collections"></a>
 ### Collections
-<ul class="methods">
+
 *                 <a name="collections-get"></a>
 #### Get a collection by id
 ```
@@ -1199,17 +1200,17 @@ GET /collections/{$id}/
 <p>If no id is given, gets the list of the latest collections.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Optional integer - The id of the collection to
 get. Omit to get the latest collections.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object|array)** - An array of objects, or a single
 object
-</ul>
+
 ```
 
 *                 <a name="collections-getthings"></a>
@@ -1219,16 +1220,16 @@ GET /collections/{$id}/things
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the collection to
 get Things from
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - An array of Things in this collection
-</ul>
+
 ```
 
 *                 <a name="collections-post"></a>
@@ -1238,17 +1239,17 @@ POST /collections/
 ```
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **name** - string - Name of the collection
 - **description** - string - Optional. Description of the
 collection
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The newly created collection.
-</ul>
+
 ```
 
 *                 <a name="collections-postthing"></a>
@@ -1260,25 +1261,25 @@ POST /collections/{$collection_id}/thing/{$thing_id}
 change that. :)</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **description** - string - Optional. Reason for adding
 the Thing
-</ul>
+
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$collection_id** - Required integer - Id of the
 collection to add to
 - **$thing_id** - Required integer - Id of the Thing to
 add
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(The)** - "ok" object.
-</ul>
+
 ```
 
 *                 <a name="collections-deletething"></a>
@@ -1289,16 +1290,16 @@ DELETE /collections/{$collection_id}/thing/{$thing_id}
 <p>Apps may only remove things that they've added to a collection.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$collection_id** - Required -
 - **$thing_id** - Required -
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(The)** - "ok" object.
-</ul>
+
 ```
 
 *                 <a name="collections-patch"></a>
@@ -1309,23 +1310,23 @@ PATCH /collections/{$id}/
 <p>Apps can only update collections they've created.</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **name** - string - Name of the collection
 - **description** - string - Optional. Description of the
 collection
-</ul>
+
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required -
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The newly created collection.
-</ul>
+
 ```
 
 *                 <a name="collections-delete"></a>
@@ -1336,23 +1337,23 @@ DELETE /collections/{$id}/
 <p>Apps can only delete collections they've created.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - Id of the collection to
 delete
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - NONE
-</ul>
+
 ```
 
-</ul>
+
 
 *             <a name="comments"></a>
 ### Comments
-<ul class="methods">
+
 *                 <a name="comments-get"></a>
 #### Get comment by id
 ```
@@ -1361,17 +1362,17 @@ GET /comments/{$id}/
 <p>If no id is given, gets the list of the latest comments.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the comment to
 get
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - An object representing the comment
 requested
-</ul>
+
 ```
 
 *                 <a name="comments-post"></a>
@@ -1382,18 +1383,18 @@ POST /comments/
 <p>Must use the POST method</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **body** - string - Set the body of the comment
 - **target_type** - string - Either thing or make
 - **target_id** - integer - The id of the target (thing_id
 or make_id)
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The newly created comment.
-</ul>
+
 ```
 
 *                 <a name="comments-patch"></a>
@@ -1404,22 +1405,22 @@ PATCH /comments/{$id}/
 <p>Must use the PATCH method.</p>
 ##### Body Parameters
 ```
-<ul class="params unstyled">
+
 - **body** - string - Replace the body of the thing
-</ul>
+
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the comment to
 update
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The updated comment.
-</ul>
+
 ```
 
 *                 <a name="comments-delete"></a>
@@ -1430,23 +1431,23 @@ DELETE /comments/{$id}/
 <p>Must use the DELETE method. This cannot be undone.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$id** - Required integer - The id of the comment to
 delete.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object)** - The "ok" object
-</ul>
+
 ```
 
-</ul>
+
 
 *             <a name="newest"></a>
 ### Newest
-<ul class="methods">
+
 *                 <a name="newest-get"></a>
 #### Get the latest things published
 ```
@@ -1454,16 +1455,16 @@ GET /newest/
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - Thing objects
-</ul>
+
 ```
 
-</ul>
+
 
 *             <a name="popular"></a>
 ### Popular
-<ul class="methods">
+
 *                 <a name="popular-get"></a>
 #### Get the latest featured things
 ```
@@ -1471,16 +1472,16 @@ GET /popular/
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - NONE
-</ul>
+
 ```
 
-</ul>
+
 
 *             <a name="featured"></a>
 ### Featured
-<ul class="methods">
+
 *                 <a name="featured-get"></a>
 #### Get the latest featured things
 ```
@@ -1488,16 +1489,16 @@ GET /featured/
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - NONE
-</ul>
+
 ```
 
-</ul>
+
 
 *             <a name="search"></a>
 ### Search
-<ul class="methods">
+
 *                 <a name="search-get"></a>
 #### Perform a search of things by keyword
 ```
@@ -1506,16 +1507,16 @@ GET /search/{$term}/
 <p>Results in 404 Not Found if no things match the search.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$term** - Optional string - The search query to
 perform
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - A list of things matching the search
-</ul>
+
 ```
 
 *                 <a name="search-getlibrary"></a>
@@ -1524,22 +1525,22 @@ GET /search/{$term}/library
 ```
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$term** - Optional -
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - NONE
-</ul>
+
 ```
 
-</ul>
+
 
 *             <a name="categories"></a>
 ### Categories
-<ul class="methods">
+
 *                 <a name="categories-get"></a>
 #### Get category or categories
 ```
@@ -1552,17 +1553,17 @@ would have an id of "replacement-parts", etc. If no id is specified,
 returns paginated list of categories.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$category_slug** - Optional string - The id of the
 category to fetch. Omit for list of categories.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object|array)** - The category (if specified) or list
 of categories
-</ul>
+
 ```
 
 *                 <a name="categories-getthings"></a>
@@ -1576,23 +1577,23 @@ category's id would be "automotive". The "Replacement Parts" category
 would have an id of "replacement-parts", etc.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$category_slug** - Required string - The id of the
 category for which to fetch things
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - Thing objects
-</ul>
+
 ```
 
-</ul>
+
 
 *             <a name="tags"></a>
 ### Tags
-<ul class="methods">
+
 *                 <a name="tags-getthings"></a>
 #### Get the latest things with the specified tag
 ```
@@ -1604,16 +1605,16 @@ out all characters except alphanumerics, underscores, and dashes
 ('-').</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$tag** - Required string - The tag for which to fetch
 things
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(array)** - Thing objects
-</ul>
+
 ```
 
 *                 <a name="tags-get"></a>
@@ -1627,23 +1628,23 @@ underscores, and dashes ('-'). If no tag is specified, returns a list of
 all tags in alphabetical order.</p>
 ##### Parameters
 ```
-<ul class="params unstyled">
+
 - **$tag** - Optional string - The tag for which to fetch
 things. Omit this to get the list of tags.
-</ul>
+
 ```
 ##### Returns
 ```
-<ul class="returns unstyled">
+
 - **(object|array)** - The tag or an array of tags.
-</ul>
+
 ```
 
-</ul>
 
-</ul>
+
+
 ### Index
-<ul class="nav nav-list">
+
 - <a href=
 "http://www.thingiverse.com/developers/rest-api-reference#users">USERS</a>
 - <a href=
@@ -1669,6 +1670,6 @@ COLLECTIONS</a>
 "http://www.thingiverse.com/developers/rest-api-reference#categories">CATEGORIES</a>
 - <a href=
 "http://www.thingiverse.com/developers/rest-api-reference#tags">TAGS</a>
-</ul>
+
 </body>
 </html>
