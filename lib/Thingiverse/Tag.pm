@@ -90,10 +90,7 @@ sub _build_things_url {
 sub _build_original_json {
   my $self        = shift;
   my $request     = $self->api_base() . $self->name();
-  my $rest_client = Thingiverse::_build_rest_client('');
-  my $response    = $rest_client->GET($request);
-  my $content     = $response->responseContent;
-  return $content;
+  return $self->rest_client->GET($request)->responseContent;
 }
 
 sub _build_content {
