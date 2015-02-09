@@ -1,9 +1,9 @@
 # Developers - REST API Reference - Thingiverse
 ## Thingiverse REST API Reference
 
-* ### Users
+### Users
 
-* #### Get the specified user
+#### Get the specified user
 ```
 GET /users/{$username}/
 ```
@@ -16,7 +16,7 @@ GET /users/{$username}/
 
 
 
-* #### Update the user's profile
+#### Update the user's profile
 ```
 PATCH /users/{$username}/
 ```
@@ -177,9 +177,9 @@ HTTP POST with multipart/form-data encoding.
 
 --------------------------------------------------------------------------------
 
-* ### Things
+### Things
 
-* #### Get thing by id
+#### Get thing by id
 ```
 GET /things/{$id}/
 ```
@@ -195,77 +195,55 @@ Invalid or deleted things will result in 404 Not Found.
 - **(object)** - An object representing the thing requested
 
 
-* #### Get image(s) by thing
+#### Get image(s) by thing
 ```
 GET /things/{$id}/images/{$image_id}
 ```
 Gets summary information for all images associated with a thing or
 more detailed information about a specific image.
+
 ##### Parameters
-```
+- **$id** - Required integer - The id of the thing to get images from
+- **$image_id** - Optional integer - Optional id of image to get details for
 
-- **$id** - Required integer - The id of the thing to get
-images from
-- **$image_id** - Optional integer - Optional id of image
-to get details for
-
-```
 ##### Returns
-```
+- **(array|object)** - An array of images associated with a thing or detailed info about a specific image.
 
-- **(array|object)** - An array of images associated with
-a thing or detailed info about a specific image.
 
-```
-
-* #### Update an existing image
+#### Update an existing image
 ```
 PATCH /things/{$id}/images/{$image_id}
 ```
 Must use the PATCH method.
-##### Body Parameters
-```
 
+##### Body Parameters
 - **rank** - integer - Optional.
 - **featured** - boolean - Optional.
 
-```
 ##### Parameters
-```
-
 - **$id** - Required -
 - **$image_id** - Required -
 
-```
 ##### Returns
-```
-
 - **(object)** - The "ok" object
 
-```
 
-* #### Delete an image from a thing
+#### Delete an image from a thing
 ```
 DELETE /things/{$id}/images/{$image_id}
 ```
 Must use the DELETE method. This cannot be undone.
+
 ##### Parameters
-```
+- **$id** - Required integer - The id of the Thing the image belongs to
+- **$image_id** - Required integer - The id of the image to delete.
 
-- **$id** - Required integer - The id of the Thing the
-image belongs to
-- **$image_id** - Required integer - The id of the image
-to delete.
-
-```
 ##### Returns
-```
-
 - **(object)** - The "ok" object
 
-```
 
-* #### Get file(s) by thing
+
+#### Get file(s) by thing
 ```
 GET /things/{$id}/files/{$file_id}
 ```
@@ -273,167 +251,127 @@ Get a list of files associated with a thing or, given a numeric id,
 gets more detailed info about a specific file belonging to this
 thing.
 ##### Parameters
-```
+
 
 - **$id** - Required integer - The id of the thing to get
 files from
 - **$file_id** - Optional integer - Optional id of the
 file to get more details for
 
-```
+
 ##### Returns
-```
+
 
 - **(array|object)** - An array of files associated with a
 thing or detail about a specific file
 
-```
 
-* #### Delete a file from a thing
+
+#### Delete a file from a thing
 ```
 DELETE /things/{$id}/files/{$file_id}
 ```
 Must use the DELETE method. This cannot be undone.
 ##### Parameters
-```
+
 
 - **$id** - Required integer - The id of the Thing the
 file belongs to
 - **$file_id** - Required integer - The id of the file to
 delete.
 
-```
+
 ##### Returns
-```
+
 
 - **(object)** - The "ok" object
 
-```
 
-* #### Get users who liked this thing
+
+#### Get users who liked this thing
 ```
 GET /things/{$id}/likes
 ```
 ##### Parameters
-```
+- **$id** - Required integer - The id of the thing to get likes from
 
-- **$id** - Required integer - The id of the thing to get
-likes from
 
-```
 ##### Returns
-```
+- **(array)** - An array of users who liked this thing
 
-- **(array)** - An array of users who liked this
-thing
 
-```
 
-* #### Get a list of thing ancestors
+#### Get a list of thing ancestors
 ```
 GET /things/{$id}/ancestors
 ```
 ##### Parameters
-```
+- **$id** - Required integer - The id of the thing to get ancestors of
 
-- **$id** - Required integer - The id of the thing to get
-ancestors of
-
-```
 ##### Returns
-```
+- **(array)** - An array containing a list of things this thing is derived from
 
-- **(array)** - An array containing a list of things this
-thing is derived from
 
-```
 
-* #### Get a list of thing derivatives
+#### Get a list of thing derivatives
 ```
 GET /things/{$id}/derivatives
 ```
 ##### Parameters
-```
+- **$id** - Required integer - The id of the thing to get derivatives for
 
-- **$id** - Required integer - The id of the thing to get
-derivatives for
-
-```
 ##### Returns
-```
+- **(array)** - An array containing a list of things that derive from this thing
 
-- **(array)** - An array containing a list of things that
-derive from this thing
 
-```
 
-* #### Get tags on this thing
+#### Get tags on this thing
 ```
 GET /things/{$id}/tags
 ```
 ##### Parameters
-```
+- **$id** - Required integer - The id of the thing for which to list tags
 
-- **$id** - Required integer - The id of the thing for
-which to list tags
-
-```
 ##### Returns
-```
+- **(array)** - An array containing a list of things that derive from this thing
 
-- **(array)** - An array containing a list of things that
-derive from this thing
 
-```
-
-* #### Get thing category
+#### Get thing category
 ```
 GET /things/{$id}/categories
 ```
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the thing for
-which to list it's categories
+- **$id** - Required integer - The id of the thing for which to list it's categories
 
 ```
 ##### Returns
 ```
 
-- **(array)** - An array containing a list of categories
-this thing is in
+- **(array)** - An array containing a list of categories this thing is in
 
-```
 
-* #### Update an existing thing
+#### Update an existing thing
 ```
 PATCH /things/{$id}/
 ```
 Must use the PATCH method.
-##### Body Parameters
-```
 
-- **name** - string - Optional. Replace the name of the
-thing
-- **license** - string - Optional. One of cc, cc-sa,
-cc-nd, cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Replace license.
-- **category** - string - Optional. Replace the category
-of the thing. Uses full category name (eg: "3D Printer Parts")
-- **description** - string - Optional. Replace the
-description.
-- **instructions** - string - Optional. Replace the
-instructions.
-- **is_wip** - boolean - Optional. Toggle whether this
-thing is a work in progress.
-- **tags** - array - Optional. An array of strings
-containing tag names. Replaces all current tags.
+##### Body Parameters
+- **name** - string - Optional. Replace the name of the thing
+- **license** - string - Optional. One of cc, cc-sa, cc-nd, cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Replace license.
+- **category** - string - Optional. Replace the category of the thing. Uses full category name (eg: "3D Printer Parts")
+- **description** - string - Optional. Replace the description.
+- **instructions** - string - Optional. Replace the instructions.
+- **is_wip** - boolean - Optional. Toggle whether this thing is a work in progress.
+- **tags** - array - Optional. An array of strings containing tag names. Replaces all current tags.
 
 ```
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the thing to
-update
+- **$id** - Required integer - The id of the thing to update
 
 ```
 ##### Returns
@@ -443,7 +381,7 @@ update
 
 ```
 
-* #### Create a new thing
+#### Create a new thing
 ```
 POST /things/
 ```
@@ -452,20 +390,13 @@ Must use the POST method
 ```
 
 - **name** - string - Set the name of the thing
-- **license** - string - One of cc, cc-sa, cc-nd,
-cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Set license.
-- **category** - string - Set the category of the thing.
-Uses full category name (eg: "3D Printer Parts")
-- **description** - string - Optional. Set the
-description.
-- **instructions** - string - Optional. Set the
-instructions.
-- **is_wip** - boolean - Optional. Toggle whether this
-thing is a work in progress. Default is false.
-- **tags** - array - Optional. An array of strings
-containing tag names. Sets all current tags.
-- **ancestors** - array - Optional. An array of thing ids
-that this thing is derived from.
+- **license** - string - One of cc, cc-sa, cc-nd, cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Set license.
+- **category** - string - Set the category of the thing.  Uses full category name (eg: "3D Printer Parts")
+- **description** - string - Optional. Set the description.
+- **instructions** - string - Optional. Set the instructions.
+- **is_wip** - boolean - Optional. Toggle whether this thing is a work in progress. Default is false.
+- **tags** - array - Optional. An array of strings containing tag names. Sets all current tags.
+- **ancestors** - array - Optional. An array of thing ids that this thing is derived from.
 
 ```
 ##### Returns
@@ -475,7 +406,7 @@ that this thing is derived from.
 
 ```
 
-* #### Delete a thing
+#### Delete a thing
 ```
 DELETE /things/{$id}/
 ```
@@ -483,8 +414,7 @@ Must use the DELETE method. This cannot be undone.
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the thing to
-delete.
+- **$id** - Required integer - The id of the thing to delete.
 
 ```
 ##### Returns
@@ -494,7 +424,7 @@ delete.
 
 ```
 
-* #### Upload a file to the given thing
+#### Upload a file to the given thing
 ```
 POST /things/{$id}/files
 ```
@@ -502,26 +432,23 @@ Must use the POST method
 ##### Body Parameters
 ```
 
-- **filename** - string - Set the name of the file to
-upload.
+- **filename** - string - Set the name of the file to upload.
 
 ```
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the thing that
-will own this file.
+- **$id** - Required integer - The id of the thing that will own this file.
 
 ```
 ##### Returns
 ```
 
-- **(object)** - The data needed to upload a file via an
-HTTP POST with multipart/form-data encoding.
+- **(object)** - The data needed to upload a file via an HTTP POST with multipart/form-data encoding.
 
 ```
 
-* #### Publish a thing
+#### Publish a thing
 ```
 POST /things/{$id}/publish
 ```
@@ -532,38 +459,34 @@ reason %&gt;", ...]} Must use the POST method
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the thing to
-publish.
+- **$id** - Required integer - The id of the thing to publish.
 
 ```
 ##### Returns
 ```
 
-- **(object)** - The published Thing or an object
-containing an array named "errors".
+- **(object)** - The published Thing or an object containing an array named "errors".
 
 ```
 
-* #### Get copies/makes of a thing
+#### Get copies/makes of a thing
 ```
 GET /things/{$id}/copies
 ```
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the thing to get
-copies from
+- **$id** - Required integer - The id of the thing to get copies from
 
 ```
 ##### Returns
 ```
 
-- **(array)** - An array of copies (and their images)
-associated with a thing
+- **(array)** - An array of copies (and their images) associated with a thing
 
 ```
 
-* #### Upload image for new copy
+#### Upload image for new copy
 ```
 POST /things/{$id}/copies
 ```
@@ -571,26 +494,23 @@ Must use the POST method
 ##### Body Parameters
 ```
 
-- **filename** - string - The name of the image file to
-upload.
+- **filename** - string - The name of the image file to upload.
 
 ```
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the thing that
-gets the new copy.
+- **$id** - Required integer - The id of the thing that gets the new copy.
 
 ```
 ##### Returns
 ```
 
-- **(object)** - The data needed to upload this copy's
-image file via an HTTP POST with multipart/form-data encoding.
+- **(object)** - The data needed to upload this copy's image file via an HTTP POST with multipart/form-data encoding.
 
 ```
 
-* #### Like a thing
+#### Like a thing
 ```
 POST /things/{$id}/likes
 ```
@@ -600,8 +520,7 @@ like their own thing.
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the thing to
-like.
+- **$id** - Required integer - The id of the thing to like.
 
 ```
 ##### Returns
@@ -611,7 +530,7 @@ like.
 
 ```
 
-* #### Delete a like
+#### Delete a like
 ```
 DELETE /things/{$id}/likes
 ```
@@ -621,8 +540,7 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the thing to
-"unlike".
+- **$id** - Required integer - The id of the thing to "unlike".
 
 ```
 ##### Returns
@@ -632,15 +550,14 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 
 ```
 
-* #### Get a ZIP package with all files associated with the thing
+#### Get a ZIP package with all files associated with the thing
 ```
 GET /things/{$id}/packageurl
 ```
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the Thing the
-package belongs to
+- **$id** - Required integer - The id of the Thing the package belongs to
 
 ```
 ##### Returns
@@ -650,26 +567,24 @@ package belongs to
 
 ```
 
-* #### Get a list of prints associated with a thing
+#### Get a list of prints associated with a thing
 ```
 GET /things/{$id}/prints
 ```
 ##### Parameters
 ```
 
-- **$id** - Required integer - $id The id of the thing to
-get prints from
+- **$id** - Required integer - $id The id of the thing to get prints from
 
 ```
 ##### Returns
 ```
 
-- **(array)** - An array of prints associated with a
-thing
+- **(array)** - An array of prints associated with a thing
 
 ```
 
-* #### Get all comments for this thing in a quick pre-threaded view. This is
+#### Get all comments for this thing in a quick pre-threaded view. This is
 an alternative to GET /things/id/comments
 ```
 GET /things/{$id}/threadedcomments
@@ -677,20 +592,17 @@ GET /things/{$id}/threadedcomments
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the thing to
-get
+- **$id** - Required integer - The id of the thing to get
 
 ```
 ##### Returns
 ```
 
-- **(object)** - An array containing comment threads
-indexed by comment parent id (blank for top level comments) and users
-indexed by user id used in those comments
+- **(object)** - An array containing comment threads indexed by comment parent id (blank for top level comments) and users indexed by user id used in those comments
 
 ```
 
-* #### Get an unthreaded paginated list of comment objects. See also GET
+#### Get an unthreaded paginated list of comment objects. See also GET
 /things/id/threaded_comments
 ```
 GET /things/{$id}/comments
@@ -698,27 +610,24 @@ GET /things/{$id}/comments
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the thing to get
-comments for
+- **$id** - Required integer - The id of the thing to get comments for
 
 ```
 ##### Returns
 ```
 
-- **(array)** - An array containing a list of comments on
-this thing
+- **(array)** - An array containing a list of comments on this thing
 
 ```
 
-* #### Post a comment
+#### Post a comment
 ```
 POST /things/{$id}/comments
 ```
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the thing to
-comment on
+- **$id** - Required integer - The id of the thing to comment on
 
 ```
 ##### Returns
@@ -728,11 +637,12 @@ comment on
 
 ```
 
+--------------------------------------------------------------------------------
 
 
-* ### Files
+### Files
 
-* #### Get info about a file by id
+#### Get info about a file by id
 ```
 GET /files/{$id}/
 ```
@@ -747,12 +657,11 @@ a thumbnail image or three.js json file may be available.
 ##### Returns
 ```
 
-- **(object)** - An object with urls of the file
-requested
+- **(object)** - An object with urls of the file requested
 
 ```
 
-* #### Finalize an uploaded file
+#### Finalize an uploaded file
 ```
 POST /files/{$id}/finalize
 ```
@@ -760,19 +669,17 @@ Must use the POST method
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the PendingUpload
-for this file
+- **$id** - Required integer - The id of the PendingUpload for this file
 
 ```
 ##### Returns
 ```
 
-- **(object)** - Summary of the ObjectFile or Image that
-was created, or error.
+- **(object)** - Summary of the ObjectFile or Image that was created, or error.
 
 ```
 
-* #### Get tracked download URL
+#### Get tracked download URL
 ```
 GET /files/{$id}/download
 ```
@@ -792,11 +699,12 @@ endpoint, as opposed to the public url which is anonymous.
 
 ```
 
+--------------------------------------------------------------------------------
 
 
-* ### Copies
+### Copies
 
-* #### Get copy by id
+#### Get copy by id
 ```
 GET /copies/{$id}/
 ```
@@ -804,38 +712,34 @@ If no id is given, gets the list of latest copies.
 ##### Parameters
 ```
 
-- **$id** - Optional integer - The id of the copy to get.
-Omit this to get the list of the latest copies.
+- **$id** - Optional integer - The id of the copy to get.  Omit this to get the list of the latest copies.
 
 ```
 ##### Returns
 ```
 
-- **(object|array)** - An object representing the copy
-requested, or an array of copy objects.
+- **(object|array)** - An object representing the copy requested, or an array of copy objects.
 
 ```
 
-* #### Get images for a copy
+#### Get images for a copy
 ```
 GET /copies/{$id}/images
 ```
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the copy to get
-images from
+- **$id** - Required integer - The id of the copy to get images from
 
 ```
 ##### Returns
 ```
 
-- **(array)** - An array of images associated with the
-copy
+- **(array)** - An array of images associated with the copy
 
 ```
 
-* #### Upload image to a copy
+#### Upload image to a copy
 ```
 POST /copies/{$id}/images
 ```
@@ -843,8 +747,7 @@ Must use the POST method
 ##### Body Parameters
 ```
 
-- **filename** - string - The name of the image file to
-upload.
+- **filename** - string - The name of the image file to upload.
 
 ```
 ##### Parameters
@@ -856,12 +759,11 @@ upload.
 ##### Returns
 ```
 
-- **(object)** - The data needed to upload this copy's
-image file via an HTTP POST with multipart/form-data encoding.
+- **(object)** - The data needed to upload this copy's image file via an HTTP POST with multipart/form-data encoding.
 
 ```
 
-* #### Update an existing image
+#### Update an existing image
 ```
 PATCH /copies/{$id}/images/{$image_id}
 ```
@@ -887,7 +789,7 @@ Must use the PATCH method.
 
 ```
 
-* #### Delete an image from a copy
+#### Delete an image from a copy
 ```
 DELETE /copies/{$id}/images/{$image_id}
 ```
@@ -895,10 +797,8 @@ Must use the DELETE method. This cannot be undone.
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the Copy the
-image belongs to
-- **$image_id** - Required integer - The id of the image
-to delete.
+- **$id** - Required integer - The id of the Copy the image belongs to
+- **$image_id** - Required integer - The id of the image to delete.
 
 ```
 ##### Returns
@@ -908,7 +808,7 @@ to delete.
 
 ```
 
-* #### Update an existing copy
+#### Update an existing copy
 ```
 PATCH /copies/{$id}/
 ```
@@ -916,15 +816,13 @@ Must use the PATCH method.
 ##### Body Parameters
 ```
 
-- **description** - string - Optional. Replace the
-description.
+- **description** - string - Optional. Replace the description.
 
 ```
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the copy to
-update
+- **$id** - Required integer - The id of the copy to update
 
 ```
 ##### Returns
@@ -934,7 +832,7 @@ update
 
 ```
 
-* #### Delete a copy
+#### Delete a copy
 ```
 DELETE /copies/{$id}/
 ```
@@ -951,7 +849,7 @@ DELETE /copies/{$id}/
 
 ```
 
-* #### Like a copy
+#### Like a copy
 ```
 POST /copies/{$id}/likes
 ```
@@ -961,8 +859,7 @@ like their own copy.
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the copy to
-like.
+- **$id** - Required integer - The id of the copy to like.
 
 ```
 ##### Returns
@@ -972,7 +869,7 @@ like.
 
 ```
 
-* #### Delete a like
+#### Delete a like
 ```
 DELETE /copies/{$id}/likes
 ```
@@ -982,8 +879,7 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the copy to
-"unlike".
+- **$id** - Required integer - The id of the copy to "unlike".
 
 ```
 ##### Returns
@@ -993,7 +889,7 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 
 ```
 
-* #### Get all comments for this copy in a quick pre-threaded view. This is
+#### Get all comments for this copy in a quick pre-threaded view. This is
 an alternative to GET /copies/id/comments
 ```
 GET /copies/{$id}/threadedcomments
@@ -1001,20 +897,17 @@ GET /copies/{$id}/threadedcomments
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the thing to
-get
+- **$id** - Required integer - The id of the thing to get
 
 ```
 ##### Returns
 ```
 
-- **(object)** - An array containing comment threads
-indexed by comment parent id (blank for top level comments) and users
-indexed by user id used in those comments
+- **(object)** - An array containing comment threads indexed by comment parent id (blank for top level comments) and users indexed by user id used in those comments
 
 ```
 
-* #### Get an unthreaded paginated list of comment objects. See also GET
+#### Get an unthreaded paginated list of comment objects. See also GET
 /copies/id/threaded_comments
 ```
 GET /copies/{$id}/comments
@@ -1022,27 +915,24 @@ GET /copies/{$id}/comments
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the copy to get
-comments for
+- **$id** - Required integer - The id of the copy to get comments for
 
 ```
 ##### Returns
 ```
 
-- **(array)** - An array containing a list of comments on
-this copy
+- **(array)** - An array containing a list of comments on this copy
 
 ```
 
-* #### Post a comment
+#### Post a comment
 ```
 POST /copies/{$id}/comments
 ```
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the copy to
-comment on
+- **$id** - Required integer - The id of the copy to comment on
 
 ```
 ##### Returns
@@ -1052,11 +942,12 @@ comment on
 
 ```
 
+--------------------------------------------------------------------------------
 
 
-* ### Collections
+### Collections
 
-* #### Get a collection by id
+#### Get a collection by id
 ```
 GET /collections/{$id}/
 ```
@@ -1064,27 +955,24 @@ If no id is given, gets the list of the latest collections.
 ##### Parameters
 ```
 
-- **$id** - Optional integer - The id of the collection to
-get. Omit to get the latest collections.
+- **$id** - Optional integer - The id of the collection to get. Omit to get the latest collections.
 
 ```
 ##### Returns
 ```
 
-- **(object|array)** - An array of objects, or a single
-object
+- **(object|array)** - An array of objects, or a single object
 
 ```
 
-* #### Get Things in a collection
+#### Get Things in a collection
 ```
 GET /collections/{$id}/things
 ```
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the collection to
-get Things from
+- **$id** - Required integer - The id of the collection to get Things from
 
 ```
 ##### Returns
@@ -1094,7 +982,7 @@ get Things from
 
 ```
 
-* #### Create a new collection
+#### Create a new collection
 ```
 POST /collections/
 ```
@@ -1102,8 +990,7 @@ POST /collections/
 ```
 
 - **name** - string - Name of the collection
-- **description** - string - Optional. Description of the
-collection
+- **description** - string - Optional. Description of the collection
 
 ```
 ##### Returns
@@ -1113,7 +1000,7 @@ collection
 
 ```
 
-* #### Add a thing to a collection
+#### Add a thing to a collection
 ```
 POST /collections/{$collection_id}/thing/{$thing_id}
 ```
@@ -1122,17 +1009,14 @@ change that. :)
 ##### Body Parameters
 ```
 
-- **description** - string - Optional. Reason for adding
-the Thing
+- **description** - string - Optional. Reason for adding the Thing
 
 ```
 ##### Parameters
 ```
 
-- **$collection_id** - Required integer - Id of the
-collection to add to
-- **$thing_id** - Required integer - Id of the Thing to
-add
+- **$collection_id** - Required integer - Id of the collection to add to
+- **$thing_id** - Required integer - Id of the Thing to add
 
 ```
 ##### Returns
@@ -1142,7 +1026,7 @@ add
 
 ```
 
-* #### Removes a thing from a collection
+#### Removes a thing from a collection
 ```
 DELETE /collections/{$collection_id}/thing/{$thing_id}
 ```
@@ -1161,7 +1045,7 @@ Apps may only remove things that they've added to a collection.
 
 ```
 
-* #### Update a collection
+#### Update a collection
 ```
 PATCH /collections/{$id}/
 ```
@@ -1170,8 +1054,7 @@ Apps can only update collections they've created.
 ```
 
 - **name** - string - Name of the collection
-- **description** - string - Optional. Description of the
-collection
+- **description** - string - Optional. Description of the collection
 
 ```
 ##### Parameters
@@ -1187,7 +1070,7 @@ collection
 
 ```
 
-* #### Delete a collection
+#### Delete a collection
 ```
 DELETE /collections/{$id}/
 ```
@@ -1195,8 +1078,7 @@ Apps can only delete collections they've created.
 ##### Parameters
 ```
 
-- **$id** - Required integer - Id of the collection to
-delete
+- **$id** - Required integer - Id of the collection to delete
 
 ```
 ##### Returns
@@ -1206,11 +1088,12 @@ delete
 
 ```
 
+--------------------------------------------------------------------------------
+  
 
+### Comments
 
-* ### Comments
-
-* #### Get comment by id
+#### Get comment by id
 ```
 GET /comments/{$id}/
 ```
@@ -1218,19 +1101,17 @@ If no id is given, gets the list of the latest comments.
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the comment to
-get
+- **$id** - Required integer - The id of the comment to get
 
 ```
 ##### Returns
 ```
 
-- **(object)** - An object representing the comment
-requested
+- **(object)** - An object representing the comment requested
 
 ```
 
-* #### Create a new comment
+#### Create a new comment
 ```
 POST /comments/
 ```
@@ -1240,8 +1121,7 @@ Must use the POST method
 
 - **body** - string - Set the body of the comment
 - **target_type** - string - Either thing or make
-- **target_id** - integer - The id of the target (thing_id
-or make_id)
+- **target_id** - integer - The id of the target (thing_id or make_id)
 
 ```
 ##### Returns
@@ -1251,7 +1131,7 @@ or make_id)
 
 ```
 
-* #### Update an existing comment
+#### Update an existing comment
 ```
 PATCH /comments/{$id}/
 ```
@@ -1265,8 +1145,7 @@ Must use the PATCH method.
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the comment to
-update
+- **$id** - Required integer - The id of the comment to update
 
 ```
 ##### Returns
@@ -1276,7 +1155,7 @@ update
 
 ```
 
-* #### Delete a comment
+#### Delete a comment
 ```
 DELETE /comments/{$id}/
 ```
@@ -1284,8 +1163,7 @@ Must use the DELETE method. This cannot be undone.
 ##### Parameters
 ```
 
-- **$id** - Required integer - The id of the comment to
-delete.
+- **$id** - Required integer - The id of the comment to delete.
 
 ```
 ##### Returns
@@ -1295,11 +1173,12 @@ delete.
 
 ```
 
+--------------------------------------------------------------------------------
 
 
-* ### Newest
+### Newest
 
-* #### Get the latest things published
+#### Get the latest things published
 ```
 GET /newest/
 ```
@@ -1312,9 +1191,9 @@ GET /newest/
 
 
 
-* ### Popular
+### Popular
 
-* #### Get the latest featured things
+#### Get the latest featured things
 ```
 GET /popular/
 ```
@@ -1327,9 +1206,9 @@ GET /popular/
 
 
 
-* ### Featured
+### Featured
 
-* #### Get the latest featured things
+#### Get the latest featured things
 ```
 GET /featured/
 ```
@@ -1342,9 +1221,9 @@ GET /featured/
 
 
 
-* ### Search
+### Search
 
-* #### Perform a search of things by keyword
+#### Perform a search of things by keyword
 ```
 GET /search/{$term}/
 ```
@@ -1352,8 +1231,7 @@ Results in 404 Not Found if no things match the search.
 ##### Parameters
 ```
 
-- **$term** - Optional string - The search query to
-perform
+- **$term** - Optional string - The search query to perform
 
 ```
 ##### Returns
@@ -1379,11 +1257,12 @@ GET /search/{$term}/library
 
 ```
 
+--------------------------------------------------------------------------------
 
 
-* ### Categories
+### Categories
 
-* #### Get category or categories
+#### Get category or categories
 ```
 GET /categories/{$category_slug}/
 ```
@@ -1395,19 +1274,17 @@ returns paginated list of categories.
 ##### Parameters
 ```
 
-- **$category_slug** - Optional string - The id of the
-category to fetch. Omit for list of categories.
+- **$category_slug** - Optional string - The id of the category to fetch. Omit for list of categories.
 
 ```
 ##### Returns
 ```
 
-- **(object|array)** - The category (if specified) or list
-of categories
+- **(object|array)** - The category (if specified) or list of categories
 
 ```
 
-* #### Get latest things in a category
+#### Get latest things in a category
 ```
 GET /categories/{$category_slug}/things
 ```
@@ -1418,8 +1295,7 @@ would have an id of "replacement-parts", etc.
 ##### Parameters
 ```
 
-- **$category_slug** - Required string - The id of the
-category for which to fetch things
+- **$category_slug** - Required string - The id of the category for which to fetch things
 
 ```
 ##### Returns
@@ -1429,11 +1305,12 @@ category for which to fetch things
 
 ```
 
+--------------------------------------------------------------------------------
 
 
-* ### Tags
+### Tags
 
-* #### Get the latest things with the specified tag
+#### Get the latest things with the specified tag
 ```
 GET /tags/{$tag}/things
 ```
@@ -1444,8 +1321,7 @@ out all characters except alphanumerics, underscores, and dashes
 ##### Parameters
 ```
 
-- **$tag** - Required string - The tag for which to fetch
-things
+- **$tag** - Required string - The tag for which to fetch things
 
 ```
 ##### Returns
@@ -1455,7 +1331,7 @@ things
 
 ```
 
-* #### Return a representation of the given tag
+#### Return a representation of the given tag
 ```
 GET /tags/{$tag}/
 ```
@@ -1466,8 +1342,7 @@ all tags in alphabetical order.
 ##### Parameters
 ```
 
-- **$tag** - Optional string - The tag for which to fetch
-things. Omit this to get the list of tags.
+- **$tag** - Optional string - The tag for which to fetch things. Omit this to get the list of tags.
 
 ```
 ##### Returns
@@ -1478,32 +1353,21 @@ things. Omit this to get the list of tags.
 ```
 
 
+--------------------------------------------------------------------------------
 
 
 ### Index
 
-- <a href=
-"http://www.thingiverse.com/developers/rest-api-reference#users">USERS</a>
-- <a href=
-"http://www.thingiverse.com/developers/rest-api-reference#things">THINGS</a>
-- <a href=
-"http://www.thingiverse.com/developers/rest-api-reference#files">FILES</a>
-- <a href=
-"http://www.thingiverse.com/developers/rest-api-reference#copies">COPIES</a>
-- <a href=
-"./Developers%20-%20REST%20API%20Reference%20-%20Thingiverse_files/Developers%20-%20REST%20API%20Reference%20-%20Thingiverse.html">
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#users">USERS</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#things">THINGS</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#files">FILES</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#copies">COPIES</a>
+- <a href= "./Developers%20-%20REST%20API%20Reference%20-%20Thingiverse_files/Developers%20-%20REST%20API%20Reference%20-%20Thingiverse.html">
 COLLECTIONS</a>
-- <a href=
-"http://www.thingiverse.com/developers/rest-api-reference#comments">COMMENTS</a>
-- <a href=
-"http://www.thingiverse.com/developers/rest-api-reference#newest">NEWEST</a>
-- <a href=
-"http://www.thingiverse.com/developers/rest-api-reference#popular">POPULAR</a>
-- <a href=
-"http://www.thingiverse.com/developers/rest-api-reference#featured">FEATURED</a>
-- <a href=
-"http://www.thingiverse.com/developers/rest-api-reference#search">SEARCH</a>
-- <a href=
-"http://www.thingiverse.com/developers/rest-api-reference#categories">CATEGORIES</a>
-- <a href=
-"http://www.thingiverse.com/developers/rest-api-reference#tags">TAGS</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#comments">COMMENTS</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#newest">NEWEST</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#popular">POPULAR</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#featured">FEATURED</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#search">SEARCH</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#categories">CATEGORIES</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#tags">TAGS</a>
