@@ -1,15 +1,15 @@
 General Notes:
 ----------------------------------------------------------------------------------------
 
-  1) Pagination
-X   a) make Thingiverse::Pagination module
-    b) implement for
-	    i) things
-	   ii) tags
-	  iii) files
-	   iv) images
-	    v) collectsions
-	   vi) comments
+  1 Pagination
+X   a make Thingiverse::Pagination module
+    b implement for
+	    i things
+	   ii tags
+	  iii files
+	   iv images
+	    v collectsions
+	   vi comments
   2) Add list methods:
     a) Categories
     b) Tags
