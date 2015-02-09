@@ -1,61 +1,45 @@
 # Developers - REST API Reference - Thingiverse
 ## Thingiverse REST API Reference
 
-
 * ### Users
-
 
 * #### Get the specified user
 
 ```
 GET /users/{$username}/
 ```
-```
 
 ##### Parameters
-- **$username** - Required string - The username of the
-user to get. Use the special name "me" to get information about the
-current user.
+- **$username** - Required string - The username of the user to get. Use the special name "me" to get information about the current user.
 
-```
 ##### Returns
-```
 
+```
 - **(object)** - The user.
-
 ```
+
 
 * #### Update the user's profile
 ```
 PATCH /users/{$username}/
 ```
-<p>Must use the PATCH method.</p>
-```
+
+Must use the PATCH method.
 
 ##### Body Parameters
-- **first_name** - string - Optional. Replace the first
-name of this user.
-- **last_name** - string - Optional. Replace the last name
-of this user.
-- **bio** - string - Optional. Replace the biography for
-this user.
-- **location** - string - Optional. Replace the location
-for this user.
+- **first_name** - string - Optional. Replace the first name of this user.
+- **last_name** - string - Optional. Replace the last name of this user.
+- **bio** - string - Optional. Replace the biography for this user.
+- **location** - string - Optional. Replace the location for this user.
 - **default_license** - string - Optional. One of cc, cc-sa, cc-nd, cc-nc, cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Update default license.
 
-```
 ##### Parameters
-```
+- **$username** - Required integer - The username of the user to update
 
-- **$username** - Required integer - The username of the
-user to update
-
-```
 ##### Returns
+
 ```
-
 - **(object)** - The updated user.
-
 ```
 
 * #### Get things by user
@@ -65,44 +49,32 @@ GET /users/{$username}/things
 <p>If an authenticated user is requesting their own list of things,
 unpublished things will also appear in the list. If the user doesn't
 exist, result is 404 Not Found.</p>
-##### Parameters
-```
 
+##### Parameters
 - **$username** - Required string - The username of the
 user for which to fetch things.
 
-```
 ##### Returns
-```
-
 - **(array)** - Thing objects
-
-```
 
 * #### Get things like by user
 ```
 GET /users/{$username}/likes
 ```
-<p>If the user doesn't exist, result is 404 Not Found.</p>
+If the user doesn't exist, result is 404 Not Found.
+
 ##### Parameters
-```
+- **$username** - Required string - The username of the user for which to fetch likes.
 
-- **$username** - Required string - The username of the
-user for which to fetch likes.
-
-```
 ##### Returns
-```
-
 - **(array)** - Thing objects
 
-```
 
 * #### Get latest copies by user
 ```
 GET /users/{$username}/copies
 ```
-<p>If the user doesn't exist, result is 404 Not Found.</p>
+If the user doesn't exist, result is 404 Not Found.
 ##### Parameters
 ```
 
@@ -121,7 +93,7 @@ user for which to fetch copies.
 ```
 GET /users/{$username}/collections
 ```
-<p>If the user doesn't exist, result is 404 Not Found.</p>
+If the user doesn't exist, result is 404 Not Found.
 ##### Parameters
 ```
 
@@ -140,7 +112,7 @@ user for which to fetch collections.
 ```
 GET /users/{$username}/downloads
 ```
-<p>If the user doesn't exist, result is 404 Not Found.</p>
+If the user doesn't exist, result is 404 Not Found.
 ##### Parameters
 ```
 
@@ -159,9 +131,9 @@ user in question.
 ```
 POST /users/{$username}/followers
 ```
-<p>Must use the POST method Result will be 404 Not Found if the user
+Must use the POST method Result will be 404 Not Found if the user
 doesn't exist. Result will be 400 Bad Request if the user is trying to
-follow itself.</p>
+follow itself.
 ##### Parameters
 ```
 
@@ -180,8 +152,8 @@ user to "follow".
 ```
 DELETE /users/{$username}/followers
 ```
-<p>Must use the DELETE method Result will be 404 Not Found if the user
-doesn't exist.</p>
+Must use the DELETE method Result will be 404 Not Found if the user
+doesn't exist.
 ##### Parameters
 ```
 
@@ -200,7 +172,7 @@ user to "unfollow".
 ```
 POST /users/{$username}/avatarimage
 ```
-<p>Must use the POST method</p>
+Must use the POST method
 ##### Body Parameters
 ```
 
@@ -227,7 +199,7 @@ HTTP POST with multipart/form-data encoding.
 ```
 POST /users/{$username}/coverimage
 ```
-<p>Must use the POST method</p>
+Must use the POST method
 ##### Body Parameters
 ```
 
@@ -258,10 +230,10 @@ HTTP POST with multipart/form-data encoding.
 ```
 GET /things/{$id}/
 ```
-<p>Attempting to fetch an unpublished thing will result in a 401
+Attempting to fetch an unpublished thing will result in a 401
 Unauthorized result unless the call is authenticated. Attempting to fetch
 an unpublished thing you do not own will result in a 403 Forbidden.
-Invalid or deleted things will result in 404 Not Found.</p>
+Invalid or deleted things will result in 404 Not Found.
 ##### Parameters
 ```
 
@@ -281,8 +253,8 @@ requested
 ```
 GET /things/{$id}/images/{$image_id}
 ```
-<p>Gets summary information for all images associated with a thing or
-more detailed information about a specific image.</p>
+Gets summary information for all images associated with a thing or
+more detailed information about a specific image.
 ##### Parameters
 ```
 
@@ -304,7 +276,7 @@ a thing or detailed info about a specific image.
 ```
 PATCH /things/{$id}/images/{$image_id}
 ```
-<p>Must use the PATCH method.</p>
+Must use the PATCH method.
 ##### Body Parameters
 ```
 
@@ -330,7 +302,7 @@ PATCH /things/{$id}/images/{$image_id}
 ```
 DELETE /things/{$id}/images/{$image_id}
 ```
-<p>Must use the DELETE method. This cannot be undone.</p>
+Must use the DELETE method. This cannot be undone.
 ##### Parameters
 ```
 
@@ -351,9 +323,9 @@ to delete.
 ```
 GET /things/{$id}/files/{$file_id}
 ```
-<p>Get a list of files associated with a thing or, given a numeric id,
+Get a list of files associated with a thing or, given a numeric id,
 gets more detailed info about a specific file belonging to this
-thing.</p>
+thing.
 ##### Parameters
 ```
 
@@ -375,7 +347,7 @@ thing or detail about a specific file
 ```
 DELETE /things/{$id}/files/{$file_id}
 ```
-<p>Must use the DELETE method. This cannot be undone.</p>
+Must use the DELETE method. This cannot be undone.
 ##### Parameters
 ```
 
@@ -491,7 +463,7 @@ this thing is in
 ```
 PATCH /things/{$id}/
 ```
-<p>Must use the PATCH method.</p>
+Must use the PATCH method.
 ##### Body Parameters
 ```
 
@@ -529,7 +501,7 @@ update
 ```
 POST /things/
 ```
-<p>Must use the POST method</p>
+Must use the POST method
 ##### Body Parameters
 ```
 
@@ -561,7 +533,7 @@ that this thing is derived from.
 ```
 DELETE /things/{$id}/
 ```
-<p>Must use the DELETE method. This cannot be undone.</p>
+Must use the DELETE method. This cannot be undone.
 ##### Parameters
 ```
 
@@ -580,7 +552,7 @@ delete.
 ```
 POST /things/{$id}/files
 ```
-<p>Must use the POST method</p>
+Must use the POST method
 ##### Body Parameters
 ```
 
@@ -607,10 +579,10 @@ HTTP POST with multipart/form-data encoding.
 ```
 POST /things/{$id}/publish
 ```
-<p>If the Thing cannot be published (for example, because the Thing's
+If the Thing cannot be published (for example, because the Thing's
 name or description is blank), returns an HTTP status of 400 Bad Request
 and a body containing a JSON object of the form: {"errors":["&lt;%=
-reason %&gt;", ...]} Must use the POST method</p>
+reason %&gt;", ...]} Must use the POST method
 ##### Parameters
 ```
 
@@ -649,7 +621,7 @@ associated with a thing
 ```
 POST /things/{$id}/copies
 ```
-<p>Must use the POST method</p>
+Must use the POST method
 ##### Body Parameters
 ```
 
@@ -676,9 +648,9 @@ image file via an HTTP POST with multipart/form-data encoding.
 ```
 POST /things/{$id}/likes
 ```
-<p>Must use the POST method Result will be 404 Not Found if the thing
+Must use the POST method Result will be 404 Not Found if the thing
 doesn't exist. Result will be 400 Bad Request if the user is trying to
-like their own thing.</p>
+like their own thing.
 ##### Parameters
 ```
 
@@ -697,9 +669,9 @@ like.
 ```
 DELETE /things/{$id}/likes
 ```
-<p>Must use the DELETE method Result will be 404 Not Found if the thing
+Must use the DELETE method Result will be 404 Not Found if the thing
 doesn't exist. Result will be 400 Bad Request if the user is trying to
-"unlike" their own thing.</p>
+"unlike" their own thing.
 ##### Parameters
 ```
 
@@ -818,8 +790,8 @@ comment on
 ```
 GET /files/{$id}/
 ```
-<p>Get basic information about how to access a file. For relevant files,
-a thumbnail image or three.js json file may be available.</p>
+Get basic information about how to access a file. For relevant files,
+a thumbnail image or three.js json file may be available.
 ##### Parameters
 ```
 
@@ -838,7 +810,7 @@ requested
 ```
 POST /files/{$id}/finalize
 ```
-<p>Must use the POST method</p>
+Must use the POST method
 ##### Parameters
 ```
 
@@ -858,9 +830,9 @@ was created, or error.
 ```
 GET /files/{$id}/download
 ```
-<p>Redirects to the requested file and adds an entry to the user's
+Redirects to the requested file and adds an entry to the user's
 download history for use with the GET /users/{$username}/downloads
-endpoint, as opposed to the public url which is anonymous.</p>
+endpoint, as opposed to the public url which is anonymous.
 ##### Parameters
 ```
 
@@ -882,7 +854,7 @@ endpoint, as opposed to the public url which is anonymous.</p>
 ```
 GET /copies/{$id}/
 ```
-<p>If no id is given, gets the list of latest copies.</p>
+If no id is given, gets the list of latest copies.
 ##### Parameters
 ```
 
@@ -921,7 +893,7 @@ copy
 ```
 POST /copies/{$id}/images
 ```
-<p>Must use the POST method</p>
+Must use the POST method
 ##### Body Parameters
 ```
 
@@ -947,7 +919,7 @@ image file via an HTTP POST with multipart/form-data encoding.
 ```
 PATCH /copies/{$id}/images/{$image_id}
 ```
-<p>Must use the PATCH method.</p>
+Must use the PATCH method.
 ##### Body Parameters
 ```
 
@@ -973,7 +945,7 @@ PATCH /copies/{$id}/images/{$image_id}
 ```
 DELETE /copies/{$id}/images/{$image_id}
 ```
-<p>Must use the DELETE method. This cannot be undone.</p>
+Must use the DELETE method. This cannot be undone.
 ##### Parameters
 ```
 
@@ -994,7 +966,7 @@ to delete.
 ```
 PATCH /copies/{$id}/
 ```
-<p>Must use the PATCH method.</p>
+Must use the PATCH method.
 ##### Body Parameters
 ```
 
@@ -1037,9 +1009,9 @@ DELETE /copies/{$id}/
 ```
 POST /copies/{$id}/likes
 ```
-<p>Must use the POST method Result will be 404 Not Found if the copy
+Must use the POST method Result will be 404 Not Found if the copy
 doesn't exist. Result will be 400 Bad Request if the user is trying to
-like their own copy.</p>
+like their own copy.
 ##### Parameters
 ```
 
@@ -1058,9 +1030,9 @@ like.
 ```
 DELETE /copies/{$id}/likes
 ```
-<p>Must use the DELETE method Result will be 404 Not Found if the copy
+Must use the DELETE method Result will be 404 Not Found if the copy
 doesn't exist. Result will be 400 Bad Request if the user is trying to
-"unlike" their own copy.</p>
+"unlike" their own copy.
 ##### Parameters
 ```
 
@@ -1142,7 +1114,7 @@ comment on
 ```
 GET /collections/{$id}/
 ```
-<p>If no id is given, gets the list of the latest collections.</p>
+If no id is given, gets the list of the latest collections.
 ##### Parameters
 ```
 
@@ -1199,8 +1171,8 @@ collection
 ```
 POST /collections/{$collection_id}/thing/{$thing_id}
 ```
-<p>Apps can add to any collection the user owns. Do not abuse or we'll
-change that. :)</p>
+Apps can add to any collection the user owns. Do not abuse or we'll
+change that. :)
 ##### Body Parameters
 ```
 
@@ -1228,7 +1200,7 @@ add
 ```
 DELETE /collections/{$collection_id}/thing/{$thing_id}
 ```
-<p>Apps may only remove things that they've added to a collection.</p>
+Apps may only remove things that they've added to a collection.
 ##### Parameters
 ```
 
@@ -1247,7 +1219,7 @@ DELETE /collections/{$collection_id}/thing/{$thing_id}
 ```
 PATCH /collections/{$id}/
 ```
-<p>Apps can only update collections they've created.</p>
+Apps can only update collections they've created.
 ##### Body Parameters
 ```
 
@@ -1273,7 +1245,7 @@ collection
 ```
 DELETE /collections/{$id}/
 ```
-<p>Apps can only delete collections they've created.</p>
+Apps can only delete collections they've created.
 ##### Parameters
 ```
 
@@ -1296,7 +1268,7 @@ delete
 ```
 GET /comments/{$id}/
 ```
-<p>If no id is given, gets the list of the latest comments.</p>
+If no id is given, gets the list of the latest comments.
 ##### Parameters
 ```
 
@@ -1316,7 +1288,7 @@ requested
 ```
 POST /comments/
 ```
-<p>Must use the POST method</p>
+Must use the POST method
 ##### Body Parameters
 ```
 
@@ -1337,7 +1309,7 @@ or make_id)
 ```
 PATCH /comments/{$id}/
 ```
-<p>Must use the PATCH method.</p>
+Must use the PATCH method.
 ##### Body Parameters
 ```
 
@@ -1362,7 +1334,7 @@ update
 ```
 DELETE /comments/{$id}/
 ```
-<p>Must use the DELETE method. This cannot be undone.</p>
+Must use the DELETE method. This cannot be undone.
 ##### Parameters
 ```
 
@@ -1430,7 +1402,7 @@ GET /featured/
 ```
 GET /search/{$term}/
 ```
-<p>Results in 404 Not Found if no things match the search.</p>
+Results in 404 Not Found if no things match the search.
 ##### Parameters
 ```
 
@@ -1469,11 +1441,11 @@ GET /search/{$term}/library
 ```
 GET /categories/{$category_slug}/
 ```
-<p>Get details about one category or a list of all categories. Category
+Get details about one category or a list of all categories. Category
 ids are normalized "slugs". For example, the id for the "Automotive"
 category's id would be "automotive". The "Replacement Parts" category
 would have an id of "replacement-parts", etc. If no id is specified,
-returns paginated list of categories.</p>
+returns paginated list of categories.
 ##### Parameters
 ```
 
@@ -1493,10 +1465,10 @@ of categories
 ```
 GET /categories/{$category_slug}/things
 ```
-<p>If the category doesn't exist, result is 404 Not Found. Category ids
+If the category doesn't exist, result is 404 Not Found. Category ids
 are normalized "slugs". For example, the id for the "Automotive"
 category's id would be "automotive". The "Replacement Parts" category
-would have an id of "replacement-parts", etc.</p>
+would have an id of "replacement-parts", etc.
 ##### Parameters
 ```
 
@@ -1519,10 +1491,10 @@ category for which to fetch things
 ```
 GET /tags/{$tag}/things
 ```
-<p>If the tag doesn't exist, result is 404 Not Found. Tags are normalized
+If the tag doesn't exist, result is 404 Not Found. Tags are normalized
 before searching by converting whitespace to underscores and stripping
 out all characters except alphanumerics, underscores, and dashes
-('-').</p>
+('-').
 ##### Parameters
 ```
 
@@ -1541,10 +1513,10 @@ things
 ```
 GET /tags/{$tag}/
 ```
-<p>Tags are normalized before searching by converting whitespace to
+Tags are normalized before searching by converting whitespace to
 underscores and stripping out all characters except alphanumerics,
 underscores, and dashes ('-'). If no tag is specified, returns a list of
-all tags in alphabetical order.</p>
+all tags in alphabetical order.
 ##### Parameters
 ```
 
