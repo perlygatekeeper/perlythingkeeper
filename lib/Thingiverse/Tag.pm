@@ -8,8 +8,6 @@ use Carp;
 use JSON;
 use Thingiverse::Types;
 
-extends('Thingiverse');
-
 # ABSTRACT: Thingiverse Tag Object
 
 =head1 SYNOPSIS
@@ -44,6 +42,13 @@ has name => (
   isa      => 'Str',
   is       => 'ro',
   required => 1,
+);
+
+has thingiverse => (
+  is => 'ro',
+  isa => 'Thingiverse',
+  required => 1,
+  handles => [ qw/rest_client/ ],
 );
 
 has count => (

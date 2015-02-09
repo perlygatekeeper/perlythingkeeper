@@ -113,6 +113,15 @@ sub _send_request_to_thingiverse {
   return $response;
 }
 
+sub get_tag {
+    my $self = shift;
+    my %options = @_;
+    return Thingiverse::Tag->new(
+        %options,
+        thingiverse => $self,
+    );
+}
+
 no Moose;
 __PACKAGE__->meta->make_immutable;
 
