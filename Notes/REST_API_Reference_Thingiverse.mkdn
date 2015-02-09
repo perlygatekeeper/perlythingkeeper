@@ -4,7 +4,6 @@
 * ### Users
 
 * #### Get the specified user
-
 ```
 GET /users/{$username}/
 ```
@@ -13,17 +12,14 @@ GET /users/{$username}/
 - **$username** - Required string - The username of the user to get. Use the special name "me" to get information about the current user.
 
 ##### Returns
-
-```
 - **(object)** - The user.
-```
+
 
 
 * #### Update the user's profile
 ```
 PATCH /users/{$username}/
 ```
-
 Must use the PATCH method.
 
 ##### Body Parameters
@@ -37,25 +33,26 @@ Must use the PATCH method.
 - **$username** - Required integer - The username of the user to update
 
 ##### Returns
-
 - **(object)** - The updated user.
 
-* #### Get things by user
+
+
+#### Get things by user
 ```
 GET /users/{$username}/things
 ```
-<p>If an authenticated user is requesting their own list of things,
+If an authenticated user is requesting their own list of things,
 unpublished things will also appear in the list. If the user doesn't
-exist, result is 404 Not Found.</p>
+exist, result is 404 Not Found.
 
 ##### Parameters
-- **$username** - Required string - The username of the
-user for which to fetch things.
+- **$username** - Required string - The username of the user for which to fetch things.
 
 ##### Returns
 - **(array)** - Thing objects
 
-* #### Get things like by user
+
+#### Get things liked by user
 ```
 GET /users/{$username}/likes
 ```
@@ -68,156 +65,117 @@ If the user doesn't exist, result is 404 Not Found.
 - **(array)** - Thing objects
 
 
-* #### Get latest copies by user
+
+#### Get latest copies by user
 ```
 GET /users/{$username}/copies
 ```
 If the user doesn't exist, result is 404 Not Found.
-##### Parameters
-```
 
+##### Parameters
 - **$username** - Required string - The username of the user for which to fetch copies.
 
-##### Returns
 
+##### Returns
 - **(array)** - Copy objects
 
-```
 
-* #### Get latest collections by user
+
+#### Get latest collections by user
 ```
 GET /users/{$username}/collections
 ```
 If the user doesn't exist, result is 404 Not Found.
+
 ##### Parameters
-```
+- **$username** - Required string - The username of the user for which to fetch collections.
 
-- **$username** - Required string - The username of the
-user for which to fetch collections.
-
-```
 ##### Returns
-```
-
 - **(array)** - Collection objects
 
-```
 
-* #### Get latest downloaded things by user
+
+#### Get latest downloaded things by user
 ```
 GET /users/{$username}/downloads
 ```
 If the user doesn't exist, result is 404 Not Found.
+
 ##### Parameters
-```
+- **$username** - Required string - The username of the user in question.
 
-- **$username** - Required string - The username of the
-user in question.
-
-```
 ##### Returns
-```
-
 - **(array)** - Thing objects
 
-```
 
-* #### Follow an user
+#### Follow an user
 ```
 POST /users/{$username}/followers
 ```
 Must use the POST method Result will be 404 Not Found if the user
 doesn't exist. Result will be 400 Bad Request if the user is trying to
 follow itself.
+
 ##### Parameters
-```
+- **$username** - Required string - The username of the user to "follow".
 
-- **$username** - Required string - The username of the
-user to "follow".
-
-```
 ##### Returns
-```
-
 - **(object)** - The "ok" object.
 
-```
 
-* #### Unfollow an user
+
+#### Unfollow an user
 ```
 DELETE /users/{$username}/followers
 ```
 Must use the DELETE method Result will be 404 Not Found if the user
 doesn't exist.
+
 ##### Parameters
-```
+- **$username** - Required string - The username of the user to "unfollow".
 
-- **$username** - Required string - The username of the
-user to "unfollow".
-
-```
 ##### Returns
-```
-
 - **(object)** - The "ok" object.
 
-```
 
-* #### Update the avatar image
+
+#### Update the avatar image
 ```
 POST /users/{$username}/avatarimage
 ```
 Must use the POST method
+
 ##### Body Parameters
-```
 
-- **filename** - string - Set the name of the image to
-upload.
+- **filename** - string - Set the name of the image to upload.
 
-```
-##### Parameters
-```
+##### Parameters 
+- **$username** - Required string - The username of the user that will own this file.
 
-- **$username** - Required string - The username of the
-user that will own this file.
-
-```
 ##### Returns
-```
+- **(object)** - The data needed to upload a file via an HTTP POST with multipart/form-data encoding.
 
-- **(object)** - The data needed to upload a file via an
-HTTP POST with multipart/form-data encoding.
 
-```
 
-* #### Update the cover image
+#### Update the cover image
 ```
 POST /users/{$username}/coverimage
 ```
 Must use the POST method
+
 ##### Body Parameters
-```
+- **filename** - string - Set the name of the image to upload.
 
-- **filename** - string - Set the name of the image to
-upload.
 
-```
 ##### Parameters
-```
+- **$username** - Required string - The username of the user that will own this file.
 
-- **$username** - Required string - The username of the
-user that will own this file.
-
-```
 ##### Returns
-```
-
 - **(object)** - The data needed to upload a file via an
 HTTP POST with multipart/form-data encoding.
 
-```
 
-
+--------------------------------------------------------------------------------
 
 * ### Things
 
@@ -229,20 +187,13 @@ Attempting to fetch an unpublished thing will result in a 401
 Unauthorized result unless the call is authenticated. Attempting to fetch
 an unpublished thing you do not own will result in a 403 Forbidden.
 Invalid or deleted things will result in 404 Not Found.
+
 ##### Parameters
-```
+- **$id** - Required integer - The id of the thing to get
 
-- **$id** - Required integer - The id of the thing to
-get
-
-```
 ##### Returns
-```
+- **(object)** - An object representing the thing requested
 
-- **(object)** - An object representing the thing
-requested
-
-```
 
 * #### Get image(s) by thing
 ```
