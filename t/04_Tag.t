@@ -8,11 +8,9 @@ BEGIN {
     use_ok('Thingiverse::Tag');
 }
 
-our $api_base = "/tags/";
-
 my $name       = 'tool';
-my $url        = $Thingiverse::api_uri_base . $Thingiverse::Tag::api_base . $name;
-my $things_url = $Thingiverse::api_uri_base . $Thingiverse::Tag::api_base . $name . '/things';
+my $url        = $Thingiverse::api_uri_base . Thingiverse::Tag->api_base . $name;
+my $things_url = $Thingiverse::api_uri_base . Thingiverse::Tag->api_base . $name . '/things';
 my $count      = 1461;
 
 my $tag = Thingiverse::Tag->new( 'name' => $name );

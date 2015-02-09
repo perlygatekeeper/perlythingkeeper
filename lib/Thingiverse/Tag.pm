@@ -10,8 +10,6 @@ use Thingiverse::Types;
 
 extends('Thingiverse');
 
-our $api_base = "/tags/";
-
 # ABSTRACT: Thingiverse Tag Object
 
 =head1 SYNOPSIS
@@ -97,8 +95,7 @@ sub _build_things_url {
 
 sub _build_original_json {
   my $self        = shift;
-  my $name        = $self->name;
-  my $request     = $api_base . $name;
+  my $request     = $self->api_base() . $self->name();
   my $rest_client = Thingiverse::_build_rest_client('');
   my $response    = $rest_client->GET($request);
   my $content     = $response->responseContent;
@@ -107,7 +104,6 @@ sub _build_original_json {
 
 sub _build_content {
   my $self = shift;
-  warn $self->original_json;
   return JSON::decode_json($self->original_json);
 }
 
@@ -115,6 +111,10 @@ sub _get_things_tagged_with_tag {
   my $self = shift;
   return Thingiverse::Thing::List->new(
     { api => 'search', term => $self->name });
+}
+
+sub api_base {
+    return '/tags/'
 }
 
 no Moose;
