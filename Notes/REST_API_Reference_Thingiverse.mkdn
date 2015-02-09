@@ -10,9 +10,9 @@
 ```
 GET /users/{$username}/
 ```
-##### Parameters
 ```
 
+##### Parameters
 - **$username** - Required string - The username of the
 user to get. Use the special name "me" to get information about the
 current user.
@@ -25,15 +25,14 @@ current user.
 
 ```
 
-*                 <a name="users-patch"></a>
-#### Update the user's profile
+* #### Update the user's profile
 ```
 PATCH /users/{$username}/
 ```
 <p>Must use the PATCH method.</p>
-##### Body Parameters
 ```
 
+##### Body Parameters
 - **first_name** - string - Optional. Replace the first
 name of this user.
 - **last_name** - string - Optional. Replace the last name
@@ -59,8 +58,7 @@ user to update
 
 ```
 
-*                 <a name="users-getthings"></a>
-#### Get things by user
+* #### Get things by user
 ```
 GET /users/{$username}/things
 ```
@@ -81,8 +79,7 @@ user for which to fetch things.
 
 ```
 
-*                 <a name="users-getlikes"></a>
-#### Get things like by user
+* #### Get things like by user
 ```
 GET /users/{$username}/likes
 ```
@@ -101,8 +98,7 @@ user for which to fetch likes.
 
 ```
 
-*                 <a name="users-getcopies"></a>
-#### Get latest copies by user
+* #### Get latest copies by user
 ```
 GET /users/{$username}/copies
 ```
@@ -121,8 +117,7 @@ user for which to fetch copies.
 
 ```
 
-*                 <a name="users-getcollections"></a>
-#### Get latest collections by user
+* #### Get latest collections by user
 ```
 GET /users/{$username}/collections
 ```
@@ -141,8 +136,7 @@ user for which to fetch collections.
 
 ```
 
-*                 <a name="users-getdownloads"></a>
-#### Get latest downloaded things by user
+* #### Get latest downloaded things by user
 ```
 GET /users/{$username}/downloads
 ```
@@ -161,8 +155,7 @@ user in question.
 
 ```
 
-*                 <a name="users-postfollowers"></a>
-#### Follow an user
+* #### Follow an user
 ```
 POST /users/{$username}/followers
 ```
@@ -183,8 +176,7 @@ user to "follow".
 
 ```
 
-*                 <a name="users-deletefollowers"></a>
-#### Unfollow an user
+* #### Unfollow an user
 ```
 DELETE /users/{$username}/followers
 ```
@@ -204,8 +196,7 @@ user to "unfollow".
 
 ```
 
-*                 <a name="users-postavatarimage"></a>
-#### Update the avatar image
+* #### Update the avatar image
 ```
 POST /users/{$username}/avatarimage
 ```
@@ -232,8 +223,7 @@ HTTP POST with multipart/form-data encoding.
 
 ```
 
-*                 <a name="users-postcoverimage"></a>
-#### Update the cover image
+* #### Update the cover image
 ```
 POST /users/{$username}/coverimage
 ```
@@ -262,11 +252,9 @@ HTTP POST with multipart/form-data encoding.
 
 
 
-*             <a name="things"></a>
-### Things
+* ### Things
 
-*                 <a name="things-get"></a>
-#### Get thing by id
+* #### Get thing by id
 ```
 GET /things/{$id}/
 ```
@@ -289,8 +277,7 @@ requested
 
 ```
 
-*                 <a name="things-getimages"></a>
-#### Get image(s) by thing
+* #### Get image(s) by thing
 ```
 GET /things/{$id}/images/{$image_id}
 ```
@@ -313,8 +300,7 @@ a thing or detailed info about a specific image.
 
 ```
 
-*                 <a name="things-patchimages"></a>
-#### Update an existing image
+* #### Update an existing image
 ```
 PATCH /things/{$id}/images/{$image_id}
 ```
@@ -340,8 +326,7 @@ PATCH /things/{$id}/images/{$image_id}
 
 ```
 
-*                 <a name="things-deleteimages"></a>
-#### Delete an image from a thing
+* #### Delete an image from a thing
 ```
 DELETE /things/{$id}/images/{$image_id}
 ```
@@ -362,8 +347,7 @@ to delete.
 
 ```
 
-*                 <a name="things-getfiles"></a>
-#### Get file(s) by thing
+* #### Get file(s) by thing
 ```
 GET /things/{$id}/files/{$file_id}
 ```
@@ -387,8 +371,7 @@ thing or detail about a specific file
 
 ```
 
-*                 <a name="things-deletefiles"></a>
-#### Delete a file from a thing
+* #### Delete a file from a thing
 ```
 DELETE /things/{$id}/files/{$file_id}
 ```
@@ -409,8 +392,7 @@ delete.
 
 ```
 
-*                 <a name="things-getlikes"></a>
-#### Get users who liked this thing
+* #### Get users who liked this thing
 ```
 GET /things/{$id}/likes
 ```
@@ -429,8 +411,7 @@ thing
 
 ```
 
-*                 <a name="things-getancestors"></a>
-#### Get a list of thing ancestors
+* #### Get a list of thing ancestors
 ```
 GET /things/{$id}/ancestors
 ```
@@ -449,8 +430,7 @@ thing is derived from
 
 ```
 
-*                 <a name="things-getderivatives"></a>
-#### Get a list of thing derivatives
+* #### Get a list of thing derivatives
 ```
 GET /things/{$id}/derivatives
 ```
@@ -469,8 +449,7 @@ derive from this thing
 
 ```
 
-*                 <a name="things-gettags"></a>
-#### Get tags on this thing
+* #### Get tags on this thing
 ```
 GET /things/{$id}/tags
 ```
@@ -489,8 +468,7 @@ derive from this thing
 
 ```
 
-*                 <a name="things-getcategories"></a>
-#### Get thing category
+* #### Get thing category
 ```
 GET /things/{$id}/categories
 ```
@@ -509,8 +487,7 @@ this thing is in
 
 ```
 
-*                 <a name="things-patch"></a>
-#### Update an existing thing
+* #### Update an existing thing
 ```
 PATCH /things/{$id}/
 ```
@@ -548,8 +525,7 @@ update
 
 ```
 
-*                 <a name="things-post"></a>
-#### Create a new thing
+* #### Create a new thing
 ```
 POST /things/
 ```
@@ -581,8 +557,7 @@ that this thing is derived from.
 
 ```
 
-*                 <a name="things-delete"></a>
-#### Delete a thing
+* #### Delete a thing
 ```
 DELETE /things/{$id}/
 ```
@@ -601,8 +576,7 @@ delete.
 
 ```
 
-*                 <a name="things-postfiles"></a>
-#### Upload a file to the given thing
+* #### Upload a file to the given thing
 ```
 POST /things/{$id}/files
 ```
@@ -629,8 +603,7 @@ HTTP POST with multipart/form-data encoding.
 
 ```
 
-*                 <a name="things-postpublish"></a>
-#### Publish a thing
+* #### Publish a thing
 ```
 POST /things/{$id}/publish
 ```
@@ -653,8 +626,7 @@ containing an array named "errors".
 
 ```
 
-*                 <a name="things-getcopies"></a>
-#### Get copies/makes of a thing
+* #### Get copies/makes of a thing
 ```
 GET /things/{$id}/copies
 ```
@@ -673,8 +645,7 @@ associated with a thing
 
 ```
 
-*                 <a name="things-postcopies"></a>
-#### Upload image for new copy
+* #### Upload image for new copy
 ```
 POST /things/{$id}/copies
 ```
@@ -701,8 +672,7 @@ image file via an HTTP POST with multipart/form-data encoding.
 
 ```
 
-*                 <a name="things-postlikes"></a>
-#### Like a thing
+* #### Like a thing
 ```
 POST /things/{$id}/likes
 ```
@@ -723,8 +693,7 @@ like.
 
 ```
 
-*                 <a name="things-deletelikes"></a>
-#### Delete a like
+* #### Delete a like
 ```
 DELETE /things/{$id}/likes
 ```
@@ -745,8 +714,7 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 
 ```
 
-*                 <a name="things-getpackageurl"></a>
-#### Get a ZIP package with all files associated with the thing
+* #### Get a ZIP package with all files associated with the thing
 ```
 GET /things/{$id}/packageurl
 ```
@@ -764,8 +732,7 @@ package belongs to
 
 ```
 
-*                 <a name="things-getprints"></a>
-#### Get a list of prints associated with a thing
+* #### Get a list of prints associated with a thing
 ```
 GET /things/{$id}/prints
 ```
@@ -784,8 +751,7 @@ thing
 
 ```
 
-*                 <a name="things-getthreadedcomments"></a>
-#### Get all comments for this thing in a quick pre-threaded view. This is
+* #### Get all comments for this thing in a quick pre-threaded view. This is
 an alternative to GET /things/id/comments
 ```
 GET /things/{$id}/threadedcomments
@@ -806,8 +772,7 @@ indexed by user id used in those comments
 
 ```
 
-*                 <a name="things-getcomments"></a>
-#### Get an unthreaded paginated list of comment objects. See also GET
+* #### Get an unthreaded paginated list of comment objects. See also GET
 /things/id/threaded_comments
 ```
 GET /things/{$id}/comments
@@ -827,8 +792,7 @@ this thing
 
 ```
 
-*                 <a name="things-postcomments"></a>
-#### Post a comment
+* #### Post a comment
 ```
 POST /things/{$id}/comments
 ```
@@ -848,11 +812,9 @@ comment on
 
 
 
-*             <a name="files"></a>
-### Files
+* ### Files
 
-*                 <a name="files-get"></a>
-#### Get info about a file by id
+* #### Get info about a file by id
 ```
 GET /files/{$id}/
 ```
@@ -872,8 +834,7 @@ requested
 
 ```
 
-*                 <a name="files-postfinalize"></a>
-#### Finalize an uploaded file
+* #### Finalize an uploaded file
 ```
 POST /files/{$id}/finalize
 ```
@@ -893,8 +854,7 @@ was created, or error.
 
 ```
 
-*                 <a name="files-getdownload"></a>
-#### Get tracked download URL
+* #### Get tracked download URL
 ```
 GET /files/{$id}/download
 ```
@@ -916,11 +876,9 @@ endpoint, as opposed to the public url which is anonymous.</p>
 
 
 
-*             <a name="copies"></a>
-### Copies
+* ### Copies
 
-*                 <a name="copies-get"></a>
-#### Get copy by id
+* #### Get copy by id
 ```
 GET /copies/{$id}/
 ```
@@ -940,8 +898,7 @@ requested, or an array of copy objects.
 
 ```
 
-*                 <a name="copies-getimages"></a>
-#### Get images for a copy
+* #### Get images for a copy
 ```
 GET /copies/{$id}/images
 ```
@@ -960,8 +917,7 @@ copy
 
 ```
 
-*                 <a name="copies-postimages"></a>
-#### Upload image to a copy
+* #### Upload image to a copy
 ```
 POST /copies/{$id}/images
 ```
@@ -987,8 +943,7 @@ image file via an HTTP POST with multipart/form-data encoding.
 
 ```
 
-*                 <a name="copies-patchimages"></a>
-#### Update an existing image
+* #### Update an existing image
 ```
 PATCH /copies/{$id}/images/{$image_id}
 ```
@@ -1014,8 +969,7 @@ PATCH /copies/{$id}/images/{$image_id}
 
 ```
 
-*                 <a name="copies-deleteimages"></a>
-#### Delete an image from a copy
+* #### Delete an image from a copy
 ```
 DELETE /copies/{$id}/images/{$image_id}
 ```
@@ -1036,8 +990,7 @@ to delete.
 
 ```
 
-*                 <a name="copies-patch"></a>
-#### Update an existing copy
+* #### Update an existing copy
 ```
 PATCH /copies/{$id}/
 ```
@@ -1063,8 +1016,7 @@ update
 
 ```
 
-*                 <a name="copies-delete"></a>
-#### Delete a copy
+* #### Delete a copy
 ```
 DELETE /copies/{$id}/
 ```
@@ -1081,8 +1033,7 @@ DELETE /copies/{$id}/
 
 ```
 
-*                 <a name="copies-postlikes"></a>
-#### Like a copy
+* #### Like a copy
 ```
 POST /copies/{$id}/likes
 ```
@@ -1103,8 +1054,7 @@ like.
 
 ```
 
-*                 <a name="copies-deletelikes"></a>
-#### Delete a like
+* #### Delete a like
 ```
 DELETE /copies/{$id}/likes
 ```
@@ -1125,8 +1075,7 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 
 ```
 
-*                 <a name="copies-getthreadedcomments"></a>
-#### Get all comments for this copy in a quick pre-threaded view. This is
+* #### Get all comments for this copy in a quick pre-threaded view. This is
 an alternative to GET /copies/id/comments
 ```
 GET /copies/{$id}/threadedcomments
@@ -1147,8 +1096,7 @@ indexed by user id used in those comments
 
 ```
 
-*                 <a name="copies-getcomments"></a>
-#### Get an unthreaded paginated list of comment objects. See also GET
+* #### Get an unthreaded paginated list of comment objects. See also GET
 /copies/id/threaded_comments
 ```
 GET /copies/{$id}/comments
@@ -1168,8 +1116,7 @@ this copy
 
 ```
 
-*                 <a name="copies-postcomments"></a>
-#### Post a comment
+* #### Post a comment
 ```
 POST /copies/{$id}/comments
 ```
@@ -1189,11 +1136,9 @@ comment on
 
 
 
-*             <a name="collections"></a>
-### Collections
+* ### Collections
 
-*                 <a name="collections-get"></a>
-#### Get a collection by id
+* #### Get a collection by id
 ```
 GET /collections/{$id}/
 ```
@@ -1213,8 +1158,7 @@ object
 
 ```
 
-*                 <a name="collections-getthings"></a>
-#### Get Things in a collection
+* #### Get Things in a collection
 ```
 GET /collections/{$id}/things
 ```
@@ -1232,8 +1176,7 @@ get Things from
 
 ```
 
-*                 <a name="collections-post"></a>
-#### Create a new collection
+* #### Create a new collection
 ```
 POST /collections/
 ```
@@ -1252,8 +1195,7 @@ collection
 
 ```
 
-*                 <a name="collections-postthing"></a>
-#### Add a thing to a collection
+* #### Add a thing to a collection
 ```
 POST /collections/{$collection_id}/thing/{$thing_id}
 ```
@@ -1282,8 +1224,7 @@ add
 
 ```
 
-*                 <a name="collections-deletething"></a>
-#### Removes a thing from a collection
+* #### Removes a thing from a collection
 ```
 DELETE /collections/{$collection_id}/thing/{$thing_id}
 ```
@@ -1302,8 +1243,7 @@ DELETE /collections/{$collection_id}/thing/{$thing_id}
 
 ```
 
-*                 <a name="collections-patch"></a>
-#### Update a collection
+* #### Update a collection
 ```
 PATCH /collections/{$id}/
 ```
@@ -1329,8 +1269,7 @@ collection
 
 ```
 
-*                 <a name="collections-delete"></a>
-#### Delete a collection
+* #### Delete a collection
 ```
 DELETE /collections/{$id}/
 ```
@@ -1351,11 +1290,9 @@ delete
 
 
 
-*             <a name="comments"></a>
-### Comments
+* ### Comments
 
-*                 <a name="comments-get"></a>
-#### Get comment by id
+* #### Get comment by id
 ```
 GET /comments/{$id}/
 ```
@@ -1375,8 +1312,7 @@ requested
 
 ```
 
-*                 <a name="comments-post"></a>
-#### Create a new comment
+* #### Create a new comment
 ```
 POST /comments/
 ```
@@ -1397,8 +1333,7 @@ or make_id)
 
 ```
 
-*                 <a name="comments-patch"></a>
-#### Update an existing comment
+* #### Update an existing comment
 ```
 PATCH /comments/{$id}/
 ```
@@ -1423,8 +1358,7 @@ update
 
 ```
 
-*                 <a name="comments-delete"></a>
-#### Delete a comment
+* #### Delete a comment
 ```
 DELETE /comments/{$id}/
 ```
@@ -1445,11 +1379,9 @@ delete.
 
 
 
-*             <a name="newest"></a>
-### Newest
+* ### Newest
 
-*                 <a name="newest-get"></a>
-#### Get the latest things published
+* #### Get the latest things published
 ```
 GET /newest/
 ```
@@ -1462,11 +1394,9 @@ GET /newest/
 
 
 
-*             <a name="popular"></a>
-### Popular
+* ### Popular
 
-*                 <a name="popular-get"></a>
-#### Get the latest featured things
+* #### Get the latest featured things
 ```
 GET /popular/
 ```
@@ -1479,11 +1409,9 @@ GET /popular/
 
 
 
-*             <a name="featured"></a>
-### Featured
+* ### Featured
 
-*                 <a name="featured-get"></a>
-#### Get the latest featured things
+* #### Get the latest featured things
 ```
 GET /featured/
 ```
@@ -1496,11 +1424,9 @@ GET /featured/
 
 
 
-*             <a name="search"></a>
-### Search
+* ### Search
 
-*                 <a name="search-get"></a>
-#### Perform a search of things by keyword
+* #### Perform a search of things by keyword
 ```
 GET /search/{$term}/
 ```
@@ -1519,8 +1445,7 @@ perform
 
 ```
 
-*                 <a name="search-getlibrary"></a>
-```
+* ```
 GET /search/{$term}/library
 ```
 ##### Parameters
@@ -1538,11 +1463,9 @@ GET /search/{$term}/library
 
 
 
-*             <a name="categories"></a>
-### Categories
+* ### Categories
 
-*                 <a name="categories-get"></a>
-#### Get category or categories
+* #### Get category or categories
 ```
 GET /categories/{$category_slug}/
 ```
@@ -1566,8 +1489,7 @@ of categories
 
 ```
 
-*                 <a name="categories-getthings"></a>
-#### Get latest things in a category
+* #### Get latest things in a category
 ```
 GET /categories/{$category_slug}/things
 ```
@@ -1591,11 +1513,9 @@ category for which to fetch things
 
 
 
-*             <a name="tags"></a>
-### Tags
+* ### Tags
 
-*                 <a name="tags-getthings"></a>
-#### Get the latest things with the specified tag
+* #### Get the latest things with the specified tag
 ```
 GET /tags/{$tag}/things
 ```
@@ -1617,8 +1537,7 @@ things
 
 ```
 
-*                 <a name="tags-get"></a>
-#### Return a representation of the given tag
+* #### Return a representation of the given tag
 ```
 GET /tags/{$tag}/
 ```
@@ -1670,6 +1589,3 @@ COLLECTIONS</a>
 "http://www.thingiverse.com/developers/rest-api-reference#categories">CATEGORIES</a>
 - <a href=
 "http://www.thingiverse.com/developers/rest-api-reference#tags">TAGS</a>
-
-</body>
-</html>
