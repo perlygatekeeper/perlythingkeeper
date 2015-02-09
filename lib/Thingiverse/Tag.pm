@@ -46,19 +46,13 @@ has name => (
   required => 1,
 );
 
-has original_json => (
-  isa        => 'Str',
-  is         => 'ro',
-  lazy_build => 1,
-);
-
 has count => (
   isa        => 'ThingiCount',
   is         => 'ro',
   lazy_build => 1,
 );
 
-has [qw/url things_url/] => (
+has [qw/url things_url original_json/] => (
   isa        => 'Str',
   is         => 'ro',
   lazy_build => 1,
@@ -114,7 +108,7 @@ sub _get_things_tagged_with_tag {
 }
 
 sub api_base {
-    return '/tags/'
+  return '/tags/';
 }
 
 no Moose;
