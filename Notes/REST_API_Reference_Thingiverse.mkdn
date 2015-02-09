@@ -38,9 +38,7 @@ Must use the PATCH method.
 
 ##### Returns
 
-```
 - **(object)** - The updated user.
-```
 
 * #### Get things by user
 ```
@@ -78,12 +76,9 @@ If the user doesn't exist, result is 404 Not Found.
 ##### Parameters
 ```
 
-- **$username** - Required string - The username of the
-user for which to fetch copies.
+- **$username** - Required string - The username of the user for which to fetch copies.
 
-```
 ##### Returns
-```
 
 - **(array)** - Copy objects
 
