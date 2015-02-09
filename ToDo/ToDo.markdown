@@ -2,7 +2,7 @@ General Notes:
 ----------------------------------------------------------------------------------------
 
   1. Pagination
-X   a. make Thingiverse::Pagination module
+    a. make Thingiverse::Pagination module
     b. implement for
 	    i things
 	   ii tags
