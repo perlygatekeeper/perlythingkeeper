@@ -10,6 +10,7 @@ X   a make Thingiverse::Pagination module
 	   iv images
 	    v collectsions
 	   vi comments
+	   
   2) Add list methods:
     a) Categories
     b) Tags
