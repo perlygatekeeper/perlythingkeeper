@@ -1,31 +1,34 @@
-# Developers - REST API Reference - Thingiverse
-## Thingiverse REST API Reference
+## A copy of the [Thingiverse REST API Reference](http://www.thingiverse.com/developers/rest-api-reference)
+
+This is a copy of the Thingiverse REST API Reference document, converted to Github Flavored Markdown (GFM)
+and modified to represent the status of this project with regards to the coverage of the whole of the API.
+
+In the "Returns" section of the description of each possible API call, I have emboldened the objects for
+which are within the scope of this stage of the project, namely the 'R' portion of the CRUD API:
+
+#### Returns
+
+> **(object)**
+
+Those calls not within the scope of this phase of the project were left as normal weighted text:
+
+#### Returns
+
+> (object)
+
+Additionally, I have indicated the calls to the API that are coded and passing tests by striking them out thusly:
+
+#### Returns
+
+> **(~~object~~)**
 
 
-#### Brief Markdown experimentation:
- - <span style="color:red">Span red</span>
- - sample of <del>deleted</del> tags
- - sample of <ins>inserted</ins> tags
- - sample of <ins color="red">red inserted</ins> tags
- - sample of <tt>teletype</tt> tags
- - sample of <tt color="blue">blue teletype</tt> tags
- - sample of <var>variable</var> tags
- - sample of <var color="green">green variable</var> tags
- - sample of <strong>strong</strong> tags
- - sample of <em>em</em> tags
- - sample of <b>b</b> tags
- - sample of <i>i</i> tags
- - sample of <kbd>kbd</kbd> tags
- - sample of <kbd color="gray">gray kbd</kbd> tags
- - sample of <samp>samp</samp> tags
- - sample of <q>q</q> tags
- - sample of <code>inline code</code> tags
- - sample of <code color="red">red inline code</code> tags
- - sample of <code style="color:red">styled red inline code</code> tags
+I would have preferred to use some scheme more eye-catching such as green text for "Done" and red text for "WIP" but alas,
+*SIGH* [one can not use color for in GFM at this time](https://github.com/github/markup/issues/369).
 
- *SIGH* [can't use color for now](https://github.com/github/markup/issues/369)
 
--------
+--------------------------------------------------------------------------------
+
 
 ### Users
 
@@ -38,7 +41,7 @@ GET /users/{$username}/
 > **$username** - Required string - The username of the user to get. Use the special name "me" to get information about the current user.
 
 ##### Returns
-> **(_object_)** - The user.
+> **(~~object~~)** - The user.
 
 
 
@@ -75,7 +78,7 @@ exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user for which to fetch things.
 
 ##### Returns
-> **(_array_)** - Thing objects
+> **(~~array~~)** - Thing objects
 
 
 #### Get things liked by user
@@ -88,7 +91,7 @@ If the user doesn't exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user for which to fetch likes.
 
 ##### Returns
-> **(_array_)** - Thing objects
+> **(~~array~~)** - Thing objects
 
 
 
@@ -102,7 +105,7 @@ If the user doesn't exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user for which to fetch copies.
 
 ##### Returns
-> **(_array_)** - Copy objects
+> **(~~array~~)** - Copy objects
 
 
 
@@ -116,7 +119,7 @@ If the user doesn't exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user for which to fetch collections.
 
 ##### Returns
-> **(_array_)** - Collection objects
+> **(~~array~~)** - Collection objects
 
 
 
@@ -130,7 +133,7 @@ If the user doesn't exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user in question.
 
 ##### Returns
-> **(_array_)** - Thing objects
+> **(~~array~~)** - Thing objects
 
 
 #### Follow an user
@@ -214,7 +217,7 @@ Invalid or deleted things will result in 404 Not Found.
 > **$id** - Required integer - The id of the thing to get
 
 ##### Returns
-> **(_object_)** - An object representing the thing requested
+> **(~~object~~)** - An object representing the thing requested
 
 
 #### Get image(s) by thing
@@ -229,7 +232,7 @@ more detailed information about a specific image.
 > **$image_id** - Optional integer - Optional id of image to get details for
 
 ##### Returns
-> **(_array_|_object_)** - An array of images associated with a thing or detailed info about a specific image.
+> **(~~array~~ | ~~object~~)** - An array of images associated with a thing or detailed info about a specific image.
 
 
 #### Update an existing image
@@ -278,7 +281,7 @@ thing.
 > **$file_id** - Optional integer - Optional id of the file to get more details for
 
 ##### Returns
-> (_array_|_object_) - An array of files associated with a thing or detail about a specific file
+> (~~array~~ | ~~object~~) - An array of files associated with a thing or detail about a specific file
 
 
 
@@ -319,7 +322,7 @@ GET /things/{$id}/ancestors
 > **$id** - Required integer - The id of the thing to get ancestors of
 
 ##### Returns
-> **(_array_)** - An array containing a list of things this thing is derived from
+> **(~~array~~)** - An array containing a list of things this thing is derived from
 
 
 
@@ -332,7 +335,7 @@ GET /things/{$id}/derivatives
 > **$id** - Required integer - The id of the thing to get derivatives for
 
 ##### Returns
-> **(_array_)** - An array containing a list of things that derive from this thing
+> **(~~array~~)** - An array containing a list of things that derive from this thing
 
 
 
@@ -636,7 +639,7 @@ If no id is given, gets the list of latest copies.
 > **$id** - Optional integer - The id of the copy to get.  Omit this to get the list of the latest copies.
 
 ##### Returns
-> **(object|array)** - An object representing the copy requested, or an array of copy objects.
+> **(object | array)** - An object representing the copy requested, or an array of copy objects.
 
 
 #### Get images for a copy
@@ -814,7 +817,7 @@ If no id is given, gets the list of the latest collections.
 > **$id** - Optional integer - The id of the collection to get. Omit to get the latest collections.
 
 ##### Returns
-> **(object|array)** - An array of objects, or a single object
+> **(object | array)** - An array of objects, or a single object
 
 
 #### Get Things in a collection
@@ -1045,7 +1048,7 @@ returns paginated list of categories.
 > **$category_slug** - Optional string - The id of the category to fetch. Omit for list of categories.
 
 ##### Returns
-> **(object|array)** - The category (if specified) or list of categories
+> **(object | array)** - The category (if specified) or list of categories
 
 
 
@@ -1097,7 +1100,7 @@ all tags in alphabetical order.
 > **$tag** - Optional string - The tag for which to fetch things. Omit this to get the list of tags.
 
 ##### Returns
-> **(object|array)** - The tag or an array of tags.
+> **(object | array)** - The tag or an array of tags.
 
 
 --------------------------------------------------------------------------------
@@ -1118,3 +1121,28 @@ COLLECTIONS</a>
 - <a href= "http://www.thingiverse.com/developers/rest-api-reference#search">SEARCH</a>
 - <a href= "http://www.thingiverse.com/developers/rest-api-reference#categories">CATEGORIES</a>
 - <a href= "http://www.thingiverse.com/developers/rest-api-reference#tags">TAGS</a>
+
+--------------------------------------------------------------------------------
+
+#### Brief Markdown experimentation:
+ - <span style="color:red">Span red</span>
+ - sample of <del>deleted</del> tags
+ - sample of <ins>inserted</ins> tags
+ - sample of <ins color="red">red inserted</ins> tags
+ - sample of <tt>teletype</tt> tags
+ - sample of <tt color="blue">blue teletype</tt> tags
+ - sample of <var>variable</var> tags
+ - sample of <var color="green">green variable</var> tags
+ - sample of <strong>strong</strong> tags
+ - sample of <em>em</em> tags
+ - sample of <b>b</b> tags
+ - sample of <i>i</i> tags
+ - sample of <kbd>kbd</kbd> tags
+ - sample of <kbd color="gray">gray kbd</kbd> tags
+ - sample of <samp>samp</samp> tags
+ - sample of <q>q</q> tags
+ - sample of <code>inline code</code> tags
+ - sample of <code color="red">red inline code</code> tags
+ - sample of <code style="color:red">styled red inline code</code> tags
+
+
