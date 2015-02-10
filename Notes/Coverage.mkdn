@@ -20,7 +20,7 @@ Additionally, I have indicated the calls to the API that are coded and passing t
 
 ##### Returns
 
-> **( ~~object~~ )**
+> **( ~~_object_~~ )**
 
 
 I would have preferred to use some scheme more eye-catching such as green text for "Done" and red text for "WIP" but alas,
