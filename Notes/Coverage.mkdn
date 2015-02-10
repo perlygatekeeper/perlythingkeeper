@@ -366,13 +366,13 @@ PATCH /things/{$id}/
 Must use the PATCH method.
 
 ##### Body Parameters
-> **name** - string - Optional. Replace the name of the thing
-> **license** - string - Optional. One of cc, cc-sa, cc-nd, cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Replace license.
-> **category** - string - Optional. Replace the category of the thing. Uses full category name (eg: "3D Printer Parts")
-> **description** - string - Optional. Replace the description.
-> **instructions** - string - Optional. Replace the instructions.
-> **is_wip** - boolean - Optional. Toggle whether this thing is a work in progress.
-> **tags** - array - Optional. An array of strings containing tag names. Replaces all current tags.
+> - **name** - string - Optional. Replace the name of the thing
+> - **license** - string - Optional. One of cc, cc-sa, cc-nd, cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Replace license.
+> - **category** - string - Optional. Replace the category of the thing. Uses full category name (eg: "3D Printer Parts")
+> - **description** - string - Optional. Replace the description.
+> - **instructions** - string - Optional. Replace the instructions.
+> - **is_wip** - boolean - Optional. Toggle whether this thing is a work in progress.
+> - **tags** - array - Optional. An array of strings containing tag names. Replaces all current tags.
 
 ##### Parameters
 > **$id** - Required integer - The id of the thing to update
@@ -388,14 +388,14 @@ POST /things/
 Must use the POST method
 
 ##### Body Parameters
-> **name** - string - Set the name of the thing
-> **license** - string - One of cc, cc-sa, cc-nd, cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Set license.
-> **category** - string - Set the category of the thing.  Uses full category name (eg: "3D Printer Parts")
-> **description** - string - Optional. Set the description.
-> **instructions** - string - Optional. Set the instructions.
-> **is_wip** - boolean - Optional. Toggle whether this thing is a work in progress. Default is false.
-> **tags** - array - Optional. An array of strings containing tag names. Sets all current tags.
-> **ancestors** - array - Optional. An array of thing ids that this thing is derived from.
+> * **name** - string - Set the name of the thing
+> * **license** - string - One of cc, cc-sa, cc-nd, cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Set license.
+> * **category** - string - Set the category of the thing.  Uses full category name (eg: "3D Printer Parts")
+> * **description** - string - Optional. Set the description.
+> * **instructions** - string - Optional. Set the instructions.
+> * **is_wip** - boolean - Optional. Toggle whether this thing is a work in progress. Default is false.
+> * **tags** - array - Optional. An array of strings containing tag names. Sets all current tags.
+> * **ancestors** - array - Optional. An array of thing ids that this thing is derived from.
 
 ##### Returns
 > **(object)** - The newly created thing.
