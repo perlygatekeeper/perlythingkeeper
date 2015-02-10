@@ -19,13 +19,16 @@ GET /users/{$username}/
  - <span style="color:red">Span red</span>
  - sample of <del>deleted</del> tags
  - sample of <ins>inserted</ins> tags
- - sample of <ins>inserted</ins> tags
+ - sample of <ins color="red">red inserted</ins> tags
  - sample of <tt>teletype</tt> tags
+ - sample of <tt color="blue">blue teletype</tt> tags
  - sample of <var>variable</var> tags
+ - sample of <var color="green">green variable</var> tags
  - sample of <strong>strong</strong> tags
  - sample of <em>em</em> tags
  - sample of <b>b</b> tags
  - sample of <i>i</i> tags
+ - sample of <kbd color="gray">kbd</kbd> tags
  - sample of <kbd>kbd</kbd> tags
  - sample of <samp>samp</samp> tags
  - sample of <q>q</q> tags
