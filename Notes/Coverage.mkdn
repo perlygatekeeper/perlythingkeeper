@@ -322,7 +322,7 @@ GET /things/{$id}/ancestors
 
 
 
-#### Get a list of thing derivatives
+#### Get a list of thing's derivatives
 ```
 GET /things/{$id}/derivatives
 ```
@@ -331,7 +331,7 @@ GET /things/{$id}/derivatives
 > **$id** - Required integer - The id of the thing to get derivatives for
 
 ##### Returns
-> **(array)** - An array containing a list of things that derive from this thing
+> **(_array_)** - An array containing a list of things that derive from this thing
 
 
 
