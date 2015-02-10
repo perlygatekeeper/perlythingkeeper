@@ -6,21 +6,21 @@ and modified to represent the status of this project with regards to the coverag
 In the "Returns" section of the description of each possible API call, I have emboldened the objects for
 which are within the scope of this stage of the project, namely the 'R' portion of the CRUD API:
 
-#### Returns
+##### Returns
 
-> **(object)**
+> **( object )**
 
 Those calls not within the scope of this phase of the project were left as normal weighted text:
 
-#### Returns
+##### Returns
 
-> (object)
+> ( object )
 
 Additionally, I have indicated the calls to the API that are coded and passing tests by striking them out thusly:
 
-#### Returns
+##### Returns
 
-> **(~~object~~)**
+> **( ~~object~~ )**
 
 
 I would have preferred to use some scheme more eye-catching such as green text for "Done" and red text for "WIP" but alas,
@@ -41,7 +41,7 @@ GET /users/{$username}/
 > **$username** - Required string - The username of the user to get. Use the special name "me" to get information about the current user.
 
 ##### Returns
-> **(~~object~~)** - The user.
+> **( ~~object~~ )** - The user.
 
 
 
@@ -62,7 +62,7 @@ PATCH /users/{$username}/
 > **$username** - Required integer - The username of the user to update
 
 ##### Returns
-> (object) - The updated user.
+> ( object ) - The updated user.
 
 
 
@@ -78,7 +78,7 @@ exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user for which to fetch things.
 
 ##### Returns
-> **(~~array~~)** - Thing objects
+> **( ~~array~~ )** - Thing objects
 
 
 #### Get things liked by user
@@ -91,7 +91,7 @@ If the user doesn't exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user for which to fetch likes.
 
 ##### Returns
-> **(~~array~~)** - Thing objects
+> **( ~~array~~ )** - Thing objects
 
 
 
@@ -105,7 +105,7 @@ If the user doesn't exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user for which to fetch copies.
 
 ##### Returns
-> **(~~array~~)** - Copy objects
+> **( ~~array~~ )** - Copy objects
 
 
 
@@ -119,7 +119,7 @@ If the user doesn't exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user for which to fetch collections.
 
 ##### Returns
-> **(~~array~~)** - Collection objects
+> **( ~~array~~ )** - Collection objects
 
 
 
@@ -133,7 +133,7 @@ If the user doesn't exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user in question.
 
 ##### Returns
-> **(~~array~~)** - Thing objects
+> **( ~~array~~ )** - Thing objects
 
 
 #### Follow an user
@@ -148,7 +148,7 @@ follow itself.
 > **$username** - Required string - The username of the user to "follow".
 
 ##### Returns
-> (object) - The "ok" object.
+> ( object ) - The "ok" object.
 
 
 
@@ -163,7 +163,7 @@ doesn't exist.
 > **$username** - Required string - The username of the user to "unfollow".
 
 ##### Returns
-> (object) - The "ok" object.
+> ( object ) - The "ok" object.
 
 
 
@@ -180,7 +180,7 @@ Must use the POST method
 > **$username** - Required string - The username of the user that will own this file.
 
 ##### Returns
-> (object) - The data needed to upload a file via an HTTP POST with multipart/form-data encoding.
+> ( object ) - The data needed to upload a file via an HTTP POST with multipart/form-data encoding.
 
 
 
@@ -197,7 +197,7 @@ Must use the POST method
 > **$username** - Required string - The username of the user that will own this file.
 
 ##### Returns
-> (object) - The data needed to upload a file via an HTTP POST with multipart/form-data encoding.
+> ( object ) - The data needed to upload a file via an HTTP POST with multipart/form-data encoding.
 
 
 --------------------------------------------------------------------------------
@@ -217,7 +217,7 @@ Invalid or deleted things will result in 404 Not Found.
 > **$id** - Required integer - The id of the thing to get
 
 ##### Returns
-> **(~~object~~)** - An object representing the thing requested
+> **( ~~object~~ )** - An object representing the thing requested
 
 
 #### Get image(s) by thing
@@ -232,7 +232,7 @@ more detailed information about a specific image.
 > **$image_id** - Optional integer - Optional id of image to get details for
 
 ##### Returns
-> **(~~array~~ | ~~object~~)** - An array of images associated with a thing or detailed info about a specific image.
+> **( ~~array~~ | ~~object~~ )** - An array of images associated with a thing or detailed info about a specific image.
 
 
 #### Update an existing image
@@ -242,15 +242,15 @@ PATCH /things/{$id}/images/{$image_id}
 Must use the PATCH method.
 
 ##### Body Parameters
-> **rank** - integer - Optional.
-> **featured** - boolean - Optional.
+> - **rank** - integer - Optional.
+> - **featured** - boolean - Optional.
 
 ##### Parameters
-> **$id** - Required -
-> **$image_id** - Required -
+> - **$id** - Required.
+> - **$image_id** - Required.
 
 ##### Returns
-> (object) - The "ok" object
+> ( object ) - The "ok" object
 
 
 #### Delete an image from a thing
@@ -264,7 +264,7 @@ Must use the DELETE method. This cannot be undone.
 > **$image_id** - Required integer - The id of the image to delete.
 
 ##### Returns
-> (object) - The "ok" object
+> ( object ) - The "ok" object
 
 
 
@@ -281,7 +281,7 @@ thing.
 > **$file_id** - Optional integer - Optional id of the file to get more details for
 
 ##### Returns
-> (~~array~~ | ~~object~~) - An array of files associated with a thing or detail about a specific file
+> ( ~~array~~ | ~~object~~ ) - An array of files associated with a thing or detail about a specific file
 
 
 
@@ -296,7 +296,7 @@ Must use the DELETE method. This cannot be undone.
 > **$file_id** - Required integer - The id of the file to delete.
 
 ##### Returns
-> (object) - The "ok" object
+> ( object ) - The "ok" object
 
 
 
@@ -322,7 +322,7 @@ GET /things/{$id}/ancestors
 > **$id** - Required integer - The id of the thing to get ancestors of
 
 ##### Returns
-> **(~~array~~)** - An array containing a list of things this thing is derived from
+> **( ~~array~~ )** - An array containing a list of things this thing is derived from
 
 
 
@@ -335,7 +335,7 @@ GET /things/{$id}/derivatives
 > **$id** - Required integer - The id of the thing to get derivatives for
 
 ##### Returns
-> **(~~array~~)** - An array containing a list of things that derive from this thing
+> **( ~~array~~ )** - An array containing a list of things that derive from this thing
 
 
 
@@ -348,7 +348,7 @@ GET /things/{$id}/tags
 > **$id** - Required integer - The id of the thing for which to list tags
 
 ##### Returns
-> **(array)** - An array containing a list of things that derive from this thing
+> **( array )** - An array containing a list of things that derive from this thing
 
 
 #### Get thing category
@@ -360,7 +360,7 @@ GET /things/{$id}/categories
 > **$id** - Required integer - The id of the thing for which to list it's categories
 
 ##### Returns
-> **(array)** - An array containing a list of categories this thing is in
+> **( array )** - An array containing a list of categories this thing is in
 
 
 #### Update an existing thing
@@ -382,7 +382,7 @@ Must use the PATCH method.
 > **$id** - Required integer - The id of the thing to update
 
 ##### Returns
-> **(object)** - The updated thing.
+> **( object )** - The updated thing.
 
 
 #### Create a new thing
@@ -402,7 +402,7 @@ Must use the POST method
 > * **ancestors** - array - Optional. An array of thing ids that this thing is derived from.
 
 ##### Returns
-> **(object)** - The newly created thing.
+> **( object )** - The newly created thing.
 
 
 
@@ -416,7 +416,7 @@ Must use the DELETE method. This cannot be undone.
 > **$id** - Required integer - The id of the thing to delete.
 
 ##### Returns
-> **(object)** - The "ok" object
+> **( object )** - The "ok" object
 
 
 #### Upload a file to the given thing
@@ -432,7 +432,7 @@ Must use the POST method
 > **$id** - Required integer - The id of the thing that will own this file.
 
 ##### Returns
-> **(object)** - The data needed to upload a file via an HTTP POST with multipart/form-data encoding.
+> **( object )** - The data needed to upload a file via an HTTP POST with multipart/form-data encoding.
 
 
 #### Publish a thing
@@ -448,7 +448,7 @@ reason %&gt;", ...]} Must use the POST method
 > **$id** - Required integer - The id of the thing to publish.
 
 ##### Returns
-> **(object)** - The published Thing or an object containing an array named "errors".
+> **( object )** - The published Thing or an object containing an array named "errors".
 
 
 
@@ -461,7 +461,7 @@ GET /things/{$id}/copies
 > **$id** - Required integer - The id of the thing to get copies from
 
 ##### Returns
-> **(array)** - An array of copies (and their images) associated with a thing
+> **( array )** - An array of copies (and their images) associated with a thing
 
 
 
@@ -478,7 +478,7 @@ Must use the POST method
 > **$id** - Required integer - The id of the thing that gets the new copy.
 
 ##### Returns
-> **(object)** - The data needed to upload this copy's image file via an HTTP POST with multipart/form-data encoding.
+> **( object )** - The data needed to upload this copy's image file via an HTTP POST with multipart/form-data encoding.
 
 
 #### Like a thing
@@ -493,7 +493,7 @@ like their own thing.
 > **$id** - Required integer - The id of the thing to like.
 
 ##### Returns
-> **(object)** - The "ok" object.
+> **( object )** - The "ok" object.
 
 
 
@@ -509,7 +509,7 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 > **$id** - Required integer - The id of the thing to "unlike".
 
 ##### Returns
-> **(object)** - The "ok" object.
+> **( object )** - The "ok" object.
 
 
 
@@ -535,7 +535,7 @@ GET /things/{$id}/prints
 > **$id** - Required integer - $id The id of the thing to get prints from
 
 ##### Returns
-> **(array)** - An array of prints associated with a thing
+> **( array )** - An array of prints associated with a thing
 
 
 
@@ -548,7 +548,7 @@ GET /things/{$id}/threadedcomments
 > **$id** - Required integer - The id of the thing to get
 
 ##### Returns
-> **(object)** - An array containing comment threads indexed by comment parent id (blank for top level comments) and users indexed by user id used in those comments
+> **( object )** - An array containing comment threads indexed by comment parent id (blank for top level comments) and users indexed by user id used in those comments
 
 
 
@@ -562,7 +562,7 @@ GET /things/{$id}/comments
 > **$id** - Required integer - The id of the thing to get comments for
 
 ##### Returns
-> **(array)** - An array containing a list of comments on this thing
+> **( array )** - An array containing a list of comments on this thing
 
 
 
@@ -576,7 +576,7 @@ POST /things/{$id}/comments
 
 
 ##### Returns
-> **(object)** - The newly created comment
+> **( object )** - The newly created comment
 
 --------------------------------------------------------------------------------
 
@@ -594,7 +594,7 @@ a thumbnail image or three.js json file may be available.
 > **$id** - Required integer - The id of the file
 
 ##### Returns
-> **(object)** - An object with urls of the file requested
+> **( object )** - An object with urls of the file requested
 
 
 #### Finalize an uploaded file
@@ -607,7 +607,7 @@ Must use the POST method
 > **$id** - Required integer - The id of the PendingUpload for this file
 
 ##### Returns
-> **(object)** - Summary of the ObjectFile or Image that was created, or error.
+> **( object )** - Summary of the ObjectFile or Image that was created, or error.
 
 
 #### Get tracked download URL
@@ -639,7 +639,7 @@ If no id is given, gets the list of latest copies.
 > **$id** - Optional integer - The id of the copy to get.  Omit this to get the list of the latest copies.
 
 ##### Returns
-> **(object | array)** - An object representing the copy requested, or an array of copy objects.
+> **( object | array )** - An object representing the copy requested, or an array of copy objects.
 
 
 #### Get images for a copy
@@ -651,7 +651,7 @@ GET /copies/{$id}/images
 > **$id** - Required integer - The id of the copy to get images from
 
 ##### Returns
-> **(array)** - An array of images associated with the copy
+> **( array )** - An array of images associated with the copy
 
 
 
@@ -668,7 +668,7 @@ Must use the POST method
 > **$id** - Required integer - The id of the copy.
 
 ##### Returns
-> **(object)** - The data needed to upload this copy's image file via an HTTP POST with multipart/form-data encoding.
+> **( object )** - The data needed to upload this copy's image file via an HTTP POST with multipart/form-data encoding.
 
 
 
@@ -679,15 +679,15 @@ PATCH /copies/{$id}/images/{$image_id}
 Must use the PATCH method.
 
 ##### Body Parameters
-> **rank** - integer - Optional.
-> **featured** - boolean - Optional.
+> - **rank** - integer - Optional.
+> - **featured** - boolean - Optional.
 
 ##### Parameters
-> **$id** - Required -
-> **$image_id** - Required -
+> - **$id** - Required -
+> - **$image_id** - Required -
 
 ##### Returns
-> **(object)** - The "ok" object
+> **( object )** - The "ok" object
 
 
 
@@ -702,7 +702,7 @@ Must use the DELETE method. This cannot be undone.
 > **$image_id** - Required integer - The id of the image to delete.
 
 ##### Returns
-> **(object)** - The "ok" object
+> **( object )** - The "ok" object
 
 
 
@@ -719,7 +719,7 @@ Must use the PATCH method.
 > **$id** - Required integer - The id of the copy to update
 
 ##### Returns
-> **(object)** - The updated thing.
+> **( object )** - The updated thing.
 
 
 
@@ -747,7 +747,7 @@ like their own copy.
 > **$id** - Required integer - The id of the copy to like.
 
 ##### Returns
-> **(object)** - The "ok" object.
+> **( object )** - The "ok" object.
 
 
 
@@ -763,7 +763,7 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 > **$id** - Required integer - The id of the copy to "unlike".
 
 ##### Returns
-> **(object)** - The "ok" object.
+> **( object )** - The "ok" object.
 
 
 
@@ -777,7 +777,7 @@ GET /copies/{$id}/threadedcomments
 > **$id** - Required integer - The id of the thing to get
 
 ##### Returns
-> **(object)** - An array containing comment threads indexed by comment parent id (blank for top level comments) and users indexed by user id used in those comments
+> **( object )** - An array containing comment threads indexed by comment parent id (blank for top level comments) and users indexed by user id used in those comments
 
 
 #### Get an unthreaded paginated list of comment objects. See also GET
@@ -790,7 +790,7 @@ GET /copies/{$id}/comments
 > **$id** - Required integer - The id of the copy to get comments for
 
 ##### Returns
-> **(array)** - An array containing a list of comments on this copy
+> **( array )** - An array containing a list of comments on this copy
 
 #### Post a comment
 ```
@@ -801,7 +801,7 @@ POST /copies/{$id}/comments
 > **$id** - Required integer - The id of the copy to comment on
 
 ##### Returns
-> **(object)** - The newly created comment
+> **( object )** - The newly created comment
 
 --------------------------------------------------------------------------------
 
@@ -817,7 +817,7 @@ If no id is given, gets the list of the latest collections.
 > **$id** - Optional integer - The id of the collection to get. Omit to get the latest collections.
 
 ##### Returns
-> **(object | array)** - An array of objects, or a single object
+> **( object | array )** - An array of objects, or a single object
 
 
 #### Get Things in a collection
@@ -829,7 +829,7 @@ GET /collections/{$id}/things
 > **$id** - Required integer - The id of the collection to get Things from
 
 ##### Returns
-> **(array)** - An array of Things in this collection
+> **( array )** - An array of Things in this collection
 
 
 
@@ -839,11 +839,11 @@ POST /collections/
 ```
 
 ##### Body Parameters
-> **name** - string - Name of the collection
-> **description** - string - Optional. Description of the collection
+> - **name** - string - Name of the collection
+> - **description** - string - Optional. Description of the collection
 
 ##### Returns
-> **(object)** - The newly created collection.
+> ( object ) - The newly created collection.
 
 
 #### Add a thing to a collection
@@ -857,11 +857,11 @@ change that. :)
 > **description** - string - Optional. Reason for adding the Thing
 
 ##### Parameters
-> **$collection_id** - Required integer - Id of the collection to add to
-> **$thing_id** - Required integer - Id of the Thing to add
+> - **$collection_id** - Required integer - Id of the collection to add to
+> - **$thing_id** - Required integer - Id of the Thing to add
 
 ##### Returns
-> **(The)** - "ok" object.
+> ( object ) - The "ok" object.
 
 
 
@@ -872,11 +872,11 @@ DELETE /collections/{$collection_id}/thing/{$thing_id}
 Apps may only remove things that they've added to a collection.
 
 ##### Parameters
-> **$collection_id** - Required -
-> **$thing_id** - Required -
+> - **$collection_id** - Required -
+> - **$thing_id** - Required -
 
 ##### Returns
-> **(The)** - "ok" object.
+> - ( object ) - The "ok" object.
 
 
 
@@ -887,14 +887,14 @@ PATCH /collections/{$id}/
 Apps can only update collections they've created.
 
 ##### Body Parameters
-> **name** - string - Name of the collection
-> **description** - string - Optional. Description of the collection
+> - **name** - string - Name of the collection
+> - **description** - string - Optional. Description of the collection
 
 ##### Parameters
-> **$id** - Required -
+> - **$id** - Required -
 
 ##### Returns
-> **(object)** - The newly created collection.
+> - ( object ) - The newly created collection.
 
 
 
@@ -925,7 +925,7 @@ If no id is given, gets the list of the latest comments.
 > **$id** - Required integer - The id of the comment to get
 
 ##### Returns
-> **(object)** - An object representing the comment requested
+> **( object )** - An object representing the comment requested
 
 
 
@@ -941,7 +941,7 @@ Must use the POST method
 > **target_id** - integer - The id of the target (thing_id or make_id)
 
 ##### Returns
-> **(object)** - The newly created comment.
+> **( object )** - The newly created comment.
 
 
 #### Update an existing comment
@@ -957,7 +957,7 @@ Must use the PATCH method.
 > **$id** - Required integer - The id of the comment to update
 
 ##### Returns
-> **(object)** - The updated comment.
+> **( object )** - The updated comment.
 
 
 
@@ -971,7 +971,7 @@ Must use the DELETE method. This cannot be undone.
 > **$id** - Required integer - The id of the comment to delete.
 
 ##### Returns
-> **(object)** - The "ok" object
+> **( object )** - The "ok" object
 
 --------------------------------------------------------------------------------
 
@@ -983,7 +983,7 @@ GET /newest/
 ```
 
 ##### Returns
-> **(array)** - Thing objects
+> **( array )** - Thing objects
 
 
 ### Popular
@@ -993,7 +993,7 @@ GET /popular/
 ```
 
 ##### Returns
-> **(array)** - A list of things matching the search
+> **( array )** - A list of things matching the search
 
 ### Featured
 #### Get the latest featured things
@@ -1002,7 +1002,7 @@ GET /featured/
 ```
 
 ##### Returns
-> **(array)** - A list of things matching the search
+> **( array )** - A list of things matching the search
 
 
 
@@ -1017,7 +1017,7 @@ Results in 404 Not Found if no things match the search.
 > **$term** - Optional string - The search query to perform
 
 ##### Returns
-> **(array)** - A list of things matching the search
+> **( array )** - A list of things matching the search
 
 
 ```
@@ -1048,7 +1048,7 @@ returns paginated list of categories.
 > **$category_slug** - Optional string - The id of the category to fetch. Omit for list of categories.
 
 ##### Returns
-> **(object | array)** - The category (if specified) or list of categories
+> **( object | array )** - The category (if specified) or list of categories
 
 
 
@@ -1065,7 +1065,7 @@ would have an id of "replacement-parts", etc.
 > **$category_slug** - Required string - The id of the category for which to fetch things
 
 ##### Returns
-> **(array)** - Thing objects
+> **( array )** - Thing objects
 
 --------------------------------------------------------------------------------
 
@@ -1083,7 +1083,7 @@ out all characters except alphanumerics, underscores, and dashes ('-').
 > **$tag** - Required string - The tag for which to fetch things
 
 ##### Returns
-> **(array)** - Thing objects
+> **( array )** - Thing objects
 
 
 
@@ -1100,7 +1100,7 @@ all tags in alphabetical order.
 > **$tag** - Optional string - The tag for which to fetch things. Omit this to get the list of tags.
 
 ##### Returns
-> **(object | array)** - The tag or an array of tags.
+> **( object | array )** - The tag or an array of tags.
 
 
 --------------------------------------------------------------------------------
