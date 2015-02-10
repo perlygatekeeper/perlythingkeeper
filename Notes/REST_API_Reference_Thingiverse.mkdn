@@ -28,10 +28,13 @@ GET /users/{$username}/
  - sample of <em>em</em> tags
  - sample of <b>b</b> tags
  - sample of <i>i</i> tags
- - sample of <kbd color="gray">kbd</kbd> tags
  - sample of <kbd>kbd</kbd> tags
+ - sample of <kbd color="gray">gray kbd</kbd> tags
  - sample of <samp>samp</samp> tags
  - sample of <q>q</q> tags
+ - sample of <code>inline code</code> tags
+ - sample of <code color="red">red inline code</code> tags
+ - sample of <code style="color:red">styled red inline code</code> tags
 
 
 
