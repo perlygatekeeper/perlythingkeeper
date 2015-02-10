@@ -23,6 +23,7 @@
  - sample of <code color="red">red inline code</code> tags
  - sample of <code style="color:red">styled red inline code</code> tags
 
+ *SIGH* [can't use color for now](https://github.com/github/markup/issues/369)
 -------
 
 ### Users
@@ -36,9 +37,8 @@ GET /users/{$username}/
 > **$username** - Required string - The username of the user to get. Use the special name "me" to get information about the current user.
 
 ##### Returns
-> **_(object)_** - The user.
+> **(_object_)** - The user.
 
- *SIGH* [can't use color for now)[https://github.com/github/markup/issues/369)
 
 
 
@@ -74,7 +74,7 @@ exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user for which to fetch things.
 
 ##### Returns
-> **_(array)_** - Thing objects
+> **(_array_)** - Thing objects
 
 
 #### Get things liked by user
@@ -87,7 +87,7 @@ If the user doesn't exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user for which to fetch likes.
 
 ##### Returns
-> **_(array)_** - Thing objects
+> **(_array_)** - Thing objects
 
 
 
@@ -101,7 +101,7 @@ If the user doesn't exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user for which to fetch copies.
 
 ##### Returns
-> **_(array)_** - Copy objects
+> **(_array_)** - Copy objects
 
 
 
@@ -115,7 +115,7 @@ If the user doesn't exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user for which to fetch collections.
 
 ##### Returns
-> **_(array)_** - Collection objects
+> **(_array_)** - Collection objects
 
 
 
@@ -129,7 +129,7 @@ If the user doesn't exist, result is 404 Not Found.
 > **$username** - Required string - The username of the user in question.
 
 ##### Returns
-> **_(array)_** - Thing objects
+> **(_array_)** - Thing objects
 
 
 #### Follow an user
@@ -213,7 +213,7 @@ Invalid or deleted things will result in 404 Not Found.
 > **$id** - Required integer - The id of the thing to get
 
 ##### Returns
-> **_(object)_** - An object representing the thing requested
+> **(_object_)** - An object representing the thing requested
 
 
 #### Get image(s) by thing
