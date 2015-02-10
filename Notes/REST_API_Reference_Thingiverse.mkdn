@@ -14,13 +14,29 @@ GET /users/{$username}/
 ##### Returns
 > **(object)** - The user.
 
+#### Brief Markdown experimentation:
+
+ - <span style="color:red">Span red</span>
+ - sample of <del>deleted</del> tags
+ - sample of <ins>inserted</ins> tags
+ - sample of <ins>inserted</ins> tags
+ - sample of <tt>teletype</tt> tags
+ - sample of <var>variable</var> tags
+ - sample of <strong>strong</strong> tags
+ - sample of <em>em</em> tags
+ - sample of <b>b</b> tags
+ - sample of <i>i</i> tags
+ - sample of <kbd>kbd</kbd> tags
+ - sample of <samp>samp</samp> tags
+ - sample of <q>q</q> tags
+
 
 
 #### Update the user's profile
 ```
 PATCH /users/{$username}/
 ```
-<span style="color:red">Must</span> <del>use<i/del> the <ins>PATCH</ins> method.
+<span style="color:red">Must</span> <del>use</del> the <ins>PATCH</ins> method.
 ##### Body Parameters
 > - **first_name** - string - Optional. Replace the first name of this user.
 > - **last_name** - string - Optional. Replace the last name of this user.
