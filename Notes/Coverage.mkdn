@@ -24,6 +24,7 @@
  - sample of <code style="color:red">styled red inline code</code> tags
 
  *SIGH* [can't use color for now](https://github.com/github/markup/issues/369)
+
 -------
 
 ### Users
