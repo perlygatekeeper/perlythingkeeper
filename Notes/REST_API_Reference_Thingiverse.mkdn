@@ -18,7 +18,7 @@ GET /users/{$username}/
 ```
 PATCH /users/{$username}/
 ```
-Must use the PATCH method.
+<span style="color:red">Must</span> use the PATCH method.
 ##### Body Parameters
 - **first_name** - string - Optional. Replace the first name of this user.
 - **last_name** - string - Optional. Replace the last name of this user.
