@@ -23,15 +23,16 @@ PATCH /users/{$username}/
 ```
 <span style="color:red">Must</span> use the PATCH method.
 ##### Body Parameters
-- **first_name** - string - Optional. Replace the first name of this user.
-- **last_name** - string - Optional. Replace the last name of this user.
-- **bio** - string - Optional. Replace the biography for this user.
-- **location** - string - Optional. Replace the location for this user.
-- **default_license** - string - Optional. One of cc, cc-sa, cc-nd, cc-nc, cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Update default license.
+> - **first_name** - string - Optional. Replace the first name of this user.
+> - **last_name** - string - Optional. Replace the last name of this user.
+> - **bio** - string - Optional. Replace the biography for this user.
+> - **location** - string - Optional. Replace the location for this user.
+> - **default_license** - string - Optional. One of cc, cc-sa, cc-nd, cc-nc, cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Update default license.
+
 ##### Parameters
-- **$username** - Required integer - The username of the user to update
+> **$username** - Required integer - The username of the user to update
 ##### Returns
-- **(object)** - The updated user.
+> **(object)** - The updated user.
 
 
 
