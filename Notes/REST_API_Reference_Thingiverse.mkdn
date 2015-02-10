@@ -8,9 +8,11 @@
 GET /users/{$username}/
 ```
 ##### Parameters
-- **$username** - Required string - The username of the user to get. Use the special name "me" to get information about the current user.
+> 
+> **$username** - Required string - The username of the user to get. Use the special name "me" to get information about the current user.
+> 
 ##### Returns
-- **(object)** - The user.
+> **(object)** - The user.
 
 
 
