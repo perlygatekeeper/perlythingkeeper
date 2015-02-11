@@ -382,7 +382,7 @@ Must use the PATCH method.
 > **$id** - Required integer - The id of the thing to update
 
 ##### Returns
-> **( object )** - The updated thing.
+> ( object ) - The updated thing.
 
 
 #### Create a new thing
@@ -402,7 +402,7 @@ Must use the POST method
 > * **ancestors** - array - Optional. An array of thing ids that this thing is derived from.
 
 ##### Returns
-> **( object )** - The newly created thing.
+> ( object ) - The newly created thing.
 
 
 
@@ -416,7 +416,7 @@ Must use the DELETE method. This cannot be undone.
 > **$id** - Required integer - The id of the thing to delete.
 
 ##### Returns
-> **( object )** - The "ok" object
+> ( object ) - The "ok" object
 
 
 #### Upload a file to the given thing
@@ -432,7 +432,7 @@ Must use the POST method
 > **$id** - Required integer - The id of the thing that will own this file.
 
 ##### Returns
-> **( object )** - The data needed to upload a file via an HTTP POST with multipart/form-data encoding.
+> ( object ) - The data needed to upload a file via an HTTP POST with multipart/form-data encoding.
 
 
 #### Publish a thing
@@ -448,7 +448,7 @@ reason %&gt;", ...]} Must use the POST method
 > **$id** - Required integer - The id of the thing to publish.
 
 ##### Returns
-> **( object )** - The published Thing or an object containing an array named "errors".
+> ( object ) - The published Thing or an object containing an array named "errors".
 
 
 
@@ -478,7 +478,7 @@ Must use the POST method
 > **$id** - Required integer - The id of the thing that gets the new copy.
 
 ##### Returns
-> **( object )** - The data needed to upload this copy's image file via an HTTP POST with multipart/form-data encoding.
+> ( object ) - The data needed to upload this copy's image file via an HTTP POST with multipart/form-data encoding.
 
 
 #### Like a thing
@@ -493,7 +493,7 @@ like their own thing.
 > **$id** - Required integer - The id of the thing to like.
 
 ##### Returns
-> **( object )** - The "ok" object.
+> ( object ) - The "ok" object.
 
 
 
@@ -509,7 +509,7 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 > **$id** - Required integer - The id of the thing to "unlike".
 
 ##### Returns
-> **( object )** - The "ok" object.
+> ( object ) - The "ok" object.
 
 
 
@@ -576,7 +576,7 @@ POST /things/{$id}/comments
 
 
 ##### Returns
-> **( object )** - The newly created comment
+> ( object ) - The newly created comment
 
 --------------------------------------------------------------------------------
 
@@ -607,7 +607,7 @@ Must use the POST method
 > **$id** - Required integer - The id of the PendingUpload for this file
 
 ##### Returns
-> **( object )** - Summary of the ObjectFile or Image that was created, or error.
+> ( object ) - Summary of the ObjectFile or Image that was created, or error.
 
 
 #### Get tracked download URL
@@ -668,7 +668,7 @@ Must use the POST method
 > **$id** - Required integer - The id of the copy.
 
 ##### Returns
-> **( object )** - The data needed to upload this copy's image file via an HTTP POST with multipart/form-data encoding.
+> ( object ) - The data needed to upload this copy's image file via an HTTP POST with multipart/form-data encoding.
 
 
 
@@ -687,7 +687,7 @@ Must use the PATCH method.
 > - **$image_id** - Required -
 
 ##### Returns
-> **( object )** - The "ok" object
+> ( object ) - The "ok" object
 
 
 
@@ -702,7 +702,7 @@ Must use the DELETE method. This cannot be undone.
 > **$image_id** - Required integer - The id of the image to delete.
 
 ##### Returns
-> **( object )** - The "ok" object
+> ( object ) - The "ok" object
 
 
 
@@ -719,7 +719,7 @@ Must use the PATCH method.
 > **$id** - Required integer - The id of the copy to update
 
 ##### Returns
-> **( object )** - The updated thing.
+> ( object ) - The updated thing.
 
 
 
@@ -747,7 +747,7 @@ like their own copy.
 > **$id** - Required integer - The id of the copy to like.
 
 ##### Returns
-> **( object )** - The "ok" object.
+> ( object ) - The "ok" object.
 
 
 
@@ -763,7 +763,7 @@ doesn't exist. Result will be 400 Bad Request if the user is trying to
 > **$id** - Required integer - The id of the copy to "unlike".
 
 ##### Returns
-> **( object )** - The "ok" object.
+> ( object ) - The "ok" object.
 
 
 
@@ -801,7 +801,7 @@ POST /copies/{$id}/comments
 > **$id** - Required integer - The id of the copy to comment on
 
 ##### Returns
-> **( object )** - The newly created comment
+> ( object ) - The newly created comment
 
 --------------------------------------------------------------------------------
 
@@ -941,7 +941,7 @@ Must use the POST method
 > **target_id** - integer - The id of the target (thing_id or make_id)
 
 ##### Returns
-> **( object )** - The newly created comment.
+> ( object ) - The newly created comment.
 
 
 #### Update an existing comment
@@ -957,7 +957,7 @@ Must use the PATCH method.
 > **$id** - Required integer - The id of the comment to update
 
 ##### Returns
-> **( object )** - The updated comment.
+> ( object ) - The updated comment.
 
 
 
@@ -971,7 +971,7 @@ Must use the DELETE method. This cannot be undone.
 > **$id** - Required integer - The id of the comment to delete.
 
 ##### Returns
-> **( object )** - The "ok" object
+> ( object ) - The "ok" object
 
 --------------------------------------------------------------------------------
 
