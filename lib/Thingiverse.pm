@@ -56,21 +56,21 @@ our $api_uri_base       = "https://api.thingiverse.com";
 our $pagination_maximum = 30;
 our $verbose            = 0;
 
-our $client_id          = 'c587f0f2ee04adbe719b';
-our $access_token       = 'b053a0798c50a84fbb80e66e51bba9c4';
+our $client_id    = 'c587f0f2ee04adbe719b';
+our $access_token = 'b053a0798c50a84fbb80e66e51bba9c4';
 
 # should I make rest_client an attribute or should I just have GAT use ISA = REST::Client? or extends REST::Client
-has rest_client  => (
-    isa => 'REST::Client',
-    is => 'ro',
-    lazy_build => 1,
+has rest_client => (
+  isa        => 'REST::Client',
+  is         => 'ro',
+  lazy_build => 1,
 );
 
-has verbosity    => (
-    isa => 'Int',
-    is => 'rw',
-    default => 0,
-    trigger => \&_set_verbosity
+has verbosity => (
+  isa     => 'Int',
+  is      => 'rw',
+  default => 0,
+  trigger => \&_set_verbosity
 );
 
 sub _set_verbosity {
@@ -80,37 +80,46 @@ sub _set_verbosity {
 
 sub _build_rest_client {
   my $self = shift;
-  if ( not $self or ( $self and  not $self->{rest_client} ) ) {
+  if (not $self or ($self and not $self->{rest_client})) {
     my %config = (
       'host'    => $api_uri_base,
-      'timeout' => 300,   # seconds
-      'follow'  => 0,     # Boolean that determins whether REST::Client attempts to automatically follow redirects/authentication.
-      @_, 
-      # cert           => undef, # The path to a X509 certificate file to be used for client authentication.
-      # key            => undef, # The path to a X509 key file to be used for client authentication.
-      # ca             => undef, # The path to a certificate authority file to be used to verify host certificates.
-      # pkcs12         => undef, # The path to a PKCS12 certificate to be used for client authentication.
-      # useragent      => undef, # An LWP::UserAgent object, ready to make http requests.
-      # pkcs12password => undef, # The password for the PKCS12 certificate specified with 'pkcs12'.
+      'timeout' => 300,           # seconds
+      'follow'  => 0
+      , # Boolean that determins whether REST::Client attempts to automatically follow redirects/authentication.
+      @_,
+
+# cert           => undef, # The path to a X509 certificate file to be used for client authentication.
+# key            => undef, # The path to a X509 key file to be used for client authentication.
+# ca             => undef, # The path to a certificate authority file to be used to verify host certificates.
+# pkcs12         => undef, # The path to a PKCS12 certificate to be used for client authentication.
+# useragent      => undef, # An LWP::UserAgent object, ready to make http requests.
+# pkcs12password => undef, # The password for the PKCS12 certificate specified with 'pkcs12'.
     );
     my $rest_client = REST::Client->new(%config);
-    $rest_client->addHeader( 'Authorization', 'Bearer ' . $access_token );
+    $rest_client->addHeader('Authorization', 'Bearer ' . $access_token);
     return $rest_client;
   }
 }
 
 sub _send_request_to_thingiverse {
-  my $self = shift;
+  my $self    = shift;
   my $request = shift;
 
-  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
+  print "calling thingiverse API asking for $request\n"
+    if ($Thingiverse::verbose);
   my $response = $self->rest_client->GET($request);
 
-# NEED TO ADD ERROR HANDLING HERE!!!
+  # NEED TO ADD ERROR HANDLING HERE!!!
 
-# my $content = $response->responseContent;
-# my $headers = $response->responseHeaders;
+  # my $content = $response->responseContent;
+  # my $headers = $response->responseHeaders;
   return $response;
+}
+
+sub get_tag {
+  my $self    = shift;
+  my %options = @_;
+  return Thingiverse::Tag->new(%options, thingiverse => $self,);
 }
 
 no Moose;
