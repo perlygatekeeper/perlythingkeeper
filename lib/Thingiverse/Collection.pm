@@ -5,16 +5,13 @@ use Moose;
 use Moose::Util::TypeConstraints;
 use Data::Dumper;
 use Carp;
-use JSON;
 use Thingiverse::Types;
 use Thingiverse::Thing::List;
 use Thingiverse::Collection::List;
 
 extends('Thingiverse');
 
-our $api_base = "/collections/";
-
-# ABSTRACT: a really awesome library
+# ABSTRACT: Thingiverse Collection Object
 
 =head1 SYNOPSIS
 
@@ -44,28 +41,140 @@ our $api_base = "/collections/";
 * L<Thingiverse::Group>
 =cut
 
-has id             => ( isa => 'ID',                       is => 'ro', required => 1, );
-has _original_json => ( isa => 'Str',                      is => 'ro', required => 0, );
-has name           => ( isa => 'Str',                      is => 'ro', required => 0, );
-has description    => ( isa => 'Str',                      is => 'ro', required => 0, );
-has count          => ( isa => 'ThingiCount',              is => 'ro', required => 0, );
-has is_editable    => ( isa => 'Any',                      is => 'ro', required => 0, );
-has url            => ( isa => 'Str',                      is => 'ro', required => 0, );
-has added          => ( isa => 'ThingiverseDateTime',      is => 'ro', required => 0, coerce => 1 );
-has modified       => ( isa => 'ThingiverseDateTime',      is => 'ro', required => 0, coerce => 1 );
-has creator        => ( isa => 'User_Hash',                is => 'rw', required => 0, coerce => 1 );
-has thumbnail      => ( isa => 'Str',                      is => 'ro', required => 0, );
-has thumbnail_1    => ( isa => 'Str',                      is => 'ro', required => 0, );
-has thumbnail_2    => ( isa => 'Str',                      is => 'ro', required => 0, );
-has thumbnail_3    => ( isa => 'Str',                      is => 'ro', required => 0, );
-has things         => ( isa => 'Thingiverse::Thing::List', is => 'ro', required => 0, builder => '_get_things_belonging_to_collection', lazy => 1 );
-
 # two ways to get a list of Collections:
 # /collections/                       with no added id, will give a list of the newest collections.
 # /users/perlygatekeeper/collections  will give that user's collections
+
 # two other calls to the API involving collections
 # /collections/id                     give all information on collection designated by that id
 # /collections/id/things              gives list of things belonging to that collection.
+
+has _original_json => ( isa => 'Str',                      is => 'ro', required => 0, );
+
+has id => (
+  isa        => 'ID',
+  is         => 'ro',
+  required   => 1,
+);
+
+has thingiverse => (
+  isa        => 'Thingiverse',
+  is         => 'ro',
+  required   => 1,
+  handles    => [ qw(rest_client) ],
+);
+
+has [ qw( name description url thumbnail thumbnail_1 thumbnail_2 thumbnail_3 original_json) ]  => (
+  isa        => 'Str',
+  is         => 'ro',
+  required   => 0,
+  lazy_build => 1,
+);
+
+has count => (
+  isa        => 'ThingiCount',
+  is         => 'ro',
+  required   => 0,
+  lazy_build => 1,
+);
+
+has is_editable => (
+  isa        => 'Any',
+  is         => 'ro',
+  required   => 0,
+  lazy_build => 1,
+);
+
+has [ qw( added modified ) ] => (
+  isa        => 'ThingiverseDateTime',
+  is         => 'ro',
+  required   => 0,
+  coerce     => 1,
+  lazy_build => 1,
+);
+
+has creator => (
+  isa        => 'Thingiverse::User',
+  is         => 'rw',
+  required   => 0,
+  coerce     => 1,
+  lazy_build => 1,
+);
+
+has things => (
+  isa        => 'Thingiverse::Thing::List',
+  is         => 'ro',
+  required   => 0,
+# builder    => '_get_things_belonging_to_collection',
+# lazy       => 1,
+  lazy_build => 1,
+);
+
+sub _build_name {
+	my self_shift;
+	return @self->content->{name};
+}
+
+sub _build_added {
+	my $self = shift;
+	return $self->content->{added};
+}
+
+sub _build_modified {
+	my $self = shift;
+	return $self->content->{modified};
+}
+
+sub _build_description {
+	my $self = shift;
+	return $self->content->{description};
+}
+
+sub _build_thumbnail {
+	my $self = shift;
+	return $self->content->{thumbnail};
+}
+
+sub _build_thumbnail_1 {
+	my $self = shift;
+	return $self->content->{thumbnail_1};
+}
+
+sub _build_thumbnail_2 {
+	my $self = shift;
+	return $self->content->{thumbnail_2};
+}
+
+sub _build_thumbnail_3 {
+	my $self = shift;
+	return $self->content->{thumbnail_3};
+}
+
+sub _build_url {
+	my $self = shift;
+	return $self->content->{url};
+}
+
+sub _build_count {
+	my $self = shift;
+	return $self->content->{count};
+}
+
+sub _build_is_editable {
+	my $self = shift;
+	return $self->content->{is_editable};
+}
+
+sub _build_original_json {
+	my $self = shift;
+	my $request = $self->api_base() . $self->id();
+	return $self->rest_client->GET($request)->responseConent;
+}
+
+sub _build_content {
+	my $self = shift;
+	return JSON::decode_json($self->orginal_json);
+}
 
 around BUILDARGS => sub {
   my $orig = shift;
@@ -92,6 +201,9 @@ around BUILDARGS => sub {
   return $hash;
 };
 
+
+# ----
+
 sub _get_collection_given_id {
   my $id = shift;
   my $request = $api_base . $id;
@@ -101,9 +213,18 @@ sub _get_collection_given_id {
   return $content;
 }
 
-sub _get_things_belonging_to_collection {
+sub _build_things { # retrieve things belonging to collection
   my $self = shift;
-  return Thingiverse::Thing::List->new( { api => 'collected_in', term => $self->id  } );
+  return Thingiverse::Thing::List->new(
+		   { api => 'collected_in', term => $self->id  }
+         );
+}
+
+# ----
+
+
+sub api_base {
+  return '/collections/';
 }
 
 no Moose;
@@ -142,11 +263,3 @@ __END__
   thumbnail_2: "https://thingiverse-production.s3.amazonaws.com/renders/16/ae/be/7b/0e/IMG_20141223_215819_thumb_medium.jpg"
   thumbnail_3: "https://thingiverse-production.s3.amazonaws.com/renders/43/3c/d5/75/07/BoxOpenWithStopper2_thumb_medium.jpg"
 }
-
-
-From irc.freenode.org on Sat Jan 10 2015
-perlygatekeeper
-9:46 ok, so I have a situation, where my in REST API consuming Classes, I collect information on a thing, one of the attributes of the thing is the creator of the thing, so I have 'has creator => (isa => "APP::User")'  but I don't need to call a builder, it is populated as a JSON encoded Str, my question is " Can one set up a coercion for a class type like APP::User
-ether
-9:51 my $app_user_type = subtype as class_type('App::User'); coerce $app_user_type, from 'Str', via {  code ehre that turns a json str into a class name }
-9:51 see Moose::Util::TypeConstraints for more

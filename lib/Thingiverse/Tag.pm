@@ -5,7 +5,6 @@ use Moose;
 use Moose::Util::TypeConstraints;
 use Data::Dumper;
 use Carp;
-use JSON;
 use Thingiverse::Types;
 
 # ABSTRACT: Thingiverse Tag Object
@@ -39,16 +38,16 @@ use Thingiverse::Types;
 =cut
 
 has name => (
-  isa      => 'Str',
-  is       => 'ro',
-  required => 1,
+  isa        => 'Str',
+  is         => 'ro',
+  required   => 1,
 );
 
 has thingiverse => (
-  is => 'ro',
-  isa => 'Thingiverse',
-  required => 1,
-  handles => [ qw/rest_client/ ],
+  isa        => 'Thingiverse',
+  is         => 'ro',
+  required   => 1,
+  handles    => [ qw(rest_client) ],
 );
 
 has count => (
@@ -64,20 +63,22 @@ has [qw/url things_url original_json/] => (
 );
 
 has things => (
-  isa      => 'Thingiverse::Thing::List',
-  is       => 'ro',
-  required => 0,
-  builder  => '_get_things_tagged_with_tag',
-  lazy     => 1
+  isa        => 'Thingiverse::Thing::List',
+  is         => 'ro',
+  required   => 0,
+  builder    => '_get_things_tagged_with_tag',
+  lazy       => 1
 );
 
 has content => (
-  is         => 'ro',
   isa        => 'HashRef',
+  is         => 'ro',
   lazy_build => 1,
 );
 
-sub _build_count {
+# Attribute builders, called by users via Moose, referencing content
+
+sub _build_count { 
   my $self = shift;
   return $self->content->{count};
 }
@@ -92,15 +93,19 @@ sub _build_things_url {
   return $self->content->{things_url};
 }
 
-sub _build_original_json {
-  my $self        = shift;
-  my $request     = $self->api_base() . $self->name();
-  return $self->rest_client->GET($request)->responseContent;
-}
+# Content generator, called by attribute builders, referencing orginal_json
 
 sub _build_content {
   my $self = shift;
   return JSON::decode_json($self->original_json);
+}
+
+# original_json retrieval from REST API, called by content generator, referencing rest_client
+
+sub _build_original_json {
+  my $self        = shift;
+  my $request     = $self->api_base() . $self->name();
+  return $self->rest_client->GET($request)->responseContent;
 }
 
 sub _get_things_tagged_with_tag {
