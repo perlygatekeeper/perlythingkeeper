@@ -58,7 +58,7 @@ has thumbnail      => ( isa => 'Str',                      is => 'ro', required 
 has thumbnail_1    => ( isa => 'Str',                      is => 'ro', required => 0, );
 has thumbnail_2    => ( isa => 'Str',                      is => 'ro', required => 0, );
 has thumbnail_3    => ( isa => 'Str',                      is => 'ro', required => 0, );
-has things         => ( isa => 'Thingiverse::Thing::List', is => 'ro', required => 0, builder => '_get_things_belonging_to_collection' );
+has things         => ( isa => 'Thingiverse::Thing::List', is => 'ro', required => 0, builder => '_get_things_belonging_to_collection', lazy => 1 );
 
 # two ways to get a list of Collections:
 # /collections/                       with no added id, will give a list of the newest collections.
