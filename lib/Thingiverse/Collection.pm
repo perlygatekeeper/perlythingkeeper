@@ -111,8 +111,8 @@ has things => (
 );
 
 sub _build_name {
-	my self_shift;
-	return @self->content->{name};
+	my $self = shift;
+	return $self->content->{name};
 }
 
 sub _build_added {
@@ -165,6 +165,13 @@ sub _build_is_editable {
 	return $self->content->{is_editable};
 }
 
+sub _build_things { # retrieve things belonging to collection
+  my $self = shift;
+  return Thingiverse::Thing::List->new(
+		   { api => 'collected_in', term => $self->id  }
+         );
+}
+
 sub _build_original_json {
 	my $self = shift;
 	my $request = $self->api_base() . $self->id();
@@ -176,50 +183,42 @@ sub _build_content {
 	return JSON::decode_json($self->orginal_json);
 }
 
-around BUILDARGS => sub {
-  my $orig = shift;
-  my $class = shift;
-  my $id;
-  my $json;
-  my $hash;
-  if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'just_bless'} && ${$_[0]}{'id'}) {
-    print "I think I'll just be blessin' this collection: " . ${$_[0]}{'name'} . "\n" if ($Thingiverse::verbose);
-    print Dumper($_[0]) if ($Thingiverse::verbose > 1);
-    return $class->$orig(@_);
-  } elsif ( @_ == 1 && !ref $_[0] ) {
-    $id = $_[0];
-  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} ) { # passed a hashref to a hash containing key 'id'
-    $id = ${$_[0]}->{'id'};
-  } elsif ( @_ == 2 && $_[0] eq 'id' ) { # passed a hashref to a hash containing key 'id'
-    $id = $_[1];
-  } else {
-    return $class->$orig(@_);
-  }
-  $json = _get_collection_given_id($id);
-  $hash = decode_json($json);
-  $hash->{_original_json} = $json;
-  return $hash;
-};
-
-
 # ----
-
-sub _get_collection_given_id {
-  my $id = shift;
-  my $request = $api_base . $id;
-  my $rest_client = Thingiverse::_build_rest_client('');
-  my $response = $rest_client->GET($request);
-  my $content = $response ->responseContent;
-  return $content;
-}
-
-sub _build_things { # retrieve things belonging to collection
-  my $self = shift;
-  return Thingiverse::Thing::List->new(
-		   { api => 'collected_in', term => $self->id  }
-         );
-}
-
+# 
+# around BUILDARGS => sub {
+#   my $orig = shift;
+#   my $class = shift;
+#   my $id;
+#   my $json;
+#   my $hash;
+#   if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'just_bless'} && ${$_[0]}{'id'}) {
+#     print "I think I'll just be blessin' this collection: " . ${$_[0]}{'name'} . "\n" if ($Thingiverse::verbose);
+#     print Dumper($_[0]) if ($Thingiverse::verbose > 1);
+#     return $class->$orig(@_);
+#   } elsif ( @_ == 1 && !ref $_[0] ) {
+#     $id = $_[0];
+#   } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} ) { # passed a hashref to a hash containing key 'id'
+#     $id = ${$_[0]}->{'id'};
+#   } elsif ( @_ == 2 && $_[0] eq 'id' ) { # passed a hashref to a hash containing key 'id'
+#     $id = $_[1];
+#   } else {
+#     return $class->$orig(@_);
+#   }
+#   $json = _get_collection_given_id($id);
+#   $hash = decode_json($json);
+#   $hash->{_original_json} = $json;
+#   return $hash;
+# };
+# 
+# sub _get_collection_given_id {
+#   my $id = shift;
+#   my $request = $api_base . $id;
+#   my $rest_client = Thingiverse::_build_rest_client('');
+#   my $response = $rest_client->GET($request);
+#   my $content = $response ->responseContent;
+#   return $content;
+# }
+# 
 # ----
 
 
