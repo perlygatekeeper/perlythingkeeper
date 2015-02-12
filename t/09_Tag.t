@@ -13,7 +13,7 @@ my $api_base = '/tags/';
 
 my $name           = 'banana';
 my $url            = $Thingiverse::api_uri_base . $api_base . $name;
-my $expected_count = '24';
+my $expected_count = '25';
 my $things_url     = $url . '/things';
 
 my $tag = Thingiverse::Tag->new( 'name' => $name );

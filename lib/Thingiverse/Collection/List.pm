@@ -127,6 +127,7 @@ sub _get_from_thingiverse {
   print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $rest_client = Thingiverse::_build_rest_client('');
   my $response = $rest_client->GET($request);
+  print "back from calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   return { response => $response, rest_client => $rest_client };
 }
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env perl 
 
-use Test::Most tests => 91;
+use Test::Most tests => 92;
 use Data::Dumper;
 
 BEGIN {

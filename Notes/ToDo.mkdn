@@ -1,0 +1,93 @@
+General Notes:
+----------------------------------------------------------------------------------------
+
+  1) Pagination
+    1) make Thingiverse::Pagination module
+    1) implement for
+	   1) things
+	   1) tags
+	   1) files
+	   1) images
+	   1) collectsions
+	   1) comments
+  2) Add list methods:
+    a) Categories
+    b) Tags
+    c) Copies?
+    d) Things for search
+    e) Things for things
+X   f) Things for special methods: newest, popular, featured
+  3) Add some rudimentory error checking whenever an API request is made
+  4) Make all user, thing and list of things attributes contain appropriate objects.
+X   a) prints, ancestors, and derivatives of a Thing
+X   b) images     of a Thing
+X   c) creator    of a Thing
+X   c) tags       of a Thing
+X   d) files      of a Thing
+X   e) categories of a Thing
+  5) gather and list aliases (thing: creator/user, comment: user/commenter, copy: maker/user etc.)
+  6) Make Boolean type (since API passes strings 'true' and 'false' vs. integers 0 and 1)
+  7) Convert url and 'UNDERSCORE url' attributes to URI objects
+  8) Add POST, PUT, PATCH and DELTE other methods to change state on thingiverse, not just retrieve data.
+  9) Add documentation (started, sigh)
+ 10) Add example scripts
+ 11) Submit to CPAN
+X  a) rename github repo to perlythingkeeper
+X  b) rename Module from GAT to Thingiverse
+X  c) request PAUSE account
+   d) learn Dist::Zilla and convert to it (started)
+ 12) Learn markdown better.
+   a) convert Notes files to mkdn
+ 13) Inform thingiverse.
+ 14) Establish an object Caching mechanism to avoid infinite loops in lookups.
+ 15) Add clone (and maybe other utility methods)?
+
+
+
+Per Module:
+----------------------------------------------------------------------------------------
+  1) Thing:
+X   a) activate special methods.
+    b) make added and modified DateTime objects
+    c) adjust tests for added and modified
+X   d) List.pm
+X   e) just_bless
+X   f) Class methods for newest, popular, featured, search
+  2) User:
+    a) List.pm
+    b) complete method
+X   c) just_bless
+  3) Category:
+    a) List.pm
+    b) complete method
+    c) just_bless
+  4) Collection:
+    a) List.pm
+    b) complete method
+    c) just_bless
+  5) Comment:
+    a) List.pm
+    b) complete method
+  6) Tag:
+    a) List.pm
+    b) complete method
+  7) Image:
+    a) EVERYTHING!
+
+
+Tell Thingiverse about typo on page: http://www.thingiverse.com/developers/rest-api-reference#copies
+
+Popular
+Get the latest >>>featured<<< things
+
+GET /popular/
+Returns
+
+NONE
+Featured
+Get the latest featured things
+
+GET /featured/
+Returns
+
+NONE
