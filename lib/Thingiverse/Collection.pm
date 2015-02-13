@@ -7,6 +7,7 @@ use Data::Dumper;
 use Carp;
 use Thingiverse::Types;
 use Thingiverse::Thing::List;
+use Thingiverse::User;
 use Thingiverse::Collection::List;
 
 extends('Thingiverse');
@@ -49,22 +50,27 @@ extends('Thingiverse');
 # /collections/id                     give all information on collection designated by that id
 # /collections/id/things              gives list of things belonging to that collection.
 
-has _original_json => ( isa => 'Str',                      is => 'ro', required => 0, );
-
 has id => (
   isa        => 'ID',
   is         => 'ro',
   required   => 1,
 );
 
+has content => (
+  isa        => 'HashRef',
+  is         => 'ro',
+  lazy_build => 1,
+);
+
 has thingiverse => (
   isa        => 'Thingiverse',
   is         => 'ro',
   required   => 1,
+  default    => sub { Thingiverse->new(); },
   handles    => [ qw(rest_client) ],
 );
 
-has [ qw( name description url thumbnail thumbnail_1 thumbnail_2 thumbnail_3 original_json) ]  => (
+has [ qw( name description url thumbnail thumbnail_1 thumbnail_2 thumbnail_3 orginal_json) ]  => (
   isa        => 'Str',
   is         => 'ro',
   required   => 0,
@@ -97,7 +103,6 @@ has creator => (
   isa        => 'Thingiverse::User',
   is         => 'rw',
   required   => 0,
-  coerce     => 1,
   lazy_build => 1,
 );
 
@@ -165,6 +170,13 @@ sub _build_is_editable {
 	return $self->content->{is_editable};
 }
 
+sub _build_creator {
+	my $self = shift;
+	my $creator = $self->content->{creator};
+	$creator->{just_bless} = 1;
+	return Thingiverse::User->new( $creator );
+}
+
 sub _build_things { # retrieve things belonging to collection
   my $self = shift;
   return Thingiverse::Thing::List->new(
@@ -172,10 +184,10 @@ sub _build_things { # retrieve things belonging to collection
          );
 }
 
-sub _build_original_json {
+sub _build_orginal_json {
 	my $self = shift;
 	my $request = $self->api_base() . $self->id();
-	return $self->rest_client->GET($request)->responseConent;
+	return $self->rest_client->GET($request)->responseContent;
 }
 
 sub _build_content {

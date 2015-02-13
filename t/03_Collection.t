@@ -8,12 +8,10 @@ BEGIN {
     use_ok('Thingiverse::Collection');
 }
 
-our $api_base = "/collections/";
-
 my $id           = '2334425';
-my $url          = $Thingiverse::api_uri_base . $Thingiverse::Collection::api_base . $id;
+my $url          = $Thingiverse::api_uri_base . Thingiverse::Collection->api_base() . $id;
 my $name         = "Boxes and Containers";
-my $like_count   = 35;
+my $like_count   = 37;
 my $things_count = 35;
 my $creator_id   = 16273;
 my $creator_name = 'perlygatekeeper';
@@ -52,7 +50,7 @@ can_ok( $collection, qw( things ),              );
     is( $collection->added->month,      9,              'registered month check' ); 
     is( $collection->added->day ,       17,             'registered day   check' ); 
     ok( $collection->modified->isa('DateTime'),         'last_active is a DateTime object' );
-    is( ref($collection->creator),      'HASH',         'creator is a User_Hash' ); 
+    ok( $collection->creator->isa('Thingiverse::User'), 'creator is a Thingiverse::User' ); 
     is( $collection->creator->{id},     $creator_id,    'creator id' );
     is( $collection->creator->{name},   $creator_name,  'creator name' );
   like( $collection->thumbnail,         qr(^(?i)https://thingiverse-production.*\.(jpg|png)), 'thumbnail    accessor' );

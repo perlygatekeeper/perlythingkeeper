@@ -5,6 +5,7 @@ use Moose;
 use Moose::Util::TypeConstraints;
 use Data::Dumper;
 use Carp;
+use Thingiverse;
 use Thingiverse::Types;
 
 # ABSTRACT: Thingiverse Tag Object
@@ -47,6 +48,7 @@ has thingiverse => (
   isa        => 'Thingiverse',
   is         => 'ro',
   required   => 1,
+  default    => sub { return Thingiverse->new() },
   handles    => [ qw(rest_client) ],
 );
 
