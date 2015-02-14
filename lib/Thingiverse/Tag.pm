@@ -49,9 +49,9 @@ __PACKAGE__->thingiverse_attributes(
         api_base => '/tags/',
         pk => 'name',
         fields => {
-            count => 'ThingiCount',
-            url => 'Str',
-            things_url => 'Str',
+            count => { isa => 'ThingiCount' },
+            url => { isa => 'Str' },
+            things_url => { isa => 'Str' },
         },
     }
 );

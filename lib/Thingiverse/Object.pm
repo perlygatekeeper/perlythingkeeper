@@ -68,8 +68,8 @@ sub thingiverse_attributes {
         $this->meta->add_attribute(
             $field => (
                 is => 'ro',
-                isa => $attr->{fields}->{$field},
                 lazy_build => 1,
+                %{$attr->{fields}->{$field}},
             )
         );
 
