@@ -8,6 +8,8 @@ sub thingiverse_attributes {
     my $this = shift; # should be a package
     my $attr = shift; # A hashref
 
+    my $primary_key = [ keys %{$attr->{pk}} ]->[0];
+
     $this->meta->add_attribute(
         'thingiverse' => (
             is => 'ro',
@@ -26,7 +28,7 @@ sub thingiverse_attributes {
     $this->meta->add_method(
         '_build_original_json' => sub {
             my $self = shift;
-            my $request = $self->api_base() . $self->name();
+            my $request = $self->api_base() . $self->$primary_key();
             return $self->rest_client->GET($request)->responseContent;
         }
     );
@@ -54,12 +56,12 @@ sub thingiverse_attributes {
         )
     );
 
-    if ( $attr->{pk} ) {
+    if ( $primary_key ) {
         $this->meta->add_attribute(
-            $attr->{pk} => (
+            $primary_key => (
                 is => 'ro',
-                isa => 'Str',
                 required => 1,
+                %{$attr->{pk}->{$primary_key}},
             )
         );
     }

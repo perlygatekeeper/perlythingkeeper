@@ -47,7 +47,7 @@ has things => (
 __PACKAGE__->thingiverse_attributes(
     {
         api_base => '/tags/',
-        pk => 'name',
+        pk => { 'name' => { isa => 'Str' } },
         fields => {
             count => { isa => 'ThingiCount' },
             url => { isa => 'Str' },
