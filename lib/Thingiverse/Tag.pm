@@ -8,6 +8,8 @@ use Carp;
 use Thingiverse;
 use Thingiverse::Types;
 
+extends 'Thingiverse::Object';
+
 # ABSTRACT: Thingiverse Tag Object
 
 =head1 SYNOPSIS
@@ -44,14 +46,6 @@ has name => (
   required   => 1,
 );
 
-has thingiverse => (
-  isa        => 'Thingiverse',
-  is         => 'ro',
-  required   => 1,
-  default    => sub { return Thingiverse->new() },
-  handles    => [ qw(rest_client) ],
-);
-
 has count => (
   isa        => 'ThingiCount',
   is         => 'ro',
@@ -78,9 +72,11 @@ has content => (
   lazy_build => 1,
 );
 
-# Attribute builders, called by users via Moose, referencing content
+__PACKAGE__->thingiverse_attributes(
+    # Nothing yet!
+);
 
-sub _build_count { 
+sub _build_count {
   my $self = shift;
   return $self->content->{count};
 }
