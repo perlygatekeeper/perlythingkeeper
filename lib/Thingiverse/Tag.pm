@@ -73,7 +73,9 @@ has content => (
 );
 
 __PACKAGE__->thingiverse_attributes(
-    # Nothing yet!
+    {
+        api_base => '/tags/',
+    }
 );
 
 sub _build_count {
@@ -110,10 +112,6 @@ sub _get_things_tagged_with_tag {
   my $self = shift;
   return Thingiverse::Thing::List->new(
     { api => 'search', term => $self->name });
-}
-
-sub api_base {
-  return '/tags/';
 }
 
 no Moose;
