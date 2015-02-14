@@ -3,9 +3,6 @@ use strict;
 use warnings;
 use Moose;
 use Moose::Util::TypeConstraints;
-use Data::Dumper;
-use Carp;
-use Thingiverse;
 use Thingiverse::Types;
 
 extends 'Thingiverse::Object';
@@ -40,24 +37,6 @@ extends 'Thingiverse::Object';
 * L<Thingiverse::Group>
 =cut
 
-has name => (
-  isa        => 'Str',
-  is         => 'ro',
-  required   => 1,
-);
-
-has count => (
-  isa        => 'ThingiCount',
-  is         => 'ro',
-  lazy_build => 1,
-);
-
-has [qw/url things_url original_json/] => (
-  isa        => 'Str',
-  is         => 'ro',
-  lazy_build => 1,
-);
-
 has things => (
   isa        => 'Thingiverse::Thing::List',
   is         => 'ro',
@@ -66,47 +45,17 @@ has things => (
   lazy       => 1
 );
 
-has content => (
-  isa        => 'HashRef',
-  is         => 'ro',
-  lazy_build => 1,
-);
-
 __PACKAGE__->thingiverse_attributes(
     {
         api_base => '/tags/',
+        pk => 'name',
+        fields => {
+            count => 'ThingiCount',
+            url => 'Str',
+            things_url => 'Str',
+        },
     }
 );
-
-sub _build_count {
-  my $self = shift;
-  return $self->content->{count};
-}
-
-sub _build_url {
-  my $self = shift;
-  return $self->content->{url};
-}
-
-sub _build_things_url {
-  my $self = shift;
-  return $self->content->{things_url};
-}
-
-# Content generator, called by attribute builders, referencing orginal_json
-
-sub _build_content {
-  my $self = shift;
-  return JSON::decode_json($self->original_json);
-}
-
-# original_json retrieval from REST API, called by content generator, referencing rest_client
-
-sub _build_original_json {
-  my $self        = shift;
-  my $request     = $self->api_base() . $self->name();
-  return $self->rest_client->GET($request)->responseContent;
-}
 
 sub _get_things_tagged_with_tag {
   my $self = shift;
