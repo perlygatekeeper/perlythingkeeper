@@ -1,8 +1,7 @@
 package Thingiverse::Tag;
-use strict;
-use warnings;
+
 use Moose;
-use Moose::Util::TypeConstraints;
+
 use Thingiverse::Types;
 
 extends 'Thingiverse::Object';
