@@ -19,7 +19,7 @@ my $creator_name = 'perlygatekeeper';
 # maximum of 30 things returned for collections?
 $things_count = ( $things_count > $Thingiverse::pagination_maximum ) ? $Thingiverse::pagination_maximum : $things_count;
 
-my $collection = Thingiverse::Collection->new( 'id' => $id );
+my $collection = Thingiverse::Collection->new( 'id' => $id , thingiverse => Thingiverse->new() );
 # print Dumper($thing);
 
     ok( defined $collection,                 'Thingiverse::Collection  object is defined' ); 
