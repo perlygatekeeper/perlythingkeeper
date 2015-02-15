@@ -3,6 +3,7 @@ package Thingiverse::Object;
 use Moose;
 use JSON;
 use Thingiverse::Types;
+use Thingiverse;
 
 sub thingiverse_attributes {
     my $this = shift; # should be a package
@@ -14,7 +15,8 @@ sub thingiverse_attributes {
         'thingiverse' => (
             is => 'ro',
             isa => 'Thingiverse',
-            required => 1,
+            default => sub { Thingiverse->new() },
+            required => 0,
             handles => [ qw/rest_client/ ]
         )
     );

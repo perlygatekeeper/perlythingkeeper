@@ -152,7 +152,7 @@ around BUILDARGS => sub {
       $_->{creator}{just_bless}=1;
       $_->{creator} = Thingiverse::User->new($_->{creator});
       $_->{'just_bless'} = 1;
-      $_ = Thingiverse::Thing->new(%$_, thingiverse => $thingiverse);
+      $_ = Thingiverse::Thing->new(%$_, $thingiverse ? ( thingiverse => $thingiverse ) : ( ) );
     }
   }
   $link_header = $response->responseHeader('Link');
