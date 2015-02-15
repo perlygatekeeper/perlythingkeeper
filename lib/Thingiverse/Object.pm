@@ -75,12 +75,24 @@ sub thingiverse_attributes {
             )
         );
 
-        $this->meta->add_method(
-            "_build_$field" => sub {
-                my $self = shift;
-                return $self->content->{$field};
-            }
-        );
+        if ( $attr->{fields}->{$field}->{isa} =~ /^Thingiverse::/ ) {
+            $this->meta->add_method(
+                "_build_$field" => sub {
+                    my $self = shift;
+                    return $attr->{fields}->{$field}->{isa}->new(
+                        %{$self->content->{$field}},
+                        thingiverse => $self->thingiverse,
+                    );
+                }
+            );
+        } else {
+            $this->meta->add_method(
+                "_build_$field" => sub {
+                    my $self = shift;
+                    return $self->content->{$field};
+                }
+            );
+        }
     }
 }
 

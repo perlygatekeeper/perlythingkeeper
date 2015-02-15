@@ -1,12 +1,7 @@
 package Thingiverse::Thing;
-use strict;
-use warnings;
-use Moose;
-use Moose::Util::TypeConstraints;
-use Data::Dumper;
-use Carp;
 
-use JSON;
+use Moose;
+
 use Thingiverse::Types;
 use Thingiverse::Thing::List;
 use Thingiverse::User;
@@ -43,46 +38,51 @@ use Thingiverse::Tag::List;
 * L<Thingiverse::Group>
 =cut
 
-extends('Thingiverse');
-our $api_base = "/things/";
+extends('Thingiverse::Object');
 
-has _original_json       => ( isa => 'Str',                         is => 'ro', required => 0, );
+__PACKAGE__->thingiverse_attributes(
+    {
+        api_base => '/things/',
+        pk => { 'id' => { isa => 'ID' } },
+        fields =>  {
+            name => { isa => 'Str' },
+            instructions => { isa => 'Str' },
+            instructions_html => { isa => 'Str' },
+            description => { isa => 'Str' },
+            description_html => { isa => 'Str' },
+            is_wip => { isa => 'Any' },
+            is_liked => { isa => 'Any' },
+            is_private => { isa => 'Any' },
+            in_library => { isa => 'Any' },
+            is_featured => { isa => 'Any' },
+            is_collected => { isa => 'Any' },
+            is_purchased => { isa => 'Any' },
+            is_published => { isa => 'Any' },
+            added => { isa => 'Str' },
+            modified => { isa => 'Str' },
+            license => { isa => 'Str' },
+            public_url => { isa => 'Str' },
+            url => { isa => 'Str' },
+            tags_url => { isa => 'Str' },
+            images_url => { isa => 'Str' },
+            categories_url => { isa => 'Str' },
+            ancestors_url => { isa => 'Str' },
+            derivatives_url => { isa => 'Str' },
+            likes_url => { isa => 'Str' },
+            layouts_url => { isa => 'Str' },
+            files_url => { isa => 'Str' },
+            thumbnail => { isa => 'Str' },
+            like_count => { isa => 'ThingiCount' },
+            file_count => { isa => 'ThingiCount' },
+            layout_count => { isa => 'ThingiCount' },
+            collect_count => { isa => 'ThingiCount' },
+            print_history_count => { isa => 'ThingiCount' },
+            creator => { isa => 'Thingiverse::User' },
+            default_image => {isa => 'Thingiverse::Image' },
+        }
+    }
+);
 
-has id                   => ( isa => 'ID',                          is => 'ro', required => 1, );
-has name                 => ( isa => 'Str',                         is => 'ro', required => 0, );
-has instructions         => ( isa => 'Str',                         is => 'ro', required => 0, );
-has instructions_html    => ( isa => 'Str',                         is => 'ro', required => 0, );
-has description          => ( isa => 'Str',                         is => 'ro', required => 0, );
-has description_html     => ( isa => 'Str',                         is => 'ro', required => 0, );
-has is_wip               => ( isa => 'Any',                         is => 'ro', required => 0, );
-has is_liked             => ( isa => 'Any',                         is => 'ro', required => 0, );
-has is_private           => ( isa => 'Any',                         is => 'ro', required => 0, );
-has in_library           => ( isa => 'Any',                         is => 'ro', required => 0, );
-has is_featured          => ( isa => 'Any',                         is => 'ro', required => 0, );
-has is_collected         => ( isa => 'Any',                         is => 'ro', required => 0, );
-has is_purchased         => ( isa => 'Any',                         is => 'ro', required => 0, );
-has is_published         => ( isa => 'Any',                         is => 'ro', required => 0, );
-has added                => ( isa => 'Str',                         is => 'ro', required => 0, );
-has modified             => ( isa => 'Str',                         is => 'ro', required => 0, );
-has license              => ( isa => 'Str',                         is => 'ro', required => 0, );
-has public_url           => ( isa => 'Str',                         is => 'ro', required => 0, );
-has url                  => ( isa => 'Str',                         is => 'ro', required => 0, );
-has tags_url             => ( isa => 'Str',                         is => 'ro', required => 0, );
-has images_url           => ( isa => 'Str',                         is => 'ro', required => 0, );
-has categories_url       => ( isa => 'Str',                         is => 'ro', required => 0, );
-has ancestors_url        => ( isa => 'Str',                         is => 'ro', required => 0, );
-has derivatives_url      => ( isa => 'Str',                         is => 'ro', required => 0, );
-has likes_url            => ( isa => 'Str',                         is => 'ro', required => 0, );
-has layouts_url          => ( isa => 'Str',                         is => 'ro', required => 0, );
-has files_url            => ( isa => 'Str',                         is => 'ro', required => 0, );
-has thumbnail            => ( isa => 'Str',                         is => 'ro', required => 0, );
-has like_count           => ( isa => 'ThingiCount',                 is => 'ro', required => 0, );
-has file_count           => ( isa => 'ThingiCount',                 is => 'ro', required => 0, );
-has layout_count         => ( isa => 'ThingiCount',                 is => 'ro', required => 0, );
-has collect_count        => ( isa => 'ThingiCount',                 is => 'ro', required => 0, );
-has print_history_count  => ( isa => 'ThingiCount',                 is => 'ro', required => 0, );
-has creator              => ( isa => 'Thingiverse::User',           is => 'ro', required => 0, builder => '_get_things_creator',        lazy => 1, );
-has default_image        => ( isa => 'Thingiverse::Image',          is => 'ro', required => 0, builder => '_get_things_default_image',  lazy => 1, );
 has prints               => ( isa => 'Thingiverse::Thing::List',    is => 'ro', required => 0, builder => '_get_prints_of_thing',       lazy => 1, );
 has ancestors            => ( isa => 'Thingiverse::Thing::List',    is => 'ro', required => 0, builder => '_get_ancestors_of_thing',    lazy => 1, );
 has derivatives          => ( isa => 'Thingiverse::Thing::List',    is => 'ro', required => 0, builder => '_get_derivatives_of_thing',  lazy => 1, );
@@ -95,60 +95,19 @@ has categories           => ( isa => 'Thingiverse::Category::List', is => 'ro', 
 # has comments             => ( isa => 'Thingiverse::Comment::List',  is => 'ro', required => 0, builder => '_get_comments_on_thing',      lazy => 1, );
 # has threadedcomments?
 
-around BUILDARGS => sub {
-  my $orig = shift;
-  my $class = shift;
-  my ( $id, $json, $hash, $creator, $default_image );
-  # first we check if we can by-pass making an API call to Thingiverse, since the hash was populated via a seperate call
-  if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'just_bless'} && ${$_[0]}{'id'}) {
-#   delete ${$_[0]}{'just_bless'};
-    print "just blessing a thing-like hash with thing_id: " . ${$_[0]}{'id'} . "\n" if ($Thingiverse::verbose);
-    return $class->$orig(@_);
-  } elsif ( @_ == 1 && !ref $_[0] ) {
-    $id = $_[0];
-  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} ) { # passed a hashref to a hash containing key 'id'
-    $id = ${$_[0]}{'id'};
-    print "we got ourselves a lookup for thing_id: $id\n" if ($Thingiverse::verbose);
-  } elsif ( @_ == 2 && $_[0] eq 'id' ) { # passed a hashref to a hash containing key 'id'
-    $id = $_[1];
-  } else {
-    return $class->$orig(@_);
-  }
-  $json = _get_from_thingi_given_id($id);
-  $hash = decode_json($json);
-  $hash->{_original_json} = $json;
-  $creator = $hash->{creator}; # this will be a HashRef containing keys appropo for a Thingiverse::User
-  $creator->{just_bless} = 1;
-  $hash->{creator} = Thingiverse::User->new( $creator );
-  $default_image = $hash->{default_image}; # this will be a HashRef containing keys appropo for a Thingiverse::Image
-  $default_image->{just_bless} = 1;
-  $hash->{default_image} = Thingiverse::Image->new( $default_image );
-  return $hash;
-};
-
-sub _get_from_thingi_given_id {
-  my $id = shift;
-  my $request = $api_base . $id;
-  print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
-  my $rest_client = Thingiverse::_build_rest_client('');
-  my $response = $rest_client->GET($request);
-  my $content = $response ->responseContent;
-  return $content;
-}
-
 sub _get_prints_of_thing {
   my $self = shift;
-  return Thingiverse::Thing::List->new( { api => 'prints', thing_id => $self->id } );
+  return Thingiverse::Thing::List->new( { api => 'prints', thing_id => $self->id , thingiverse => $self->thingiverse } );
 }
 
 sub _get_ancestors_of_thing {
   my $self = shift;
-  return Thingiverse::Thing::List->new( { api => 'ancestors', thing_id => $self->id } );
+  return Thingiverse::Thing::List->new( { api => 'ancestors', thing_id => $self->id , thingiverse => $self->thingiverse } );
 }
 
 sub _get_derivatives_of_thing {
   my $self = shift;
-  return Thingiverse::Thing::List->new( { api => 'derivatives', thing_id => $self->id } );
+  return Thingiverse::Thing::List->new( { api => 'derivatives', thing_id => $self->id , thingiverse => $self->thingiverse } );
 }
 
 # creator is made in teh BUILDARGS routine, builder not needed
@@ -166,7 +125,7 @@ sub _get_images_for_thing {
 
 sub _old_get_images_for_thing {
   my $self = shift;
-  my $request = $api_base . $self->id . '/images';
+  my $request = $self->api_base() . $self->id . '/images';
 # Copy Pagination code from Category.pm
   print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $response = $self->rest_client->GET($request);
@@ -190,7 +149,7 @@ sub _get_tags_for_thing {
 
 sub _old_get_tags_for_thing {
   my $self = shift;
-  my $request = $api_base . $self->id . '/tags';
+  my $request = $self->api_base . $self->id . '/tags';
 # Copy Pagination code from Category.pm
   print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $response = $self->rest_client->GET($request);
@@ -207,7 +166,7 @@ sub _old_get_tags_for_thing {
 
 sub _get_files_for_thing {
   my $self = shift;
-  my $request = $api_base . $self->id . '/files';
+  my $request = $self->api_base . $self->id . '/files';
 # Copy Pagination code from Category.pm
   print "calling thingiverse API asking for $request\n" if ($Thingiverse::verbose);
   my $response = $self->rest_client->GET($request);
@@ -226,8 +185,6 @@ no Moose;
 __PACKAGE__->meta->make_immutable;
 
 sub list {
-# return Thingiverse::Thing::List->new( { api => 'things' } );
-# return Thingiverse::Thing::List->new( api => 'things' );
   return Thingiverse::Thing::List->new( 'things' );
 }
 
@@ -248,21 +205,6 @@ sub search {
   my $search_term = shift;
   return Thingiverse::Thing::List->new( { api => 'search', term => $search_term  } );
 }
-
-# sub ancestors {
-#   my $thing_id = shift;
-#   return Thingiverse::Thing::List->new( { api => 'ancestors', thing_id => $thing_id  } );
-# }
-# 
-# sub derivatives {
-#   my $thing_id = shift;
-#   return Thingiverse::Thing::List->new( { api => 'derivatives', thing_id => $thing_id  } );
-# }
-# 
-# sub prints {
-#   my $thing_id = shift;
-#   return Thingiverse::Thing::List->new( { api => 'prints', thing_id => $thing_id  } );
-# }
 
 1;
 __END__

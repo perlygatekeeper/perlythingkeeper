@@ -118,7 +118,7 @@ around BUILDARGS => sub {
   my $orig = shift;
   my $class = shift;
   my ( $api, $term, $things, $thing_id, $json, $hash, $from_thingiverse,
-       $request, $response, $link_header, $total_count, $pagination );
+       $request, $response, $link_header, $total_count, $pagination, $thingiverse );
   if ( @_ == 1 && !ref $_[0] ) {
     $api = $_[0];
   } elsif ( @_ == 2 && $_[0] =~ m'api'i ) {
@@ -127,6 +127,7 @@ around BUILDARGS => sub {
     $api      = ${$_[0]}{'api'};
     $term     = ${$_[0]}{'term'};
     $thing_id = ${$_[0]}{'thing_id'};
+    $thingiverse = ${$_[0]}{'thingiverse'};
   } else {
 # not sure what to do here
     return $class->$orig(@_);
@@ -151,7 +152,7 @@ around BUILDARGS => sub {
       $_->{creator}{just_bless}=1;
       $_->{creator} = Thingiverse::User->new($_->{creator});
       $_->{'just_bless'} = 1;
-      $_ = Thingiverse::Thing->new($_);
+      $_ = Thingiverse::Thing->new(%$_, thingiverse => $thingiverse);
     }
   }
   $link_header = $response->responseHeader('Link');
