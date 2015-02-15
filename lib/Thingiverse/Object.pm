@@ -67,19 +67,10 @@ sub thingiverse_attributes {
     }
 
     for my $field ( keys %{$attr->{fields}} ) {
-        if ( ref($field) eq 'ARRAY' ) {
-            for my $i ( @{$field} ) {
-                $this->_add_field(
-                    $field,
-                    $attr->{fields}->{$field},
-                );
-            }
-        } else {
-            $this->_add_field(
-                $field,
-                $attr->{fields}->{$field},
-            );
-        }
+        $this->_add_field(
+            $field,
+            $attr->{fields}->{$field},
+        );
     }
 }
 
