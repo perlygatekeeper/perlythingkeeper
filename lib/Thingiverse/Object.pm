@@ -85,7 +85,7 @@ sub _add_field {
         $field => (
             is => 'ro',
             lazy_build => 1,
-            %{$attrs->{fields}->{$field}},
+            %{$attrs},
         )
     );
 
