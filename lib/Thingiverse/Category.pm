@@ -8,9 +8,8 @@ use Carp;
 use JSON;
 use Thingiverse::Types;
 use Thingiverse::Thing::List;
-# use Thingiverse::User;
 
-extends('Thingiverse');
+extends('Thingiverse::Object');
 
 # ABSTRACT: Thingiverse Category Object
 
@@ -42,18 +41,15 @@ extends('Thingiverse');
 * L<Thingiverse::Group>
 =cut
 
-has name => (
-  isa        => 'Str',
-  is         => 'ro',
-  required   => 1,
-);
-
-has thingiverse => (
-  isa        => 'Thingiverse',
-  is         => 'ro',
-  required   => 1,
-  default    => sub { return Thingiverse->new() },
-  handles    => [ qw(rest_client) ],
+__PACKAGE__->thingiverse_attributes(
+    {
+        api_base => '/categories/',
+        pk => { name => { isa => 'Str' } },
+        fields => {
+            count => { isa => 'ThingiCount' },
+            [qw/url things_url thumbnail original_json/] => { isa => 'Str' },
+        }
+    },
 );
 
 has count => (
@@ -120,11 +116,7 @@ sub _build_original_json {
 sub _get_things_organized_under_category {
   my $self = shift;
   return Thingiverse::Thing::List->new(
-    { api => 'categorized_by', term => $self->name });
-}
-
-sub api_base {
-  return '/categories/';
+    { api => 'categorized_by', term => $self->name , thingiverse => $self->thingiverse });
 }
 
 # -----

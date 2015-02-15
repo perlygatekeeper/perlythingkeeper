@@ -67,32 +67,52 @@ sub thingiverse_attributes {
     }
 
     for my $field ( keys %{$attr->{fields}} ) {
-        $this->meta->add_attribute(
-            $field => (
-                is => 'ro',
-                lazy_build => 1,
-                %{$attr->{fields}->{$field}},
-            )
-        );
-
-        if ( $attr->{fields}->{$field}->{isa} =~ /^Thingiverse::/ ) {
-            $this->meta->add_method(
-                "_build_$field" => sub {
-                    my $self = shift;
-                    return $attr->{fields}->{$field}->{isa}->new(
-                        %{$self->content->{$field}},
-                        thingiverse => $self->thingiverse,
-                    );
-                }
-            );
+        if ( ref($field) eq 'ARRAY' ) {
+            for my $i ( @{$field} ) {
+                $this->_add_field(
+                    $field,
+                    $attr->{fields}->{$field},
+                );
+            }
         } else {
-            $this->meta->add_method(
-                "_build_$field" => sub {
-                    my $self = shift;
-                    return $self->content->{$field};
-                }
+            $this->_add_field(
+                $field,
+                $attr->{fields}->{$field},
             );
         }
+    }
+}
+
+sub _add_field {
+    my $this = shift;
+    my $field = shift;
+    my $attrs = shift;
+
+    $this->meta->add_attribute(
+        $field => (
+            is => 'ro',
+            lazy_build => 1,
+            %{$attrs->{fields}->{$field}},
+        )
+    );
+
+    if ( $attrs->{isa} =~ /^Thingiverse::/ ) {
+        $this->meta->add_method(
+            "_build_$field" => sub {
+                my $self = shift;
+                return $attrs->{isa}->new(
+                    %{$self->content->{$field}},
+                    thingiverse => $self->thingiverse,
+                );
+            }
+        );
+    } else {
+        $this->meta->add_method(
+            "_build_$field" => sub {
+                my $self = shift;
+                return $self->content->{$field};
+            }
+        );
     }
 }
 
