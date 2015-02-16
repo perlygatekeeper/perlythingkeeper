@@ -115,9 +115,10 @@ sub has_list {
     my $this = shift;
     my $attrs = shift;
     my $name = [ keys %$attrs ]->[0];
-    my $term = $attrs->{$name}->{term};
+    my $key = $attrs->{$name}->{key};
     my $api = $attrs->{$name}->{api};
     my $isa = $attrs->{$name}->{isa};
+    my $search_arg = $attrs->{$name}->{search_arg};
 
     $this->meta->add_attribute(
         $name => (
@@ -133,7 +134,8 @@ sub has_list {
             return $isa->new(
                 {
                     api => $api,
-                    term => $self->$term,
+                    $search_arg => $self->$key,
+                    thingiverse => $self->thingiverse,
                 }
             );
         }

@@ -89,7 +89,8 @@ __PACKAGE__->has_list(
         'things' => {
             isa => 'Thingiverse::Thing::List',
             api => 'collected_in',
-            term => 'id',
+            search_arg => 'term',
+            key => 'id',
         }
     }
 );
