@@ -1,7 +1,6 @@
 #!/usr/bin/env perl
 
 use Test::Most tests => 46;
-use Data::Dumper;
 
 BEGIN {
     use_ok('Thingiverse::User');
@@ -53,12 +52,8 @@ can_ok( $user, qw( collections ),     );
     is( $user->registered->month,              11,  'registered month check' ); 
     is( $user->registered->day ,               20,  'registered day   check' ); 
     is( $user->things->count_things,           27,  'things accessor' );
-$user->verbosity(1);
     is( $user->collections->count_collections, 30,  'collections accessor' );
-$user->verbosity(0);
     ok( $user->last_active->isa('DateTime'), 'last_active is a DateTime object' );
-
-# print Dumper($user);
 
 exit 0;
 __END__

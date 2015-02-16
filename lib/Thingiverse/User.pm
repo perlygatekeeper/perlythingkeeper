@@ -59,8 +59,8 @@ __PACKAGE__->thingiverse_attributes(
             likes_url => { isa => 'Str' },
             default_license => { isa => 'Str' },
             email => { isa => 'Str' },
-            registered => { isa => 'ThingiverseDateTime' },
-            last_active => { isa => 'ThingiverseDateTime' },
+            registered => { isa => 'ThingiverseDateTime', coerce => 1 },
+            last_active => { isa => 'ThingiverseDateTime', coerce => 1 },
         }
     }
 );
