@@ -4,7 +4,6 @@ use Moose;
 
 use Thingiverse::Types;
 use Thingiverse::Thing::List;
-use Thingiverse::User;
 use Thingiverse::Collection::List;
 
 extends('Thingiverse::Object');
@@ -67,6 +66,23 @@ __PACKAGE__->thingiverse_attributes(
         }
     }
 );
+
+around BUILDARGS => sub {
+    my $orig = shift;
+    my $class = shift;
+    my $options = (ref($_[0]) eq 'HASH' ? $_[0] : { @_ });
+
+    for my $i ( qw/creator/ ) {
+        $options->{$i} = (
+            ref($options->{$i}) eq 'HASH' ?
+                Thingiverse::User->new(
+                    %{$options->{$i}},
+                    ( exists($options->{thingiverse}) ? (thingiverse => $options->{thingiverse}) : () )
+                ) : $options->{$i}
+            ) if ( exists($options->{$i}) );
+    }
+    $class->$orig($options);
+};
 
 has things => (
   isa        => 'Thingiverse::Thing::List',

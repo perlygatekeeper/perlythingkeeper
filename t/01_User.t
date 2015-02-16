@@ -9,8 +9,6 @@ BEGIN {
 
 my $user = Thingiverse::User->new( 'name' => 'perlygatekeeper' );
 
-   $user->verbosity(0);
-
     ok( defined $user,            'Thingiverse::User object is defined' ); 
     ok( $user->isa('Thingiverse::User'), 'can make an Thingiverse::User object' ); 
 can_ok( $user, qw( id ),              );

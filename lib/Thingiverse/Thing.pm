@@ -3,8 +3,8 @@ package Thingiverse::Thing;
 use Moose;
 
 use Thingiverse::Types;
-use Thingiverse::Thing::List;
 use Thingiverse::User;
+use Thingiverse::Thing::List;
 use Thingiverse::Image;
 use Thingiverse::Image::List;
 use Thingiverse::Tag::List;
@@ -82,6 +82,23 @@ __PACKAGE__->thingiverse_attributes(
         }
     }
 );
+
+around BUILDARGS => sub {
+    my $orig = shift;
+    my $class = shift;
+    my $options = (ref($_[0]) eq 'HASH' ? $_[0] : { @_ });
+
+    for my $i ( qw/creator/ ) {
+        $options->{$i} = (
+            ref($options->{$i}) eq 'HASH' ?
+                Thingiverse::User->new(
+                    %{$options->{$i}},
+                    ( exists($options->{thingiverse}) ? (thingiverse => $options->{thingiverse}) : () )
+                ) : $options->{$i}
+            ) if ( exists($options->{$i}) );
+    }
+    $class->$orig($options);
+};
 
 has prints               => ( isa => 'Thingiverse::Thing::List',    is => 'ro', required => 0, builder => '_get_prints_of_thing',       lazy => 1, );
 has ancestors            => ( isa => 'Thingiverse::Thing::List',    is => 'ro', required => 0, builder => '_get_ancestors_of_thing',    lazy => 1, );

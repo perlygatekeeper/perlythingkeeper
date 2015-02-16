@@ -1,8 +1,8 @@
 package Thingiverse::Object;
 
 use Moose;
+
 use JSON;
-use Thingiverse::Types;
 use Thingiverse;
 
 sub thingiverse_attributes {
@@ -90,10 +90,12 @@ sub _add_field {
     );
 
     if ( $attrs->{isa} =~ /^Thingiverse::/ ) {
+        my $isa = $attrs->{isa};
+        eval "use $isa";
         $this->meta->add_method(
             "_build_$field" => sub {
                 my $self = shift;
-                return $attrs->{isa}->new(
+                return $isa->new(
                     %{$self->content->{$field}},
                     thingiverse => $self->thingiverse,
                 );
