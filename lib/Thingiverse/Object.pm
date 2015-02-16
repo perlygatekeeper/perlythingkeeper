@@ -111,6 +111,35 @@ sub _add_field {
     }
 }
 
+sub has_list {
+    my $this = shift;
+    my $attrs = shift;
+    my $name = [ keys %$attrs ]->[0];
+    my $term = $attrs->{$name}->{term};
+    my $api = $attrs->{$name}->{api};
+    my $isa = $attrs->{$name}->{isa};
+
+    $this->meta->add_attribute(
+        $name => (
+            isa => $isa,
+            is => 'ro',
+            lazy_build => 1,
+        )
+    );
+
+    $this->meta->add_method(
+        "_build_$name" => sub {
+            my $self = shift;
+            return $isa->new(
+                {
+                    api => $api,
+                    term => $self->$term,
+                }
+            );
+        }
+    );
+}
+
 __PACKAGE__->meta->make_immutable;
 
 no Moose;

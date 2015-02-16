@@ -84,19 +84,15 @@ around BUILDARGS => sub {
     $class->$orig($options);
 };
 
-has things => (
-  isa        => 'Thingiverse::Thing::List',
-  is         => 'ro',
-  required   => 0,
-  lazy_build => 1,
+__PACKAGE__->has_list(
+    {
+        'things' => {
+            isa => 'Thingiverse::Thing::List',
+            api => 'collected_in',
+            term => 'id',
+        }
+    }
 );
-
-sub _build_things { # retrieve things belonging to collection
-  my $self = shift;
-  return Thingiverse::Thing::List->new(
-		   { api => 'collected_in', term => $self->id  }
-         );
-}
 
 no Moose;
 __PACKAGE__->meta->make_immutable;
