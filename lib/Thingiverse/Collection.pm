@@ -1,16 +1,12 @@
 package Thingiverse::Collection;
-use strict;
-use warnings;
+
 use Moose;
-use Moose::Util::TypeConstraints;
-use Data::Dumper;
-use Carp;
+
 use Thingiverse::Types;
 use Thingiverse::Thing::List;
-use Thingiverse::User;
 use Thingiverse::Collection::List;
 
-extends('Thingiverse');
+extends('Thingiverse::Object');
 
 # ABSTRACT: Thingiverse Collection Object
 
@@ -50,193 +46,54 @@ extends('Thingiverse');
 # /collections/id                     give all information on collection designated by that id
 # /collections/id/things              gives list of things belonging to that collection.
 
-has id => (
-  isa        => 'ID',
-  is         => 'ro',
-  required   => 1,
+__PACKAGE__->thingiverse_attributes(
+    {
+        api_base => '/collections/',
+        pk => { id => { isa => 'ID' } },
+        fields => {
+            name => { isa => 'Str' },
+            description => { isa => 'Str' },
+            url => { isa => 'Str' },
+            thumbnail => { isa => 'Str' },
+            thumbnail_1 => { isa => 'Str' },
+            thumbnail_2 => { isa => 'Str' },
+            thumbnail_3 => { isa => 'Str' },
+            count => { isa => 'ThingiCount' },
+            is_editable => { isa => 'Any' },
+            added => { isa => 'ThingiverseDateTime', coerce => 1 },
+            modified => { isa => 'ThingiverseDateTime', coerce => 1 },
+            creator => { isa => 'Thingiverse::User' }
+        }
+    }
 );
 
-has content => (
-  isa        => 'HashRef',
-  is         => 'ro',
-  lazy_build => 1,
+around BUILDARGS => sub {
+    my $orig = shift;
+    my $class = shift;
+    my $options = (ref($_[0]) eq 'HASH' ? $_[0] : { @_ });
+
+    for my $i ( qw/creator/ ) {
+        $options->{$i} = (
+            ref($options->{$i}) eq 'HASH' ?
+                Thingiverse::User->new(
+                    %{$options->{$i}},
+                    ( exists($options->{thingiverse}) ? (thingiverse => $options->{thingiverse}) : () )
+                ) : $options->{$i}
+            ) if ( exists($options->{$i}) );
+    }
+    $class->$orig($options);
+};
+
+__PACKAGE__->has_list(
+    {
+        'things' => {
+            isa => 'Thingiverse::Thing::List',
+            api => 'collected_in',
+            search_arg => 'term',
+            key => 'id',
+        }
+    }
 );
-
-has thingiverse => (
-  isa        => 'Thingiverse',
-  is         => 'ro',
-  required   => 1,
-  default    => sub { Thingiverse->new(); },
-  handles    => [ qw(rest_client) ],
-);
-
-has [ qw( name description url thumbnail thumbnail_1 thumbnail_2 thumbnail_3 orginal_json) ]  => (
-  isa        => 'Str',
-  is         => 'ro',
-  required   => 0,
-  lazy_build => 1,
-);
-
-has count => (
-  isa        => 'ThingiCount',
-  is         => 'ro',
-  required   => 0,
-  lazy_build => 1,
-);
-
-has is_editable => (
-  isa        => 'Any',
-  is         => 'ro',
-  required   => 0,
-  lazy_build => 1,
-);
-
-has [ qw( added modified ) ] => (
-  isa        => 'ThingiverseDateTime',
-  is         => 'ro',
-  required   => 0,
-  coerce     => 1,
-  lazy_build => 1,
-);
-
-has creator => (
-  isa        => 'Thingiverse::User',
-  is         => 'rw',
-  required   => 0,
-  lazy_build => 1,
-);
-
-has things => (
-  isa        => 'Thingiverse::Thing::List',
-  is         => 'ro',
-  required   => 0,
-# builder    => '_get_things_belonging_to_collection',
-# lazy       => 1,
-  lazy_build => 1,
-);
-
-sub _build_name {
-	my $self = shift;
-	return $self->content->{name};
-}
-
-sub _build_added {
-	my $self = shift;
-	return $self->content->{added};
-}
-
-sub _build_modified {
-	my $self = shift;
-	return $self->content->{modified};
-}
-
-sub _build_description {
-	my $self = shift;
-	return $self->content->{description};
-}
-
-sub _build_thumbnail {
-	my $self = shift;
-	return $self->content->{thumbnail};
-}
-
-sub _build_thumbnail_1 {
-	my $self = shift;
-	return $self->content->{thumbnail_1};
-}
-
-sub _build_thumbnail_2 {
-	my $self = shift;
-	return $self->content->{thumbnail_2};
-}
-
-sub _build_thumbnail_3 {
-	my $self = shift;
-	return $self->content->{thumbnail_3};
-}
-
-sub _build_url {
-	my $self = shift;
-	return $self->content->{url};
-}
-
-sub _build_count {
-	my $self = shift;
-	return $self->content->{count};
-}
-
-sub _build_is_editable {
-	my $self = shift;
-	return $self->content->{is_editable};
-}
-
-sub _build_creator {
-	my $self = shift;
-	my $creator = $self->content->{creator};
-	$creator->{just_bless} = 1;
-	return Thingiverse::User->new( $creator );
-}
-
-sub _build_things { # retrieve things belonging to collection
-  my $self = shift;
-  return Thingiverse::Thing::List->new(
-		   { api => 'collected_in', term => $self->id  }
-         );
-}
-
-sub _build_orginal_json {
-	my $self = shift;
-	my $request = $self->api_base() . $self->id();
-	return $self->rest_client->GET($request)->responseContent;
-}
-
-sub _build_content {
-	my $self = shift;
-	return JSON::decode_json($self->orginal_json);
-}
-
-# ----
-# 
-# around BUILDARGS => sub {
-#   my $orig = shift;
-#   my $class = shift;
-#   my $id;
-#   my $json;
-#   my $hash;
-#   if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'just_bless'} && ${$_[0]}{'id'}) {
-#     print "I think I'll just be blessin' this collection: " . ${$_[0]}{'name'} . "\n" if ($Thingiverse::verbose);
-#     print Dumper($_[0]) if ($Thingiverse::verbose > 1);
-#     return $class->$orig(@_);
-#   } elsif ( @_ == 1 && !ref $_[0] ) {
-#     $id = $_[0];
-#   } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} ) { # passed a hashref to a hash containing key 'id'
-#     $id = ${$_[0]}->{'id'};
-#   } elsif ( @_ == 2 && $_[0] eq 'id' ) { # passed a hashref to a hash containing key 'id'
-#     $id = $_[1];
-#   } else {
-#     return $class->$orig(@_);
-#   }
-#   $json = _get_collection_given_id($id);
-#   $hash = decode_json($json);
-#   $hash->{_original_json} = $json;
-#   return $hash;
-# };
-# 
-# sub _get_collection_given_id {
-#   my $id = shift;
-#   my $request = $api_base . $id;
-#   my $rest_client = Thingiverse::_build_rest_client('');
-#   my $response = $rest_client->GET($request);
-#   my $content = $response ->responseContent;
-#   return $content;
-# }
-# 
-# ----
-
-
-sub api_base {
-  return '/collections/';
-}
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

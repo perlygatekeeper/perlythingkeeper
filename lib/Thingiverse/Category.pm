@@ -8,9 +8,8 @@ use Carp;
 use JSON;
 use Thingiverse::Types;
 use Thingiverse::Thing::List;
-# use Thingiverse::User;
 
-extends('Thingiverse');
+extends('Thingiverse::Object');
 
 # ABSTRACT: Thingiverse Category Object
 
@@ -42,30 +41,17 @@ extends('Thingiverse');
 * L<Thingiverse::Group>
 =cut
 
-has name => (
-  isa        => 'Str',
-  is         => 'ro',
-  required   => 1,
-);
-
-has thingiverse => (
-  isa        => 'Thingiverse',
-  is         => 'ro',
-  required   => 1,
-  default    => sub { return Thingiverse->new() },
-  handles    => [ qw(rest_client) ],
-);
-
-has count => (
-  isa        => 'ThingiCount',
-  is         => 'ro',
-  lazy_build => 1,
-);
-
-has [qw/url things_url thumbnail original_json/] => (
-  isa        => 'Str',
-  is         => 'ro',
-  lazy_build => 1,
+__PACKAGE__->thingiverse_attributes(
+    {
+        api_base => '/categories/',
+        pk => { name => { isa => 'Str' } },
+        fields => {
+            count => { isa => 'ThingiCount' },
+            url => { isa => 'Str' },
+            things_url => { isa => 'Str' },
+            thumbnail => { isa => 'Str' },
+        }
+    },
 );
 
 has things => (
@@ -76,107 +62,11 @@ has things => (
   lazy       => 1
 );
 
-# has children          => ( isa => 'ArrayRef[HashRef]', is => 'ro', required => 0, );
-# has things_pagination => ( isa => 'HashRef[Str]',      is => 'rw', required => 0  );
-
-has content => (
-  isa        => 'HashRef',
-  is         => 'ro',
-  lazy_build => 1,
-);
-
-# Attribute builders, called by users via Moose, referencing content
-
-sub _build_count { 
-  my $self = shift;
-  return $self->content->{count};
-}
-
-sub _build_url {
-  my $self = shift;
-  return $self->content->{url};
-}
-
-sub _build_things_url {
-  my $self = shift;
-  return $self->content->{things_url};
-}
-
-# Content generator, called by attribute builders, referencing orginal_json
-
-sub _build_content {
-  my $self = shift;
-  return JSON::decode_json($self->original_json);
-}
-
-# original_json retrieval from REST API, called by content generator, referencing rest_client
-
-sub _build_original_json {
-  my $self        = shift;
-  my $request     = $self->api_base() . $self->name();
-  return $self->rest_client->GET($request)->responseContent;
-}
-
 sub _get_things_organized_under_category {
   my $self = shift;
   return Thingiverse::Thing::List->new(
-    { api => 'categorized_by', term => $self->name });
+    { api => 'categorized_by', term => $self->name , thingiverse => $self->thingiverse });
 }
-
-sub api_base {
-  return '/categories/';
-}
-
-# -----
-# around BUILDARGS => sub {
-#   my $orig = shift;
-#   my $class = shift;
-#   my $name;
-#   my $json;
-#   my $hash;
-#   if ( @_ == 1 && !ref $_[0] ) {
-#     # return $class->$orig( name => $_[0] );
-#     $name = $_[0];
-#   } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'name'} ) { # passed a hashref to a hash containing key 'name'
-#     $name = ${$_[0]}->{'name'};
-#   } elsif ( @_ == 2 && $_[0] eq 'name' ) { # passed a hashref to a hash containing key 'name'
-#     $name = $_[1];
-#   } else {
-#     return $class->$orig(@_);
-#   }
-#   $json = _get_category_given_name($name);
-#   $hash = decode_json($json);
-#   $hash->{_original_json} = $json;
-#   return $hash;
-# };
-# 
-# sub _get_category_given_name {
-#   my $name = shift;
-#   my $request = $api_base . $name;
-#   my $rest_client = Thingiverse::_build_rest_client('');
-#   my $response = $rest_client->GET($request);
-#   my $content = $response->responseContent;
-#   return $content;
-# }
-# 
-# sub _get_things_organized_under_category {
-#   my $self = shift;
-#   my $request = $api_base . $self->name . '/things'; # should be a Thingiverse::Thing::List
-#   my $response = $self->rest_client->GET($request);
-#   my $content = $response->responseContent;
-#   my $link_header = $response->responseHeader('Link');
-#   my $return = decode_json($content);
-#   if ($link_header =~ /rel=.(first|last|next|prev)/) {
-#     my $pagination;
-#     foreach my $link ( split( /,\s*/, $link_header ) ) {
-#       my ($page_url, $page_label) = ( $link =~ /<([^>]+)>;\s+rel="([^"]+)"/);
-#       $pagination->{$page_label}=$page_url;
-#     }
-#     $self->things_pagination($pagination);
-#   }
-#   return $return;
-# }
-# -----
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

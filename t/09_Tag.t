@@ -16,7 +16,7 @@ my $url            = $Thingiverse::api_uri_base . $api_base . $name;
 my $expected_count = '25';
 my $things_url     = $url . '/things';
 
-my $tag = Thingiverse::Tag->new( 'name' => $name );
+my $tag = Thingiverse::Tag->new( 'name' => $name, thingiverse => Thingiverse->new() );
 # print Dumper($tag);
 
     ok( defined $tag,            'Thingiverse::Thing object is defined' ); 

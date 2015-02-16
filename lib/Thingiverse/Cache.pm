@@ -6,7 +6,7 @@ use Moose::Util::TypeConstraints;
 use Data::Dumper;
 use Carp;
 
-# ABSTRACT: a really awesome library
+# ABSTRACT: Thingiverse Cache Object
 
 =head1 SYNOPSIS
 

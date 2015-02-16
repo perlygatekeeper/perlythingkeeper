@@ -17,7 +17,7 @@ my $count      = 11166;
 my $things     = ( $count > 30 ) ? 30 : $count;
 my $children   = 4;
 
-my $category = Thingiverse::Category->new( 'name' => $name );
+my $category = Thingiverse::Category->new( 'name' => $name, thingiverse => Thingiverse->new() );
 # print Dumper($thing);
 
     ok( defined $category,          'Thingiverse::Category  object is defined' ); 

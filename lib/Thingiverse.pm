@@ -1,10 +1,7 @@
 package Thingiverse;
-use strict;
-use warnings;
+
 use Moose;
 use Moose::Util::TypeConstraints;
-use Data::Dumper;
-use Carp;
 use REST::Client;
 
 # ABSTRACT: library to interface with Thingiverse's REST API:

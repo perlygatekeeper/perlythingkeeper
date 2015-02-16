@@ -96,7 +96,7 @@ around BUILDARGS => sub {
   if ( ref($tags) eq 'ARRAY' ) {
     foreach ( @{$tags} ) {
       $_->{'just_bless'} = 1;
-      $_ = Thingiverse::Tag->new($_);
+      $_ = Thingiverse::Tag->new({ %$_, thingiverse => Thingiverse->new() } ); #This is bad dep injection
     }
   }
   $link_header = $response->responseHeader('Link');

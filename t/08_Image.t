@@ -10,7 +10,7 @@ BEGIN {
 
 my $id         = '209078';
 my $public_url = 'http://www.thingiverse.com/thing:'        . $id;
-my $url        = $Thingiverse::api_uri_base . $Thingiverse::Thing::api_base . $id;
+my $url        = $Thingiverse::api_uri_base . Thingiverse::Thing->api_base . $id;
 
 my $thing = Thingiverse::Thing->new( 'id' => $id );
 # print Dumper($thing);
