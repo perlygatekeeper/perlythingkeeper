@@ -13,14 +13,14 @@ my $target_id    = '316754';
 my $target_type  = 'thing';
 my $body         = qr(edge.*ratio.*1:4:9);
 my $public_url   = sprintf 'http://www.thingiverse.com/%s:%s#comment-%s', $target_type, $target_id, $id;
-my $url          = $Thingiverse::api_uri_base . $Thingiverse::Comment::api_base . $id;
+my $url          = $Thingiverse::api_uri_base . Thingiverse::Comment->api_base() . $id;
 my $target_url   = $Thingiverse::api_uri_base . '/' . $target_type . '/' . $target_id;
 my $commenter_id = '16273';
 my $parent_id    = '';
 my $parent_url   = '';
 my $is_deleted   = 0;
 
-my $comment = Thingiverse::Comment->new( 'id' => $id );
+my $comment = Thingiverse::Comment->new( 'id' => $id, thingiverse => Thingiverse->new() );
 # print Dumper($comment);
 
 SKIP: {

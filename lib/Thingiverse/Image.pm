@@ -9,11 +9,11 @@ use JSON;
 use Thingiverse::Types;
 use Thingiverse::SizedImage;
 
-extends('Thingiverse');
+extends('Thingiverse::Object');
 
-our $api_base = "/thing/%d/images/%d";
+# ABSTRACT: Thingiverse Image Object
 
-# ABSTRACT: a really awesome library
+# NOTE: this is the first (and only?) api call requiring two Primary Keys.
 
 =head1 SYNOPSIS
 
@@ -43,12 +43,17 @@ our $api_base = "/thing/%d/images/%d";
 * L<Thingiverse::Group>
 =cut
 
-has id                   => ( isa => 'ID',                         is => 'ro', required => 1, );
-has thing_id             => ( isa => 'ID',                         is => 'ro', required => 0, );
-has _original_json       => ( isa => 'Str',                        is => 'ro', required => 0, );
-has name                 => ( isa => 'Str',                        is => 'ro', required => 0, );
-has url                  => ( isa => 'Str',                        is => 'ro', required => 0, );
-# has sizes                => ( isa => 'ArrayRef[Thingiverse::SizedImage]',  is => 'ro', required => 0, builder => '_get_sized_versions_of_this_image' );
+__PACKAGE__->thingiverse_attributes(
+    {
+        api_base = "/thing/%d/images/%d";
+        pk => { id => { isa => 'ID' } },
+        fields => {
+            name     => { isa => 'Str' },
+            url      => { isa => 'Str' },
+            thing_id => { isa => 'ID' },
+        }
+    }
+);
 
 has sizes  => (
   traits   => ['Array'],
@@ -71,31 +76,6 @@ has sizes  => (
   builder => '_get_sized_versions_of_this_image',
 );
 
-# need both the thing_id and the image_id to make an API call
-around BUILDARGS => sub {
-  my $orig = shift;
-  my $class = shift;
-  my $thing_id;
-  my $image_id;
-  my $json;
-  my $hash;
-  if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} && ${$_[0]}{'thing_id'} && not exists ${$_[0]}{'sizes'} ) {
-    $thing_id = ${$_[0]}{'thing_id'};
-    $image_id = ${$_[0]}{'id'};
-  } elsif ( @_ == 2 ) { # passed two id's, thing_id and image_id
-    $thing_id = $_[0];
-    $image_id = $_[1];
-  } else {
-    my $return = $class->$orig(@_); # almost all Thingiverse::Image creatations will be from an predefined hash from a Thingiverse::Thing or Thingiverse::Collection.
-    $return = _get_sized_versions_of_this_image($return);;
-    return $return;
-  }
-  $json = _get_from_thingi_given_id($image_id,$thing_id);
-  $hash = decode_json($json);
-  $hash->{_original_json} = $json;
-  return $hash;
-};
-
 sub _get_sized_versions_of_this_image {
   my $self = shift;
   my $sizes = $self->{sizes};
@@ -107,14 +87,30 @@ sub _get_sized_versions_of_this_image {
   return $self;
 };
 
-sub _get_from_thingi_given_id {
-  my ( $thing_id, $image_id ) = @_;
-  my $request = sprintf $api_base, $thing_id, $image_id;
-  my $rest_client = Thingiverse::_build_rest_client('');
-  my $response = $rest_client->GET($request);
-  my $content = $response ->responseContent;
-  return $content;
-}
+# need both the thing_id and the image_id to make an API call
+# around BUILDARGS => sub {
+#   my $orig = shift;
+#   my $class = shift;
+#   my $thing_id;
+#   my $image_id;
+#   my $json;
+#   my $hash;
+#   if ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'id'} && ${$_[0]}{'thing_id'} && not exists ${$_[0]}{'sizes'} ) {
+#     $thing_id = ${$_[0]}{'thing_id'};
+#     $image_id = ${$_[0]}{'id'};
+#   } elsif ( @_ == 2 ) { # passed two id's, thing_id and image_id
+#     $thing_id = $_[0];
+#     $image_id = $_[1];
+#   } else {
+#     my $return = $class->$orig(@_); # almost all Thingiverse::Image creatations will be from an predefined hash from a Thingiverse::Thing or Thingiverse::Collection.
+#     $return = _get_sized_versions_of_this_image($return);;
+#     return $return;
+#   }
+#   $json = _get_from_thingi_given_id($image_id,$thing_id);
+#   $hash = decode_json($json);
+#   $hash->{_original_json} = $json;
+#   return $hash;
+# };
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

@@ -7,13 +7,11 @@ use Data::Dumper;
 use Carp;
 use JSON;
 use Thingiverse::Types;
-# use Thingiverse::User;
+use Thingiverse::Thing::List;
 
-extends('Thingiverse');
+extends('Thingiverse::Object');
 
-our $api_base = "/categories/";
-
-# ABSTRACT: a really awesome library
+# ABSTRACT: Thingiverse Category Object
 
 =head1 SYNOPSIS
 
@@ -43,63 +41,31 @@ our $api_base = "/categories/";
 * L<Thingiverse::Group>
 =cut
 
-has name              => ( isa => 'Str',               is => 'ro', required => 1, );
-has _original_json    => ( isa => 'Str',               is => 'ro', required => 0, );
-has url               => ( isa => 'Str',               is => 'ro', required => 0, );
-has thumbnail         => ( isa => 'Str',               is => 'ro', required => 0, );
-has count             => ( isa => 'ThingiCount',       is => 'ro', required => 0, );
-has things_url        => ( isa => 'Str',               is => 'ro', required => 0, ); # change to type URL once it's made
-has children          => ( isa => 'ArrayRef[HashRef]', is => 'ro', required => 0, );
-has things            => ( isa => 'ArrayRef[HashRef]', is => 'ro', required => 0, builder => '_get_things_organized_under_category' );
-has things_pagination => ( isa => 'HashRef[Str]',      is => 'rw', required => 0  );
+__PACKAGE__->thingiverse_attributes(
+    {
+        api_base => '/categories/',
+        pk => { name => { isa => 'Str' } },
+        fields => {
+            count => { isa => 'ThingiCount' },
+            url => { isa => 'Str' },
+            things_url => { isa => 'Str' },
+            thumbnail => { isa => 'Str' },
+        }
+    },
+);
 
-around BUILDARGS => sub {
-  my $orig = shift;
-  my $class = shift;
-  my $name;
-  my $json;
-  my $hash;
-  if ( @_ == 1 && !ref $_[0] ) {
-    # return $class->$orig( name => $_[0] );
-    $name = $_[0];
-  } elsif ( @_ == 1 && ref $_[0] eq 'HASH' && ${$_[0]}{'name'} ) { # passed a hashref to a hash containing key 'name'
-    $name = ${$_[0]}->{'name'};
-  } elsif ( @_ == 2 && $_[0] eq 'name' ) { # passed a hashref to a hash containing key 'name'
-    $name = $_[1];
-  } else {
-    return $class->$orig(@_);
-  }
-  $json = _get_category_given_name($name);
-  $hash = decode_json($json);
-  $hash->{_original_json} = $json;
-  return $hash;
-};
-
-sub _get_category_given_name {
-  my $name = shift;
-  my $request = $api_base . $name;
-  my $rest_client = Thingiverse::_build_rest_client('');
-  my $response = $rest_client->GET($request);
-  my $content = $response->responseContent;
-  return $content;
-}
+has things => (
+  isa        => 'Thingiverse::Thing::List',
+  is         => 'ro',
+  required   => 0,
+  builder    => '_get_things_organized_under_category',
+  lazy       => 1
+);
 
 sub _get_things_organized_under_category {
   my $self = shift;
-  my $request = $api_base . $self->name . '/things'; # should be a Thingiverse::Thing::List
-  my $response = $self->rest_client->GET($request);
-  my $content = $response->responseContent;
-  my $link_header = $response->responseHeader('Link');
-  my $return = decode_json($content);
-  if ($link_header =~ /rel=.(first|last|next|prev)/) {
-    my $pagination;
-    foreach my $link ( split( /,\s*/, $link_header ) ) {
-      my ($page_url, $page_label) = ( $link =~ /<([^>]+)>;\s+rel="([^"]+)"/);
-      $pagination->{$page_label}=$page_url;
-    }
-    $self->things_pagination($pagination);
-  }
-  return $return;
+  return Thingiverse::Thing::List->new(
+    { api => 'categorized_by', term => $self->name , thingiverse => $self->thingiverse });
 }
 
 no Moose;
@@ -162,3 +128,8 @@ Link: <https://api.thingiverse.com/categories>; rel="first", <https://api.thingi
   name: "Toys & Games"
   url: "https://api.thingiverse.com/categories/toys-and-games"
 }
+
+
+
+
+
