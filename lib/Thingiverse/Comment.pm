@@ -5,7 +5,8 @@ use Moose;
 use Thingiverse::Types;
 
 extends('Thingiverse::Object');
-# ABSTRACT: a really awesome library
+
+# ABSTRACT: Thingiverse Comment Object
 
 =head1 SYNOPSIS
 

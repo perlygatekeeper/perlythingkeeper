@@ -7,7 +7,7 @@ use Thingiverse::User;
 
 extends('Thingiverse::Object');
 
-# ABSTRACT: a really awesome library
+# ABSTRACT: Thingiverse Copy Object
 
 =head1 SYNOPSIS
 

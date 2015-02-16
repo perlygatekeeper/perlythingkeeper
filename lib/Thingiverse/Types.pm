@@ -110,16 +110,17 @@ subtype 'ThingiResponse',
   where { $_->responseHeader('X-RateLimit-Remaining') and $_->responseHeader('X-RateLimit-Remaining') > 0 },
   message { "Well gee, this doesn't look like a valid REST API response from api.thingiverse.com ...\n"
           . join("\n",$_->responseHeaders()) . "\n>" . $_->responseHeader('X-RateLimit-Remaining') . "<" }; 
+
 enum 'ThingiverseImageType', [ qw( thumb preview display ) ];
 
 enum 'ThingiverseImageSize', [ qw( birdwing card featured large medium small tiny tinycard ) ];
 
-enum 'Things_API',      [ qw( things search newest popular featured copies ancestors derivatives prints
-                              categorized_by collected_in tagged_as owned_by liked_by copied_by downloaded_by ) ];
+enum 'Things_API',           [ qw( things search newest popular featured copies ancestors derivatives prints
+                                   categorized_by collected_in tagged_as owned_by liked_by copied_by downloaded_by ) ];
 
-enum 'Users_API',       [ qw( liked_by ) ];
+enum 'Users_API',            [ qw( liked_by ) ];
 
-enum 'Collections_API', [ qw( created_by newest ) ];
+enum 'Collections_API',      [ qw( created_by newest ) ];
 
 no Moose::Util::TypeConstraints;
 1;

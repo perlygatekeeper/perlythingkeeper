@@ -9,7 +9,7 @@ extends('Thingiverse::Object');
 
 our $api_base = "/users/";
 
-# ABSTRACT: a really awesome library
+# ABSTRACT: Thingiverse User Object
 
 =head1 SYNOPSIS
 

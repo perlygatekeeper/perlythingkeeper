@@ -9,13 +9,53 @@ use Thingiverse::Types;
 
 extends('Thingiverse');
 
-# ABSTRACT: a really awesome library
+# ABSTRACT: Pagination Object
 
 =head1 SYNOPSIS
 
-  ...
+Contains attributes for the current page, the objects per_page (max of 30 imposed by the API), total_count of ojbects,
+total number of pages, the response from the API call which returned the LIST of objects requiring pagination, and finally
+the url strings or objects for the first, last, next, and previous pages.
 
-=head1 SEE ALSO
+---------
+
+Note that these attributes are not all independent.  The per_page, total_count and pages attributes are related by the following
+equations:
+
+pages = ceil( total_count / per_page)
+
+max( 30, floor( total_count / ( pages - 1 ) )  >=  per_page   >=  ceil(total_count/pages)  for example  (per_page = 25   total_count = 101  pages = 5)    101/4 = 25 1/4  and 101/5 = 20 + 1/5
+
+pages * per_page   >=   total_count   >=   ( pages - 1 ) * per_page
+
+Checks should be performed should the set_attribute method be called for any of these.    Could we require that all three be set at once?
+
+---------
+
+Upon setting the 'response' attribute, the response's headers are checked for 'Link' and 'Total-Count' headers and these
+are used to adjust the other attributes.
+
+---------
+
+The XXX_url methods should really only be set via the _extract_pagination_links_from_responseHeaders private method.
+
+Of course they could be easily returned at any point by a call to the as_string method after setting the page attribute appropriately.
+
+We could have a method that would return the appropriate url-modifying string when given strings like:
+
+qw( first last prev|previous curr|current next page=\d)
+
+first   => return ''
+last    => set this_page to $self->pages
+curr    => set this_page to $self->page
+prev    => set this_page to $self->page >     2 : ( $self->page - 1 )
+                            $self->page =     2 : ''
+                            $self->page <     2 : undef
+next    => set this_page to $self->page < pages : ( $self->page + 1 )
+                            $self->page = pages : undef
+page=## =>                  ##          =     1 : ''
+                            ##          >     1
+							and        <= pages : page=## & per_page=$self->per_page
 
 =for :list
 * L<Thingiverse>
@@ -48,10 +88,6 @@ has first_url   => ( isa => 'Str',            is => 'ro', required => 0, );
 has last_url    => ( isa => 'Str',            is => 'ro', required => 0, );
 has prev_url    => ( isa => 'Str',            is => 'ro', required => 0, );
 has next_url    => ( isa => 'Str',            is => 'ro', required => 0, );
-# has first_url   => ( isa => 'Str',            is => 'ro', required => 0, builder => '_first_page_url', );
-# has last_url    => ( isa => 'Str',            is => 'ro', required => 0, builder => ' _last_page_url', );
-# has prev_url    => ( isa => 'Str',            is => 'ro', required => 0, builder => ' _prev_page_url', );
-# has next_url    => ( isa => 'Str',            is => 'ro', required => 0, builder => ' _next_page_url', );
 
 sub as_string {
   my $self = shift;

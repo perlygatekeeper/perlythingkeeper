@@ -9,10 +9,11 @@ use Thingiverse::Image;
 use Thingiverse::Image::List;
 use Thingiverse::Tag::List;
 
-# ABSTRACT: defines attributes for a given object on thingiverse (called a thing).
+# ABSTRACT: Thingiverse Thing Object
 
 =head1 SYNOPSIS
 
+defines attributes for a given object on thingiverse (called a thing).
   ...
 
 =head1 SEE ALSO
