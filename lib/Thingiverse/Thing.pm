@@ -100,7 +100,17 @@ around BUILDARGS => sub {
     $class->$orig($options);
 };
 
-has prints               => ( isa => 'Thingiverse::Thing::List',    is => 'ro', required => 0, builder => '_get_prints_of_thing',       lazy => 1, );
+__PACKAGE__->has_list(
+    {
+        'prints' => {
+            isa => 'Thingiverse::Thing::List',
+            api => 'prints',
+            key => 'id',
+            search_arg => 'thing_id',
+        },
+    },
+);
+
 has ancestors            => ( isa => 'Thingiverse::Thing::List',    is => 'ro', required => 0, builder => '_get_ancestors_of_thing',    lazy => 1, );
 has derivatives          => ( isa => 'Thingiverse::Thing::List',    is => 'ro', required => 0, builder => '_get_derivatives_of_thing',  lazy => 1, );
 has images               => ( isa => 'Thingiverse::Image::List',    is => 'ro', required => 0, builder => '_get_images_for_thing',      lazy => 1, );
@@ -111,11 +121,6 @@ has categories           => ( isa => 'Thingiverse::Category::List', is => 'ro', 
 # has app_id             => ( isa => 'ThingiID', ???
 # has comments             => ( isa => 'Thingiverse::Comment::List',  is => 'ro', required => 0, builder => '_get_comments_on_thing',      lazy => 1, );
 # has threadedcomments?
-
-sub _get_prints_of_thing {
-  my $self = shift;
-  return Thingiverse::Thing::List->new( { api => 'prints', thing_id => $self->id , thingiverse => $self->thingiverse } );
-}
 
 sub _get_ancestors_of_thing {
   my $self = shift;
