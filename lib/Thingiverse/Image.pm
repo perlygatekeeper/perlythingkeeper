@@ -45,7 +45,7 @@ extends('Thingiverse::Object');
 
 __PACKAGE__->thingiverse_attributes(
     {
-        api_base = "/thing/%d/images/%d";
+        api_base => "/thing/%d/images/%d",
         pk => { id => { isa => 'ID' } },
         fields => {
             name     => { isa => 'Str' },

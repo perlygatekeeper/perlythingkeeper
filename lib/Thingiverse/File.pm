@@ -8,8 +8,7 @@ use Carp;
 use JSON;
 use Thingiverse::Types;
 
-extends('Thingiverse');
-our $api_base = "/files/";
+extends('Thingiverse::Object');
 
 # ABSTRACT: Thingiverse File Object
 
@@ -43,32 +42,33 @@ our $api_base = "/files/";
 
 __PACKAGE__->thingiverse_attributes(
     {
-        api_base => '/users/',
+        api_base => '/files/',
         pk => { id => { isa => 'ID' } },
         fields => {
-            id             => { isa => 'ID' },
-            name           => { isa => 'Str' },
+            id             => { isa => 'ID'   },
+            name           => { isa => 'Str'  },
             size           => { isa => 'Size' },
-            url            => { isa => 'Str' },
-            public_url     => { isa => 'Str' },
-            download_url   => { isa => 'Str' },
-            threejs_url    => { isa => 'Str' },
-            default_image  => { isa => 'Any' },
+            thumbnail      => { isa => 'Str'  },
+            url            => { isa => 'Str'  },
+            public_url     => { isa => 'Str'  },
+            download_url   => { isa => 'Str'  },
+            threejs_url    => { isa => 'Str'  },
+            default_image  => { isa => 'Any'  },
+            formatted_size => { isa => 'Str'  },
             date           => { isa => 'ThingiverseDateTime', coerce => 1 },
-            formatted_size => { isa => 'Str' },
             metadata       => { isa => 'ArrayRef' },
         }
     }
 );
 
-sub _get_from_thingi_given_id {
-  my $id = shift;
-  my $request = $api_base . $id;
-  my $rest_client = Thingiverse::_build_rest_client('');
-  my $response = $rest_client->GET($request);
-  my $content = $response ->responseContent;
-  return $content;
-}
+# sub _get_from_thingi_given_id {
+#   my $id = shift;
+#   my $request = $api_base . $id;
+#   my $rest_client = Thingiverse::_build_rest_client('');
+#   my $response = $rest_client->GET($request);
+#   my $content = $response ->responseContent;
+#   return $content;
+# }
 
 no Moose;
 __PACKAGE__->meta->make_immutable;

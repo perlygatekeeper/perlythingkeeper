@@ -14,7 +14,7 @@ my $image_id     = '875072';
 my $name         = qr(rounded.rectangular.parallelepiped.*\.stl);
 my $size         = '57251';
 my $public_url   = 'http://www.thingiverse.com/download:'    . $id;
-my $url          = $Thingiverse::api_uri_base . $Thingiverse::File::api_base . $id;
+my $url          = $Thingiverse::api_uri_base . Thingiverse::File->api_base() . $id;
 
 my $file = Thingiverse::File->new( 'id' => $id );
 # print Dumper($file);
