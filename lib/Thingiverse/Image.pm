@@ -58,7 +58,7 @@ __PACKAGE__->thingiverse_attributes(
 has sizes  => (
   traits   => ['Array'],
   is       => 'ro',
-  isa      => 'ArrayRef[Thingiverse::SizedImage]',
+  isa      => 'ArrayRef|ArrayRef[Thingiverse::SizedImage]',
   required => 0,
   handles  => {
     all_sizes      => 'elements',
@@ -74,11 +74,13 @@ has sizes  => (
     sorted_sizes   => 'sort',
   },
   builder => '_get_sized_versions_of_this_image',
+  lazy => 1,
 );
 
 sub _get_sized_versions_of_this_image {
   my $self = shift;
   my $sizes = $self->{sizes};
+  print "trying to build sized images\n";
   if ( ref($sizes) eq 'ARRAY' ) {
     foreach ( @{$sizes} ) {
       $_ = Thingiverse::SizedImage->new($_) if (ref($_) eq 'HASH' );;

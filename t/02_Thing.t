@@ -15,8 +15,7 @@ my $public_url       = 'http://www.thingiverse.com/thing:'        . $id;
 my $url              = $Thingiverse::api_uri_base . Thingiverse::Thing->api_base() . $id;
 my $layout_url       = $Thingiverse::api_uri_base . '/layouts/' . $id;
 
-my $thing = Thingiverse::Thing->new( 'id' => $id, thingiverse => Thingiverse->new() );
-# print Dumper($thing);
+my $thing = Thingiverse::Thing->new( 'id' => $id );
 
     ok( defined $thing,            'Thingiverse::Thing object is defined' ); 
     ok( $thing->isa('Thingiverse::Thing'), 'can make an Thingiverse::Thing object' ); 
@@ -120,15 +119,15 @@ SKIP: {
 # print "==\n";
 
 $thing = Thingiverse::Thing->new( 'id' => '209078', thingiverse => Thingiverse->new() );
-SKIP: {
-    my $images = $thing->images;
-    is( ref($images), 'Thingiverse::Image::List',  'images is         a    Thingiverse::Image::List' );
-    can_ok( $images, qw( count_images ), );
-    is( $images->count_images, 2,                  'images contains        2 images' );;
-    can_ok( $images, qw( get_images ), );
-    my $first_image = eval { $images->get_images(0) // {} };
-    isa_ok( $first_image, 'Thingiverse::Image', 'first image is    a     Thingiverse::Image' );
-}
+ SKIP: {
+     my $images = $thing->images;
+      is( ref($images), 'Thingiverse::Image::List',  'images is         a    Thingiverse::Image::List' );
+      can_ok( $images, qw( count_images ), );
+      is( $images->count_images, 2,                  'images contains        2 images' );;
+      can_ok( $images, qw( get_images ), );
+      my $first_image = eval { $images->get_images(0) // {} };
+      isa_ok( $first_image, 'Thingiverse::Image', 'first image is    a     Thingiverse::Image' );
+ }
 
 SKIP: {
     my $tags = $thing->tags;

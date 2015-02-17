@@ -51,18 +51,18 @@ __PACKAGE__->thingiverse_attributes(
         api_base => '/collections/',
         pk => { id => { isa => 'ID' } },
         fields => {
-            name => { isa => 'Str' },
+            name        => { isa => 'Str' },
             description => { isa => 'Str' },
-            url => { isa => 'Str' },
-            thumbnail => { isa => 'Str' },
+            url         => { isa => 'Str' },
+            thumbnail   => { isa => 'Str' },
             thumbnail_1 => { isa => 'Str' },
             thumbnail_2 => { isa => 'Str' },
             thumbnail_3 => { isa => 'Str' },
-            count => { isa => 'ThingiCount' },
+            count       => { isa => 'ThingiCount' },
             is_editable => { isa => 'Any' },
-            added => { isa => 'ThingiverseDateTime', coerce => 1 },
-            modified => { isa => 'ThingiverseDateTime', coerce => 1 },
-            creator => { isa => 'Thingiverse::User' }
+            added       => { isa => 'ThingiverseDateTime', coerce => 1 },
+            modified    => { isa => 'ThingiverseDateTime', coerce => 1 },
+            creator     => { isa => 'Thingiverse::User' }
         }
     }
 );
