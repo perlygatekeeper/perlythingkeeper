@@ -60,15 +60,6 @@ coerce 'ThingiverseDateTime',
       DateTime::Format::ISO8601->parse_datetime( $_ );
     };
 
-subtype 'User_Hash',
-  as 'HashRef',
-  where { %{$_} },
-  message { "$_; a ref($_) isn't a HashRef" };
-
-coerce 'User_Hash',
-  from 'Str',
-  via { print $_; decode_json($_); };
-
 # thumbnail: "https://thingiverse-production.s3.amazonaws.com/renders/d9/1f/cd/4d/e1/image1_thumb_large.jpg"
 subtype 'TN',
   as 'URI',

@@ -67,7 +67,6 @@ tagged_as                       API requires a tag name
 * L<Thingiverse::Group>
 =cut
 
-
 our $api_bases = {
   things         => "/things/",
   search         => "/search/%s",

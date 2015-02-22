@@ -1,0 +1,1243 @@
+
+## API calls returning LISTS of Objects
+
+### Lists of Things
+
+ 1. collected_in    /collections/{$id}/things
+
+ 2. tagged_as       /tags/{$tag}/things
+
+ 3. categorized_by  /categories/{$category_slug}/things
+
+ 4. owned_by        /users/{$username}/things
+ 5. liked_by        /users/{$username}/likes
+ 6. downloaded_by   /users/{$username}/downloads
+ 7. copied_by       /users/{$username}/copies
+
+ 8. ancestors       /things/{$id}/ancestors
+ 9. derivatives     /things/{$id}/derivatives
+10. copies          /things/{$id}/copies
+11. prints          /things/{$id}/prints
+
+12. search          /search/{$term}/
+13. newest          /newest
+14. popular         /popular
+15. featured        /featured
+
+### Lists of Tags
+ 1. XXXXXXXXX       /tags
+ 2. tagged_as       /things/{$tag}/tags
+
+### Lists of Categories
+ 1. XXXXXXXXX       /categories
+ 2. categorized_by  /things/{$id}/categories
+
+### Lists of Collections
+ 1. XXXXXXXXX       /collections
+ 2. collected_under /users/{$username}/collections
+
+### Lists of Users
+ 1. liked_ed        /things/{$id}/likes
+
+### Lists of Files
+ 1. belonging_to    /things/{$id}/files
+
+### Lists of Images
+ 1. copy_images     /copies/{$id}/images
+ 2. thing_images    /things/{$id}/images
+
+### Lists of SizedImages
+ 2. sizes_of        N/A
+
+### Lists of Comments
+ 1. comments        /comments/
+
+--------------------------------------------------------------------------------
+
+## API calls returning Specific Objects
+
+### Specific Things, Copies and Prints
+ 1. /things/{$id}/
+ 2. /copies/{$id}/
+
+### Specific Tags
+ 1. /tags/{$tag}/
+
+### Specific Categories
+ 1. /categories/{$category_slug}/
+
+### Specific Collections
+ 1. /collections/{$id}/things
+
+### Specific Users
+ 1. /users/{$username}/
+
+### Specific Comment
+ 1. /comments/{$id}/
+
+
+--------------------------------------------------------------------------------
+
+### Attributs of Things
+### Attributs of Tags
+### Attributs of Categories
+### Attributs of Collections
+### Attributs of Copies
+### Attributs of Comments
+### Attributs of Prints
+### Attributs of Images
+### Attributs of SizedImages
+### Attributs of Files
+### Attributs of Users
+
+--------------------------------------------------------------------------------
+
+
+## A copy of the [Thingiverse REST API Reference](http://www.thingiverse.com/developers/rest-api-reference)
+
+This is a copy of the Thingiverse REST API Reference document, converted to Github Flavored Markdown (GFM)
+and modified to represent the status of this project with regards to the coverage of the whole of the API.
+
+In the "Returns" section of the description of each possible API call, I have emboldened the objects for
+which are within the scope of this stage of the project, namely the 'R' portion of the CRUD API:
+
+##### Returns
+
+> **( object )**
+
+Those calls not within the scope of this phase of the project were left as normal weighted text:
+
+##### Returns
+
+> ( object )
+
+Additionally, I have indicated the calls to the API that are coded and passing tests by striking them out thusly:
+
+##### Returns
+
+> **( ~~_object_~~ )**
+
+
+I would have preferred to use some scheme more eye-catching such as green text for "Done" and red text for "WIP" but alas,
+*SIGH* [one can not use color for in GFM at this time](https://github.com/github/markup/issues/369).
+
+
+--------------------------------------------------------------------------------
+
+
+### Users
+
+#### Get the specified user
+```
+GET /users/{$username}/
+```
+
+##### Parameters
+> **$username** - Required string - The username of the user to get. Use the special name "me" to get information about the current user.
+
+##### Returns
+> **( ~~object~~ )** - The user.
+
+
+
+
+#### Update the user's profile
+```
+PATCH /users/{$username}/
+```
+<span style="color:red">Must</span> <del>use</del> the <ins>PATCH</ins> method.
+##### Body Parameters
+> - **first_name** - string - Optional. Replace the first name of this user.
+> - **last_name** - string - Optional. Replace the last name of this user.
+> - **bio** - string - Optional. Replace the biography for this user.
+> - **location** - string - Optional. Replace the location for this user.
+> - **default_license** - string - Optional. One of cc, cc-sa, cc-nd, cc-nc, cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Update default license.
+
+##### Parameters
+> **$username** - Required integer - The username of the user to update
+
+##### Returns
+> ( object ) - The updated user.
+
+
+
+#### Get things by user
+```
+GET /users/{$username}/things
+```
+If an authenticated user is requesting their own list of things,
+unpublished things will also appear in the list. If the user doesn't
+exist, result is 404 Not Found.
+
+##### Parameters
+> **$username** - Required string - The username of the user for which to fetch things.
+
+##### Returns
+> **( ~~array~~ )** - Thing objects
+
+
+#### Get things liked by user
+```
+GET /users/{$username}/likes
+```
+If the user doesn't exist, result is 404 Not Found.
+
+##### Parameters
+> **$username** - Required string - The username of the user for which to fetch likes.
+
+##### Returns
+> **( ~~array~~ )** - Thing objects
+
+
+
+#### Get latest copies by user
+```
+GET /users/{$username}/copies
+```
+If the user doesn't exist, result is 404 Not Found.
+
+##### Parameters
+> **$username** - Required string - The username of the user for which to fetch copies.
+
+##### Returns
+> **( ~~array~~ )** - Copy objects
+
+
+
+#### Get latest collections by user
+```
+GET /users/{$username}/collections
+```
+If the user doesn't exist, result is 404 Not Found.
+
+##### Parameters
+> **$username** - Required string - The username of the user for which to fetch collections.
+
+##### Returns
+> **( ~~array~~ )** - Collection objects
+
+
+
+#### Get latest downloaded things by user
+```
+GET /users/{$username}/downloads
+```
+If the user doesn't exist, result is 404 Not Found.
+
+##### Parameters
+> **$username** - Required string - The username of the user in question.
+
+##### Returns
+> **( ~~array~~ )** - Thing objects
+
+
+#### Follow an user
+```
+POST /users/{$username}/followers
+```
+Must use the POST method Result will be 404 Not Found if the user
+doesn't exist. Result will be 400 Bad Request if the user is trying to
+follow itself.
+
+##### Parameters
+> **$username** - Required string - The username of the user to "follow".
+
+##### Returns
+> ( object ) - The "ok" object.
+
+
+
+#### Unfollow an user
+```
+DELETE /users/{$username}/followers
+```
+Must use the DELETE method Result will be 404 Not Found if the user
+doesn't exist.
+
+##### Parameters
+> **$username** - Required string - The username of the user to "unfollow".
+
+##### Returns
+> ( object ) - The "ok" object.
+
+
+
+#### Update the avatar image
+```
+POST /users/{$username}/avatarimage
+```
+Must use the POST method
+
+##### Body Parameters
+> **filename** - string - Set the name of the image to upload.
+
+##### Parameters 
+> **$username** - Required string - The username of the user that will own this file.
+
+##### Returns
+> ( object ) - The data needed to upload a file via an HTTP POST with multipart/form-data encoding.
+
+
+
+#### Update the cover image
+```
+POST /users/{$username}/coverimage
+```
+Must use the POST method
+
+##### Body Parameters
+> **filename** - string - Set the name of the image to upload.
+
+##### Parameters
+> **$username** - Required string - The username of the user that will own this file.
+
+##### Returns
+> ( object ) - The data needed to upload a file via an HTTP POST with multipart/form-data encoding.
+
+
+--------------------------------------------------------------------------------
+
+### Things
+
+#### Get thing by id
+```
+GET /things/{$id}/
+```
+Attempting to fetch an unpublished thing will result in a 401
+Unauthorized result unless the call is authenticated. Attempting to fetch
+an unpublished thing you do not own will result in a 403 Forbidden.
+Invalid or deleted things will result in 404 Not Found.
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to get
+
+##### Returns
+> **( ~~object~~ )** - An object representing the thing requested
+
+
+#### Get image(s) by thing
+```
+GET /things/{$id}/images/{$image_id}
+```
+Gets summary information for all images associated with a thing or
+more detailed information about a specific image.
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to get images from
+> **$image_id** - Optional integer - Optional id of image to get details for
+
+##### Returns
+> **( ~~array~~ | ~~object~~ )** - An array of images associated with a thing or detailed info about a specific image.
+
+
+#### Update an existing image
+```
+PATCH /things/{$id}/images/{$image_id}
+```
+Must use the PATCH method.
+
+##### Body Parameters
+> - **rank** - integer - Optional.
+> - **featured** - boolean - Optional.
+
+##### Parameters
+> - **$id** - Required.
+> - **$image_id** - Required.
+
+##### Returns
+> ( object ) - The "ok" object
+
+
+#### Delete an image from a thing
+```
+DELETE /things/{$id}/images/{$image_id}
+```
+Must use the DELETE method. This cannot be undone.
+
+##### Parameters
+> **$id** - Required integer - The id of the Thing the image belongs to
+> **$image_id** - Required integer - The id of the image to delete.
+
+##### Returns
+> ( object ) - The "ok" object
+
+
+
+#### Get file(s) by thing
+```
+GET /things/{$id}/files/{$file_id}
+```
+Get a list of files associated with a thing or, given a numeric id,
+gets more detailed info about a specific file belonging to this
+thing.
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to get files from
+> **$file_id** - Optional integer - Optional id of the file to get more details for
+
+##### Returns
+> ( ~~array~~ | ~~object~~ ) - An array of files associated with a thing or detail about a specific file
+
+
+
+#### Delete a file from a thing
+```
+DELETE /things/{$id}/files/{$file_id}
+```
+Must use the DELETE method. This cannot be undone.
+
+##### Parameters
+> **$id** - Required integer - The id of the Thing the file belongs to
+> **$file_id** - Required integer - The id of the file to delete.
+
+##### Returns
+> ( object ) - The "ok" object
+
+
+
+#### Get users who liked this thing
+```
+GET /things/{$id}/likes
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to get likes from
+
+##### Returns
+> **(???array???)** - An array of users who liked this thing
+
+
+
+#### Get a list of thing's ancestors
+```
+GET /things/{$id}/ancestors
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to get ancestors of
+
+##### Returns
+> **( ~~array~~ )** - An array containing a list of things this thing is derived from
+
+
+
+#### Get a list of thing's derivatives
+```
+GET /things/{$id}/derivatives
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to get derivatives for
+
+##### Returns
+> **( ~~array~~ )** - An array containing a list of things that derive from this thing
+
+
+
+#### Get tags on this thing
+```
+GET /things/{$id}/tags
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the thing for which to list tags
+
+##### Returns
+> **( array )** - An array containing a list of things that derive from this thing
+
+
+#### Get thing category
+```
+GET /things/{$id}/categories
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the thing for which to list it's categories
+
+##### Returns
+> **( array )** - An array containing a list of categories this thing is in
+
+
+#### Update an existing thing
+```
+PATCH /things/{$id}/
+```
+Must use the PATCH method.
+
+##### Body Parameters
+> - **name** - string - Optional. Replace the name of the thing
+> - **license** - string - Optional. One of cc, cc-sa, cc-nd, cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Replace license.
+> - **category** - string - Optional. Replace the category of the thing. Uses full category name (eg: "3D Printer Parts")
+> - **description** - string - Optional. Replace the description.
+> - **instructions** - string - Optional. Replace the instructions.
+> - **is_wip** - boolean - Optional. Toggle whether this thing is a work in progress.
+> - **tags** - array - Optional. An array of strings containing tag names. Replaces all current tags.
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to update
+
+##### Returns
+> ( object ) - The updated thing.
+
+
+#### Create a new thing
+```
+POST /things/
+```
+Must use the POST method
+
+##### Body Parameters
+> * **name** - string - Set the name of the thing
+> * **license** - string - One of cc, cc-sa, cc-nd, cc-nc-sa, cc-nc-nd, pd0, gpl, lgpl, bsd. Set license.
+> * **category** - string - Set the category of the thing.  Uses full category name (eg: "3D Printer Parts")
+> * **description** - string - Optional. Set the description.
+> * **instructions** - string - Optional. Set the instructions.
+> * **is_wip** - boolean - Optional. Toggle whether this thing is a work in progress. Default is false.
+> * **tags** - array - Optional. An array of strings containing tag names. Sets all current tags.
+> * **ancestors** - array - Optional. An array of thing ids that this thing is derived from.
+
+##### Returns
+> ( object ) - The newly created thing.
+
+
+
+#### Delete a thing
+```
+DELETE /things/{$id}/
+```
+Must use the DELETE method. This cannot be undone.
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to delete.
+
+##### Returns
+> ( object ) - The "ok" object
+
+
+#### Upload a file to the given thing
+```
+POST /things/{$id}/files
+```
+Must use the POST method
+
+##### Body Parameters
+> **filename** - string - Set the name of the file to upload.
+
+##### Parameters
+> **$id** - Required integer - The id of the thing that will own this file.
+
+##### Returns
+> ( object ) - The data needed to upload a file via an HTTP POST with multipart/form-data encoding.
+
+
+#### Publish a thing
+```
+POST /things/{$id}/publish
+```
+If the Thing cannot be published (for example, because the Thing's
+name or description is blank), returns an HTTP status of 400 Bad Request
+and a body containing a JSON object of the form: {"errors":["&lt;%=
+reason %&gt;", ...]} Must use the POST method
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to publish.
+
+##### Returns
+> ( object ) - The published Thing or an object containing an array named "errors".
+
+
+
+#### Get copies/makes of a thing
+```
+GET /things/{$id}/copies
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to get copies from
+
+##### Returns
+> **( array )** - An array of copies (and their images) associated with a thing
+
+
+
+#### Upload image for new copy
+```
+POST /things/{$id}/copies
+```
+Must use the POST method
+
+##### Body Parameters
+> **filename** - string - The name of the image file to upload.
+
+##### Parameters
+> **$id** - Required integer - The id of the thing that gets the new copy.
+
+##### Returns
+> ( object ) - The data needed to upload this copy's image file via an HTTP POST with multipart/form-data encoding.
+
+
+#### Like a thing
+```
+POST /things/{$id}/likes
+```
+Must use the POST method Result will be 404 Not Found if the thing
+doesn't exist. Result will be 400 Bad Request if the user is trying to
+like their own thing.
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to like.
+
+##### Returns
+> ( object ) - The "ok" object.
+
+
+
+#### Delete a like
+```
+DELETE /things/{$id}/likes
+```
+Must use the DELETE method Result will be 404 Not Found if the thing
+doesn't exist. Result will be 400 Bad Request if the user is trying to
+"unlike" their own thing.
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to "unlike".
+
+##### Returns
+> ( object ) - The "ok" object.
+
+
+
+#### Get a ZIP package with all files associated with the thing
+```
+GET /things/{$id}/packageurl
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the Thing the package belongs to
+
+##### Returns
+> **(string)** - The "url" object
+
+
+
+#### Get a list of prints associated with a thing
+```
+GET /things/{$id}/prints
+```
+
+##### Parameters
+> **$id** - Required integer - $id The id of the thing to get prints from
+
+##### Returns
+> **( array )** - An array of prints associated with a thing
+
+
+
+#### Get all comments for this thing in a quick pre-threaded view. This is an alternative to GET /things/id/comments
+```
+GET /things/{$id}/threadedcomments
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to get
+
+##### Returns
+> **( object )** - An array containing comment threads indexed by comment parent id (blank for top level comments) and users indexed by user id used in those comments
+
+
+
+#### Get an unthreaded paginated list of comment objects. See also GET
+/things/id/threaded_comments
+```
+GET /things/{$id}/comments
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to get comments for
+
+##### Returns
+> **( array )** - An array containing a list of comments on this thing
+
+
+
+#### Post a comment
+```
+POST /things/{$id}/comments
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to comment on
+
+
+##### Returns
+> ( object ) - The newly created comment
+
+--------------------------------------------------------------------------------
+
+
+### Files
+
+#### Get info about a file by id
+```
+GET /files/{$id}/
+```
+Get basic information about how to access a file. For relevant files,
+a thumbnail image or three.js json file may be available.
+
+##### Parameters
+> **$id** - Required integer - The id of the file
+
+##### Returns
+> **( object )** - An object with urls of the file requested
+
+
+#### Finalize an uploaded file
+```
+POST /files/{$id}/finalize
+```
+Must use the POST method
+
+##### Parameters
+> **$id** - Required integer - The id of the PendingUpload for this file
+
+##### Returns
+> ( object ) - Summary of the ObjectFile or Image that was created, or error.
+
+
+#### Get tracked download URL
+```
+GET /files/{$id}/download
+```
+Redirects to the requested file and adds an entry to the user's
+download history for use with the GET /users/{$username}/downloads
+endpoint, as opposed to the public url which is anonymous.
+
+##### Parameters
+> **$id** - Required integer - The id of the file
+
+##### Returns
+- NONE
+
+--------------------------------------------------------------------------------
+
+
+### Copies
+
+#### Get copy by id
+```
+GET /copies/{$id}/
+```
+If no id is given, gets the list of latest copies.
+
+##### Parameters
+> **$id** - Optional integer - The id of the copy to get.  Omit this to get the list of the latest copies.
+
+##### Returns
+> **( object | array )** - An object representing the copy requested, or an array of copy objects.
+
+
+#### Get images for a copy
+```
+GET /copies/{$id}/images
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the copy to get images from
+
+##### Returns
+> **( array )** - An array of images associated with the copy
+
+
+
+#### Upload image to a copy
+```
+POST /copies/{$id}/images
+```
+Must use the POST method
+
+##### Body Parameters
+> **filename** - string - The name of the image file to upload.
+
+##### Parameters
+> **$id** - Required integer - The id of the copy.
+
+##### Returns
+> ( object ) - The data needed to upload this copy's image file via an HTTP POST with multipart/form-data encoding.
+
+
+
+#### Update an existing image
+```
+PATCH /copies/{$id}/images/{$image_id}
+```
+Must use the PATCH method.
+
+##### Body Parameters
+> - **rank** - integer - Optional.
+> - **featured** - boolean - Optional.
+
+##### Parameters
+> - **$id** - Required -
+> - **$image_id** - Required -
+
+##### Returns
+> ( object ) - The "ok" object
+
+
+
+#### Delete an image from a copy
+```
+DELETE /copies/{$id}/images/{$image_id}
+```
+Must use the DELETE method. This cannot be undone.
+
+##### Parameters
+> **$id** - Required integer - The id of the Copy the image belongs to
+> **$image_id** - Required integer - The id of the image to delete.
+
+##### Returns
+> ( object ) - The "ok" object
+
+
+
+#### Update an existing copy
+```
+PATCH /copies/{$id}/
+```
+Must use the PATCH method.
+
+##### Body Parameters
+> **description** - string - Optional. Replace the description.
+
+##### Parameters
+> **$id** - Required integer - The id of the copy to update
+
+##### Returns
+> ( object ) - The updated thing.
+
+
+
+#### Delete a copy
+```
+DELETE /copies/{$id}/
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the copy.
+
+##### Returns
+- NONE
+
+
+#### Like a copy
+```
+POST /copies/{$id}/likes
+```
+Must use the POST method Result will be 404 Not Found if the copy
+doesn't exist. Result will be 400 Bad Request if the user is trying to
+like their own copy.
+
+##### Parameters
+> **$id** - Required integer - The id of the copy to like.
+
+##### Returns
+> ( object ) - The "ok" object.
+
+
+
+#### Delete a like
+```
+DELETE /copies/{$id}/likes
+```
+Must use the DELETE method Result will be 404 Not Found if the copy
+doesn't exist. Result will be 400 Bad Request if the user is trying to
+"unlike" their own copy.
+
+##### Parameters
+> **$id** - Required integer - The id of the copy to "unlike".
+
+##### Returns
+> ( object ) - The "ok" object.
+
+
+
+#### Get all comments for this copy in a quick pre-threaded view. This is
+an alternative to GET /copies/id/comments
+```
+GET /copies/{$id}/threadedcomments
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the thing to get
+
+##### Returns
+> **( object )** - An array containing comment threads indexed by comment parent id (blank for top level comments) and users indexed by user id used in those comments
+
+
+#### Get an unthreaded paginated list of comment objects. See also GET
+/copies/id/threaded_comments
+```
+GET /copies/{$id}/comments
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the copy to get comments for
+
+##### Returns
+> **( array )** - An array containing a list of comments on this copy
+
+#### Post a comment
+```
+POST /copies/{$id}/comments
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the copy to comment on
+
+##### Returns
+> ( object ) - The newly created comment
+
+--------------------------------------------------------------------------------
+
+### Collections
+
+#### Get a collection by id
+```
+GET /collections/{$id}/
+```
+If no id is given, gets the list of the latest collections.
+
+##### Parameters
+> **$id** - Optional integer - The id of the collection to get. Omit to get the latest collections.
+
+##### Returns
+> **( object | array )** - An array of objects, or a single object
+
+
+#### Get Things in a collection
+```
+GET /collections/{$id}/things
+```
+
+##### Parameters
+> **$id** - Required integer - The id of the collection to get Things from
+
+##### Returns
+> **( array )** - An array of Things in this collection
+
+
+
+#### Create a new collection
+```
+POST /collections/
+```
+
+##### Body Parameters
+> - **name** - string - Name of the collection
+> - **description** - string - Optional. Description of the collection
+
+##### Returns
+> ( object ) - The newly created collection.
+
+
+#### Add a thing to a collection
+```
+POST /collections/{$collection_id}/thing/{$thing_id}
+```
+Apps can add to any collection the user owns. Do not abuse or we'll
+change that. :)
+
+##### Body Parameters
+> **description** - string - Optional. Reason for adding the Thing
+
+##### Parameters
+> - **$collection_id** - Required integer - Id of the collection to add to
+> - **$thing_id** - Required integer - Id of the Thing to add
+
+##### Returns
+> ( object ) - The "ok" object.
+
+
+
+#### Removes a thing from a collection
+```
+DELETE /collections/{$collection_id}/thing/{$thing_id}
+```
+Apps may only remove things that they've added to a collection.
+
+##### Parameters
+> - **$collection_id** - Required -
+> - **$thing_id** - Required -
+
+##### Returns
+> - ( object ) - The "ok" object.
+
+
+
+#### Update a collection
+```
+PATCH /collections/{$id}/
+```
+Apps can only update collections they've created.
+
+##### Body Parameters
+> - **name** - string - Name of the collection
+> - **description** - string - Optional. Description of the collection
+
+##### Parameters
+> - **$id** - Required -
+
+##### Returns
+> - ( object ) - The newly created collection.
+
+
+
+#### Delete a collection
+```
+DELETE /collections/{$id}/
+```
+Apps can only delete collections they've created.
+
+##### Parameters
+> **$id** - Required integer - Id of the collection to delete
+
+##### Returns
+- NONE
+
+--------------------------------------------------------------------------------
+  
+
+### Comments
+
+#### Get comment by id
+```
+GET /comments/{$id}/
+```
+If no id is given, gets the list of the latest comments.
+
+##### Parameters
+> **$id** - Required integer - The id of the comment to get
+
+##### Returns
+> **( object )** - An object representing the comment requested
+
+
+
+#### Create a new comment
+```
+POST /comments/
+```
+Must use the POST method
+
+##### Body Parameters
+> **body** - string - Set the body of the comment
+> **target_type** - string - Either thing or make
+> **target_id** - integer - The id of the target (thing_id or make_id)
+
+##### Returns
+> ( object ) - The newly created comment.
+
+
+#### Update an existing comment
+```
+PATCH /comments/{$id}/
+```
+Must use the PATCH method.
+
+##### Body Parameters
+> **body** - string - Replace the body of the thing
+
+##### Parameters
+> **$id** - Required integer - The id of the comment to update
+
+##### Returns
+> ( object ) - The updated comment.
+
+
+
+#### Delete a comment
+```
+DELETE /comments/{$id}/
+```
+Must use the DELETE method. This cannot be undone.
+
+##### Parameters
+> **$id** - Required integer - The id of the comment to delete.
+
+##### Returns
+> ( object ) - The "ok" object
+
+--------------------------------------------------------------------------------
+
+
+### Newest
+#### Get the latest things published
+```
+GET /newest/
+```
+
+##### Returns
+> **( array )** - Thing objects
+
+
+### Popular
+#### Get the latest featured things
+```
+GET /popular/
+```
+
+##### Returns
+> **( array )** - A list of things matching the search
+
+### Featured
+#### Get the latest featured things
+```
+GET /featured/
+```
+
+##### Returns
+> **( array )** - A list of things matching the search
+
+
+
+### Search
+#### Perform a search of things by keyword
+```
+GET /search/{$term}/
+```
+Results in 404 Not Found if no things match the search.
+
+##### Parameters
+> **$term** - Optional string - The search query to perform
+
+##### Returns
+> **( array )** - A list of things matching the search
+
+
+```
+GET /search/{$term}/library
+```
+
+##### Parameters
+> **$term** - Optional -
+
+##### Returns
+- NONE
+
+--------------------------------------------------------------------------------
+
+### Categories
+
+#### Get category or categories
+```
+GET /categories/{$category_slug}/
+```
+Get details about one category or a list of all categories. Category
+ids are normalized "slugs". For example, the id for the "Automotive"
+category's id would be "automotive". The "Replacement Parts" category
+would have an id of "replacement-parts", etc. If no id is specified,
+returns paginated list of categories.
+
+##### Parameters
+> **$category_slug** - Optional string - The id of the category to fetch. Omit for list of categories.
+
+##### Returns
+> **( object | array )** - The category (if specified) or list of categories
+
+
+
+#### Get latest things in a category
+```
+GET /categories/{$category_slug}/things
+```
+If the category doesn't exist, result is 404 Not Found. Category ids
+are normalized "slugs". For example, the id for the "Automotive"
+category's id would be "automotive". The "Replacement Parts" category
+would have an id of "replacement-parts", etc.
+
+##### Parameters
+> **$category_slug** - Required string - The id of the category for which to fetch things
+
+##### Returns
+> **( array )** - Thing objects
+
+--------------------------------------------------------------------------------
+
+### Tags
+
+#### Get the latest things with the specified tag
+```
+GET /tags/{$tag}/things
+```
+If the tag doesn't exist, result is 404 Not Found. Tags are normalized
+before searching by converting whitespace to underscores and stripping
+out all characters except alphanumerics, underscores, and dashes ('-').
+
+##### Parameters
+> **$tag** - Required string - The tag for which to fetch things
+
+##### Returns
+> **( array )** - Thing objects
+
+
+
+#### Return a representation of the given tag
+```
+GET /tags/{$tag}/
+```
+Tags are normalized before searching by converting whitespace to
+underscores and stripping out all characters except alphanumerics,
+underscores, and dashes ('-'). If no tag is specified, returns a list of
+all tags in alphabetical order.
+
+##### Parameters
+> **$tag** - Optional string - The tag for which to fetch things. Omit this to get the list of tags.
+
+##### Returns
+> **( object | array )** - The tag or an array of tags.
+
+
+--------------------------------------------------------------------------------
+
+
+### Index
+
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#users">USERS</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#things">THINGS</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#files">FILES</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#copies">COPIES</a>
+- <a href= "./Developers%20-%20REST%20API%20Reference%20-%20Thingiverse_files/Developers%20-%20REST%20API%20Reference%20-%20Thingiverse.html">
+COLLECTIONS</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#comments">COMMENTS</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#newest">NEWEST</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#popular">POPULAR</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#featured">FEATURED</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#search">SEARCH</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#categories">CATEGORIES</a>
+- <a href= "http://www.thingiverse.com/developers/rest-api-reference#tags">TAGS</a>
+
+--------------------------------------------------------------------------------
+
+#### Brief Markdown experimentation:
+ - <span style="color:red">Span red</span>
+ - sample of <del>deleted</del> tags
+ - sample of <ins>inserted</ins> tags
+ - sample of <ins color="red">red inserted</ins> tags
+ - sample of <tt>teletype</tt> tags
+ - sample of <tt color="blue">blue teletype</tt> tags
+ - sample of <var>variable</var> tags
+ - sample of <var color="green">green variable</var> tags
+ - sample of <strong>strong</strong> tags
+ - sample of <em>em</em> tags
+ - sample of <b>b</b> tags
+ - sample of <i>i</i> tags
+ - sample of <kbd>kbd</kbd> tags
+ - sample of <kbd color="gray">gray kbd</kbd> tags
+ - sample of <samp>samp</samp> tags
+ - sample of <q>q</q> tags
+ - sample of <code>inline code</code> tags
+ - sample of <code color="red">red inline code</code> tags
+ - sample of <code style="color:red">styled red inline code</code> tags
+
+

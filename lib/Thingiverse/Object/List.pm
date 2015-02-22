@@ -1,4 +1,4 @@
-package Thingiverse::Object;
+package Thingiverse::Object::List;
 
 use Moose;
 use Moose::Util::TypeConstraints;
@@ -6,7 +6,17 @@ use Moose::Util::TypeConstraints;
 use JSON;
 use Thingiverse;
 
-sub thingiverse_attributes {
+# At first glance the Thingiverse::Object package
+# ard the thingiverse_attributes method specifically
+# could be generalized to handle EITHER a Thingiverse::Object
+# OR a Thingiverse::Object::List.  And though this may have
+# been straight forward and even easy to do, I felt it could
+# only be done at the expense of the clairity of purpose and
+# the readibility of the code.  I will therefore keep both
+# concepts separate for now.
+
+
+sub thingiverse_list_attributes {
     my $this = shift; # should be a package
     my $attr = shift; # A hashref
 
@@ -23,7 +33,7 @@ sub thingiverse_attributes {
         )
     );
 
-	# api_base (read_only) method
+	# api_bases (read_only) method
 	if ( $attr->{api_base} ) {
       $this->meta->add_method(
           'api_base' => sub {
