@@ -34,28 +34,18 @@ sub thingiverse_list_attributes {
     );
 
 	# api_bases (read_only) method
-	if ( $attr->{api_base} ) {
-      $this->meta->add_method(
-          'api_base' => sub {
-              return $attr->{api_base};
-          }
-      );
-	} elsif ( $attr->{api_bases) and ref($attr->{api_bases}) eq 'HASH' ) {
-      $this->meta->add_method(
-          'api_bases' => sub {
-		      my $api_name = shift;
-              return $attr->{api_base}{$api_name};
-          }
-      );
-	} else {
-	  croak("thingiverse_attributes will make call to Thingiverse's API and thus requires a api_base or a hash of api_names and api_bases");
-	}
+    $this->meta->add_method(
+        'api_bases' => sub {
+            my $api_name = shift;
+            return $attr->{api_base}{$api_name};
+        }
+    );
 
     # response_json build method
     $this->meta->add_method(
         '_build_response_json' => sub {
             my $self = shift;
-# Generalize here to handle multiple API bases.
+# request construction is more complicated than with a single Thingiverse::Object
             my $request = $self->api_base() . $self->$primary_key();
             return $self->rest_client->GET($request)->responseContent;
         }
@@ -99,10 +89,10 @@ sub thingiverse_list_attributes {
     }
 
     # Add all other Attributes defined
-    for my $field ( keys %{$attr->{fields}} ) {
+    for my $list_field ( keys %{$attr->{fields}} ) {
         $this->_add_field(
-            $field,
-            $attr->{fields}->{$field},
+            $list_field,
+            $attr->{fields}->{$list_field},
         );
     }
 }
@@ -121,16 +111,22 @@ sub _add_field {
     );
 
 # There are several types of fields/attributes:
+#
 # 1) standard fields, Int, Str
 # 2) fields which will be must be coerced
 #  - boolean from strings qw( true false)
 #  - Thingiverse::DateTime from ISO8601-formatted string
 # 3) Thingiverse objects, these are simply blessed apropriately into a via Thingiverse Object
-#    Paul's done this in Collection.pm with BuildArgs?
+#    Paul's done this in Collection.pm with BuildArgs for the creator (Thingiverse::User) object?
 # 4) Lists of Thingiverse Objects.  ArrayRef[Thingiverse::Object]
 # 5) Lists of Thingiverse Things.   ArrayRef[Thingiverse::Thing]
 #    These are special.  Everything on Thingiverse comes down to the printable/cutable things.
 #    There are 16 different API calls which lead to Lists of things.
+#
+# 3, 4 and 5 need not, and often don't involve objects with only a subset of the attributes that
+# would be defined in an explicit request for that specific object.  The creator attributes, for
+# instance do not return all of the attributes of a Thingiverse::User object.
+
     if ( $attrs->{isa} =~ /^Thingiverse::/ ) {
         my $isa = $attrs->{isa};
         eval "use $isa";

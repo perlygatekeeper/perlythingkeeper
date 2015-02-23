@@ -24,28 +24,16 @@ sub thingiverse_attributes {
     );
 
 	# api_base (read_only) method
-	if ( $attr->{api_base} ) {
-      $this->meta->add_method(
-          'api_base' => sub {
-              return $attr->{api_base};
-          }
-      );
-	} elsif ( $attr->{api_bases) and ref($attr->{api_bases}) eq 'HASH' ) {
-      $this->meta->add_method(
-          'api_bases' => sub {
-		      my $api_name = shift;
-              return $attr->{api_base}{$api_name};
-          }
-      );
-	} else {
-	  croak("thingiverse_attributes will make call to Thingiverse's API and thus requires a api_base or a hash of api_names and api_bases");
-	}
+    $this->meta->add_method(
+        'api_base' => sub {
+            return $attr->{api_base};
+        }
+    );
 
     # response_json build method
     $this->meta->add_method(
         '_build_response_json' => sub {
             my $self = shift;
-# Generalize here to handle multiple API bases.
             my $request = $self->api_base() . $self->$primary_key();
             return $self->rest_client->GET($request)->responseContent;
         }

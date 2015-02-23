@@ -61,11 +61,11 @@ __PACKAGE__->thingiverse_attributes(
             email           => { isa => 'Str' },
             registered      => { isa => 'ThingiverseDateTime', coerce => 1 },
             last_active     => { isa => 'ThingiverseDateTime', coerce => 1 },
+            is_following    => ( isa => 'Boolean',             coerce => 1 },
         }
     }
 );
 
-has is_following    => ( isa => 'Boolean',                       is => 'ro', required => 0, );
 has things          => ( isa => 'Thingiverse::Thing::List',      is => 'ro', required => 0, builder => '_get_things_owned_by_user',        lazy => 1, );
 has likes           => ( isa => 'Thingiverse::Thing::List',      is => 'ro', required => 0, builder => '_get_things_liked_by_user',        lazy => 1, );
 has copies          => ( isa => 'Thingiverse::Thing::List',      is => 'ro', required => 0, builder => '_get_things_copied_by_user',       lazy => 1, );

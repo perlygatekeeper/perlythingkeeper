@@ -96,6 +96,23 @@ subtype 'PerPage',
   where { $_ >= 1 and $_ <= $Thingiverse::pagination_maximum },
   message { "$_ isn't an INT between 1 and $Thingiverse::pagination_maximum (presently thingiverse.com limits pagination via it's API to a maximum of 30)" };
 
+subtype 'Boolean',
+  as 'Int',
+  where { $_ == 0 or $_ == 1 },
+  message { "$_ isn't an INT which is either 0 or 1" };
+
+coerce 'Boolean',
+  from 'Str',
+  via {
+      if      ( $_ =~ /f(alse)/i ) {
+	    0;
+	  } elsif  ( $_ =~ /t(rue)/i ) {
+	    1;
+	  } else {
+	    undef;
+	  }
+  };
+
 subtype 'ThingiResponse',
   as 'REST::Client',
   where { $_->responseHeader('X-RateLimit-Remaining') and $_->responseHeader('X-RateLimit-Remaining') > 0 },

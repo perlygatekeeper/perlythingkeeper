@@ -46,15 +46,15 @@ __PACKAGE__->thingiverse_attributes(
         pk => { id => { isa => 'ID' } },
         fields => {
             id             => { isa => 'ID'   },
-            name           => { isa => 'Str'  },
             size           => { isa => 'Size' },
+            name           => { isa => 'Str'  },
             thumbnail      => { isa => 'Str'  },
             url            => { isa => 'Str'  },
             public_url     => { isa => 'Str'  },
             download_url   => { isa => 'Str'  },
             threejs_url    => { isa => 'Str'  },
-            default_image  => { isa => 'Any'  },
             formatted_size => { isa => 'Str'  },
+            default_image  => { isa => 'Any'  },
             date           => { isa => 'ThingiverseDateTime', coerce => 1 },
             metadata       => { isa => 'ArrayRef' },
         }

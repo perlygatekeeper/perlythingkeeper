@@ -46,10 +46,10 @@ __PACKAGE__->thingiverse_attributes(
         api_base => '/categories/',
         pk => { name => { isa => 'Str' } },
         fields => {
-            count => { isa => 'ThingiCount' },
-            url => { isa => 'Str' },
+            count      => { isa => 'ThingiCount' },
+            url        => { isa => 'Str' },
             things_url => { isa => 'Str' },
-            thumbnail => { isa => 'Str' },
+            thumbnail  => { isa => 'Str' },
         }
     },
 );

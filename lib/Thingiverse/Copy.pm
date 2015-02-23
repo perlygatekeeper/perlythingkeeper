@@ -42,15 +42,15 @@ __PACKAGE__->thingiverse_attributes(
         api_base => '/copies/',
         pk => { id => { isa => 'ID' } },
         fields => {
-            url => { isa => 'Str' },
-            public_url => { isa => 'Str' },
-            added => { isa => 'Str' },
-            like_count => { isa => 'ThingiCount' },
+            url         => { isa => 'Str' },
+            public_url  => { isa => 'Str' },
+            added       => { isa => 'Str' },
             description => { isa => 'Str' },
-            is_liked => { isa => 'Any' },
-            maker => { isa => 'Thingiverse::User' },
-            thumbnail => { isa => 'Str' },
-            images_url => { isa => 'Str' },
+            like_count  => { isa => 'ThingiCount' },
+            maker       => { isa => 'Thingiverse::User' },
+            thumbnail   => { isa => 'Str' },
+            images_url  => { isa => 'Str' },
+            is_liked    => { isa => 'Boolean', coerce => 1 },
         },
     }
 );

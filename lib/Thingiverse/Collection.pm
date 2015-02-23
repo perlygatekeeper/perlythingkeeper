@@ -59,7 +59,7 @@ __PACKAGE__->thingiverse_attributes(
             thumbnail_2 => { isa => 'Str' },
             thumbnail_3 => { isa => 'Str' },
             count       => { isa => 'ThingiCount' },
-            is_editable => { isa => 'Any' },
+            is_editable => { isa => 'Boolean',             coerce => 1 },
             added       => { isa => 'ThingiverseDateTime', coerce => 1 },
             modified    => { isa => 'ThingiverseDateTime', coerce => 1 },
             creator     => { isa => 'Thingiverse::User' }
@@ -87,10 +87,10 @@ around BUILDARGS => sub {
 __PACKAGE__->has_list(
     {
         'things' => {
-            isa => 'Thingiverse::Thing::List',
-            api => 'collected_in',
+            isa        => 'Thingiverse::Thing::List',
+            api        => 'collected_in',
+            key        => 'id',
             search_arg => 'term',
-            key => 'id',
         }
     }
 );
