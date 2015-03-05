@@ -11,11 +11,6 @@ use Thingiverse::Types;
 use Thingiverse::Pagination;
 use Thingiverse::Collection;
 
-our $api_bases = {
-  created_by => '/users/%s/collections', # collections created by user
-  newest     => '/collections',
-};
-
 # ABSTRACT: a really awesome library
 
 =head1 SYNOPSIS
@@ -46,11 +41,19 @@ our $api_bases = {
 * L<Thingiverse::Group>
 =cut
 
-__PACKAGE__->thingiverse_attributes(
+our $api_bases = {
+  created_by => '/users/%s/collections', # collections created by user
+  newest     => '/collections',
+};
+
+__PACKAGE__->thingiverse_list_attributes(
     {
-        api_base => '/collections/',
-        pk => { id => { isa => 'ID' } },
         fields => {
+            collections_api => ( isa => 'Collections_API',         is => 'ro', required => 0, ),
+            user_id         => ( isa => 'ID',                      is => 'ro', required => 0, ),
+            request_url     => ( isa => 'Str',                     is => 'ro', required => 0, ),
+            pagination      => ( isa => 'Thingiverse::Pagination', is => 'ro', required => 0, ),
+
             name        => { isa => 'Str' },
             description => { isa => 'Str' },
             url         => { isa => 'Str' },
@@ -59,7 +62,7 @@ __PACKAGE__->thingiverse_attributes(
             thumbnail_2 => { isa => 'Str' },
             thumbnail_3 => { isa => 'Str' },
             count       => { isa => 'ThingiCount' },
-            is_editable => { isa => 'Any' },
+            is_editable => { isa => 'Boolean', coerce => 1 },
             added       => { isa => 'ThingiverseDateTime', coerce => 1 },
             modified    => { isa => 'ThingiverseDateTime', coerce => 1 },
             creator     => { isa => 'Thingiverse::User' }
@@ -67,10 +70,6 @@ __PACKAGE__->thingiverse_attributes(
     }
 );
 
-has collections_api => ( isa => 'Collections_API',         is => 'ro', required => 0, );
-has user_id         => ( isa => 'ID',                      is => 'ro', required => 0, );
-has request_url     => ( isa => 'Str',                     is => 'ro', required => 0, );
-has pagination      => ( isa => 'Thingiverse::Pagination', is => 'ro', required => 0, );
 
 has collections  => (
   traits   => ['Array'],

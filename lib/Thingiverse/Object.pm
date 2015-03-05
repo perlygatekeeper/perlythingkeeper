@@ -35,7 +35,20 @@ sub thingiverse_attributes {
         '_build_response_json' => sub {
             my $self = shift;
             my $request = $self->api_base() . $self->$primary_key();
-            return $self->rest_client->GET($request)->responseContent;
+			my $return = $self->rest_client->GET($request)->responseContent;
+			{ # JSON collection temporary block
+			  my $file = $request;
+			  $file =~ s,^/,,;
+			  $file =~ s,/,_,g;
+			  my $outfile ="JSON/".$file;
+			  if ( -f $outfile ) {
+                open(OUTFILE, ">", $outfile) || die("I cannot write to '$outfile': $!\n");
+                print OUTFILE $return;
+                close(OUTFILE);
+			  }
+			}
+            # return $self->rest_client->GET($request)->responseContent;
+            return $return;
         }
     );
 

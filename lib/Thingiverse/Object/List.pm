@@ -20,7 +20,7 @@ sub thingiverse_list_attributes {
     my $this = shift; # should be a package
     my $attr = shift; # A hashref
 
-    my $primary_key = [ keys %{$attr->{pk}} ]->[0];
+#   my $primary_key = [ keys %{$attr->{pk}} ]->[0];
 
 	# Thingiverse attribute
     $this->meta->add_attribute(
@@ -77,38 +77,15 @@ sub thingiverse_list_attributes {
         )
     );
 
-    # Primary Key 
-    if ( $primary_key ) {
-        $this->meta->add_attribute(
-            $primary_key => (
-                is => 'ro',
-                required => 1,
-                %{$attr->{pk}->{$primary_key}},
-            )
-        );
-    }
-
     # Add all other Attributes defined
-    for my $list_field ( keys %{$attr->{fields}} ) {
+    for my $field ( keys %{$attr->{fields}} ) {
         $this->_add_field(
-            $list_field,
-            $attr->{fields}->{$list_field},
+            $field,
+            $attr->{fields}->{$field},
         );
     }
+
 }
-
-sub _add_field {
-    my $this = shift;
-    my $field = shift;
-    my $attrs = shift;
-
-    $this->meta->add_attribute(
-        $field => (
-            is => 'ro',
-            lazy_build => 1,
-            %{$attrs},         # this takes care of things like 'coerce => 1'
-        )
-    );
 
 # There are several types of fields/attributes:
 #
@@ -127,9 +104,52 @@ sub _add_field {
 # would be defined in an explicit request for that specific object.  The creator attributes, for
 # instance do not return all of the attributes of a Thingiverse::User object.
 
-    if ( $attrs->{isa} =~ /^Thingiverse::/ ) {
-        my $isa = $attrs->{isa};
-        eval "use $isa";
+sub _add_field {
+    my $this = shift;
+    my $field = shift;
+    my $attrs = shift;
+    $this->meta->add_attribute(
+        $field => (
+            is         => 'ro',
+            required   => 0,
+            lazy_build => 1,
+            %{$attrs},         # this takes care of things like 'coerce => 1'
+        )
+    );
+}
+
+sub _add_list_field {
+    my $this = shift;
+    my $field = shift;
+    my $attrs = shift;
+
+    my $isa_list_of  = $attrs->{isa};
+    my $isa          = "ArrayRef[$isa_list_of]";
+
+    $this->meta->add_attribute(
+        $field => (
+            traits     => ['Array'],
+            is         => 'ro',
+			isa        => $isa,
+            required   => 0,
+			lazy_build => 1,
+            handles  => {
+                "all_"    . $field => 'elements',
+                "add_"    . $field => 'push',
+                "map_"    . $field => 'map',
+                "filter_" . $field => 'grep',
+                "find_"   . $field => 'grep',
+                "get_"    . $field => 'get',
+                "join_"   . $field => 'join',
+                "count_"  . $field => 'count',
+                "has_"    . $field => 'count',
+                "has_no_" . $field => 'is_empty',
+                "sorted_" . $field => 'sort',
+            },
+        )
+    );
+
+    if ( $attrs->{api} ) {       # this List of Thingiverse::Objects requires a call to the API
         $this->meta->add_method(
             "_build_$field" => sub {
                 my $self = shift;
@@ -139,7 +159,7 @@ sub _add_field {
                 );
             }
         );
-    } else {
+    } else { # no API call needed, list of objects returned as result of a seperate API call
         $this->meta->add_method(
             "_build_$field" => sub {
                 my $self = shift;
@@ -185,26 +205,3 @@ __PACKAGE__->meta->make_immutable;
 no Moose;
 1;
 __END__
-
-
-
-has collections  => (
-  traits   => ['Array'],
-  is       => 'ro',
-  isa      => 'ArrayRef[Thingiverse::Collection]',
-  required => 0,
-  handles  => {
-    all_collections      => 'elements',
-    add_collections      => 'push',
-    map_collections      => 'map',
-    filter_collections   => 'grep',
-    find_collections     => 'grep',
-    get_collections      => 'get',
-    join_collections     => 'join',
-    count_collections    => 'count',
-    has_collections      => 'count',
-    has_no_collections   => 'is_empty',
-    sorted_collections   => 'sort',
-  },
-# lazy => 1,
-);
